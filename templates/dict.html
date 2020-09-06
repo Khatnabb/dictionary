@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dict test</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dictstyle.css') }}">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <img id="logo" src="{{ url_for('static', filename='logo.png') }}">
+        <h1>OTUG Mining dictionary</h1>
+    </div>
+    <div class="wrapper">
+        <div class="words">
+            <input type="text" id="search" placeholder="search .. ">
+            <button id="goBtn" onclick="search()">Go</button>
+
+            <ul id="word_list">
+                
+            </ul>
+        </div>
+        <div class="word">
+            <h3 id="word_text"></h3>
+            <p id="definition"></p>
+
+            <hr>
+
+            <h3>Related words:</h3>
+            <li id="related"></li>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    
+    var dictionary = [
+        
+    {
+        word:"Abrasives",
+        def:"Зүлгүүр",
+        rel:["Abrasive damage"]
+    },
+    {
+        word:"Abrasive damage",
+        def:"Үрэлт/зүлгэлтийн гэмтэл, элэгдэл",
+        rel:["Abrasives"]
+    },
+
+    {
+        word:"Accelerator",
+        def:"Хааз",
+        rel:["Acceleration"]
+    }, 
+    {
+        word:"Actuate",
+        def:"Хөдөлгөх, ажиллуулах, өдөөх, ажиллах",
+        rel:["Actuator"]
+    }, 
+    {
+        word:"Adjust",
+        def:"тохируулах, засах, тааруулах",
+        rel:["Adjustable fork","Adjustable plier","Adjustable wrench"]
+    },
+    {
+        word:"Adjustable fork",
+        def:"сэрээ хэлбэрийн хавчигч",
+        rel:["Adjustable plier","Adjustable wrench"]
+    },
+    {
+        word:"Adjustable plier",
+        def:"Хэрээн хошуут бахь",
+        rel:["Adjustable wrench","Adjustable fork"]
+    }, 
+    
+    {
+        word:"Adjustable wrench",
+        def:"пранцус, тохируулагч түлхүүр",
+        rel:["Adjustable fork","Adjustable plier",]
+    },
+    {
+        word:"Aftercooler",
+        def:"Дулааны нэмэгдэл хөргүүр, гүйцэд хөргөөгч",
+        rel:[""]
+    }, 
+    
+    {
+        word:"Align",
+        def:"зэрэгцүүлэх, эгнүүлэх, нэг эгнээ болгох",
+        rel:["Aligning punch", "Alignment", "Alignment fixture"]
+    },
+    {
+        word:"Aligning punch",
+        def:"Тааруулж, тохируулагч цоолтуур",
+        rel:["Alignment", "Alignment fixture"]
+    }, 
+    
+    {
+        word:"Alignment",
+        def:"Тааруулах, тохируулах, байрлуулах",
+        rel:["Alignment fixture"]
+    },
+    {
+        word:"Alignment fixture",
+        def:"Тохиргоо хийх хэрэгсэл",
+        rel:["Align", "Alignment"]
+    }, 
+    
+    {
+        word:"Allen wrench",
+        def:"6 талтай түлхүүр",
+        rel:[""]
+    },
+    {
+        word:"Alloy",
+        def:"Хайлш, хайлгах, сайжруулагч элемент, сайжруулалт, бэхжүүлэлт",
+        rel:["Alloy  steel"]
+    }, 
+    
+    {
+        word:"Alloy  steel",
+        def:"Сайжруулсан ган",
+        rel:["Alloy"]
+    },
+    {
+        word:"Alter",
+        def:"Өөр болох, өөрчлөгдөх, хувирах",
+        rel:["Alternating current"]
+    }, 
+    
+    {
+        word:"Alternating current",
+        def:"Хувьсах гүйдэл",
+        rel:["Alternator","Alter"]
+    },
+    {
+        word:"Alternator",
+        def:"Хувьсах гүйдлийн (синхрон) хам хөдөлгүүр/жанам",
+        rel:["Alter"]
+    }, 
+    
+    {
+        word:"Anneal",
+        def:"шатаах, хатууруулах, давтах",
+        rel:[""]
+    },
+    {
+        word:"Armour glass",
+        def:"Хагардаггүй шил",
+        rel:[""]
+    }, 
+    
+    {
+        word:"Assembly",
+        def:"Угсралт, иж бүрдэл",
+        rel:["Bridge assembly"]
+    },
+    {
+        word:"Balance",
+        def:"тэнцвэр, тэнцүүлэх",
+        rel:["Balance machine", "Balance pad", "Balance shaft"]
+    }, 
+    
+    {
+        word:"Balance machine",
+        def:"Тэнцвэржүүлэх машин(хэрэгсэл), төхөөрөмж",
+        rel:["Balance pad", "Balance shaft"]
+    },
+    {
+        word:"Balance pad",
+        def:"Тогтворжуулах ивүүр",
+        rel:["Balance","Balance shaft"]
+    }, 
+    
+    {
+        word:"Ball peen hammer",
+        def:"Модон иштэй алх",
+        rel:["Hammer"]
+    },
+    {
+        word:"Bar",
+        def:"Лоом",
+        rel:[""]
+    }, 
+    
+    {
+        word:"Bead",
+        def:"Бөмбөлөг, цагираг, цөн, ирмэг, хөвөө, мөр, тахир тохой, бөмбөлөг хэлбэртэй жижиг эд анги, гол, хайлгасан металлыг ширээх, гол нарийн залгаас гаргаж гагнах, ширээх, хажуу (дугуй, гадуур дугуйн), бөмбөлөг (хий, агаарын)",
+        rel:["Bead blasting"]
+    },
+    {
+        word:"Bead blasting",
+        def:"Бөмбөлөг, шарикаар цэвэрлэх (шилэн бөмбөлөг г.м.)",
+        rel:["Bead"]
+    }, 
+    
+    {
+        word:"Beam",
+        def:"Дам нуруу",
+        rel:[""]
+    },
+    {
+        word:"Bearing",
+        def:"Холхивч",
+        rel:["Bearing insert","Bearing lining","Bearing shells"]
+    }, 
+    
+    {
+        word:"Bearing insert",
+        def:"Холхивчны оруулга",
+        rel:["Bearing shells","Bearing lining"]
+    },
+    {
+        word:"Bearing lining",
+        def:"Холхивчны дотор",
+        rel:["Bearing shells","Bearing insert"]
+    }, 
+    
+    {
+        word:"Bearing shells",
+        def:"Холхивчны вкладыш",
+        rel:["Bearing insert","Bearing lining"]
+    },
+    {
+        word:"Bench",
+        def:"Мөргөцөг",
+        rel:[""]
+    }, 
+    
+    {
+        word:"Bend",
+        def:"Тахийх, мурийх, махийх, нугарах",
+        rel:["Bending stress"]
+    },
+    {
+        word:"Bending stress",
+        def:"Тахийлтын хүчдэл, тахийлтын ачаалал(стресс)",
+        rel:["Bend"]
+    }, 
+    
+    {
+        word:"Bevel gear",
+        def:"Шувтан араа",
+        rel:[""]
+    },
+    {
+        word:"Blade",
+        def:"Ир, хурц үзүүр, далбан, хутга",
+        rel:["Blade rod"]
+    }, 
+    
+    {
+        word:"Blade rod",
+        def:"Хутган шатун",
+        rel:[""]
+    },
+    {
+        word:"Blast",
+        def:"Тэсрэлт, дэлбэрэлт",
+        rel:["Bead blasting"]
+    }, 
+    
+    {
+        word:"Bogie",
+        def:"Тэргэнцэр, явах хэсэг(кран, экскаваторын), вагонцор",
+        rel:[""]
+    },
+    {
+        word:"Boom",
+        def:"Сум",
+        rel:[""]
+    }, 
+    
+    {
+        word:"Booster",
+        def:"Өдөөгч, хүчлүүр, бустер",
+        rel:[""]
+    },
+    {
+        word:"Bore",
+        def:"Цооног, Голч (цилиндрийн диаметр)",
+        rel:[""]
+    }, 
+    
+    {
+        word:"Brake",
+        def:"тоормоз",
+        rel:["Brake spring plier", "Hand brake"]
+    },
+    {
+        word:"Brake spring plier",
+        def:"Тоормосны пүрш авагч бахь",
+        rel:[""]
+    }, 
+    
+    {
+        word: "Breakage",
+        def:"Эвдрэл, гэмтэл, осол",
+        rel:[""]
+    }, 
+    {
+        word:"Bridge assembly",
+        def:"Хөндлөн угсралт",
+        rel:[""]
+    }, 
+    {
+        word:"Bypass",
+        def:"Тойролт, тойруу, эргэх, салаалга",
+        rel:[""]
+    }, 
+    {
+        word:"By-product",
+        def:"Дагавар бүтээгдэхүүн (урвал, үйл ажиллагаа, явцын)",
+        rel:[""]
+    }, 
+    {
+        word:"Cable",
+        def:"Татлага утас, утас, трос, канат, мяндсан оосор(трос)",
+        rel:["Cablebolter"]
+    }, 
+    {
+        word:"Cablebolter",
+        def:"Кабель боолтын машин",
+        rel:["Cable"]
+    }, 
+    {
+        word:"Cable gland",
+        def:"кабелийн жийргэвч",
+        rel:[""]
+    }, 
+    {
+        word:"Cam",
+        def:"Гулсах гадаргуутай, түүгээрээ бусад эд ангитай хүрэлцэж өгөгдсөн зүй тогтоол бүхий өөрийн хөдөлгөөнийг дамжуулах үүрэгтэй хүрдэн хэлбэрийн нударган механизмын эд анги",
+        rel:["Camshaft","Cam follower", "Camshaft drive","Camshaft sprocket"]
+    }, 
+    {
+        word:"Camshaft",
+        def:"Нударгат гол (хувиарлах)",
+        rel:["Cam","Cam follower", "Camshaft drive","Camshaft sprocket"]
+    }, 
+    {
+        word:"Cam follower",
+        def:"Нударган голын хөтлөгдөгч механизм",
+        rel:["Camshaft drive","Camshaft sprocket"]
+    }, 
+    {
+        word:"Camshaft drive",
+        def:"Хувиарлах голын хөтлөгч",
+        rel:["Cam","Cam follower","Camshaft sprocket"]
+    }, 
+    {
+        word:"Camshaft sprocket",
+        def:"Гинжит хөтлөгдөх дугуй",
+        rel:["Camshaft","Cam follower"]
+    }, 
+    {
+        word:"Cap",
+        def:"Хушуувч, таглавч",
+        rel:[""]
+    }, 
+    {
+        word:"Capacity",
+        def:"Багтаамж, хүчин чадал",
+        rel:[""]
+    }, 
+    {
+        word:"Carbon",
+        def:"Хөө, Тортог",
+        rel:["Carbon paper", "Carbon scraper"]
+    }, 
+    {
+        word:"Carbon paper",
+        def:"Хортой цаас",
+        rel:[""]
+    }, 
+    {
+        word:"Carbon scraper",
+        def:"Тортог хусагч(арилгагч)",
+        rel:["Carbon"]
+    }, 
+    {
+        word:"Carburetor",
+        def:"Дотоод шаталтын хөдөлгүүрийн тэжээлийн системд бензин ба агаар хольж, халуун хольц бий болгох, түүний зарцуулалтыг тохируулах зориулалттай тусгай хийцийн төхөөрөмж",
+        rel:[""]
+    }, 
+    {
+        word:"Casting",
+        def:"Цутгалт, цутгамал",
+        rel:["Cast iron"]
+    }, 
+    {
+        word:"Cast iron",
+        def:"Цутгамал төмөр",
+        rel:[""]
+    }, 
+    {
+        word:"Chamber",
+        def:"Өрөө, тасалгаа, шаталт",
+        rel:[""]
+    }, 
+    {
+        word:"Chamfer",
+        def:"Мөгүү, гажилт, мөлүү, мөгүүг арилгах, хөвөө ирмэгийг дугуйлах, эргүүлэх, жижиг суваг, жижиг малтац",
+        rel:[""]
+    }, 
+    {
+        word:"Chassis",
+        def:"Тээврийн хэрэгслийн шасси, каркас, арал",
+        rel:[""]
+    }, 
+    {
+        word:"Chisel",
+        def:"Цүүц",
+        rel:[""]
+    }, 
+    {
+        word:"Clamp",
+        def:"Хавчаар, баривч, даруулга",
+        rel:[""]
+    }, 
+    {
+        word:"Clearance",
+        def:"Зайц, завсар",
+        rel:[""]
+    }, 
+    {
+        word:"Clutch",
+        def:"авцуулах холбоо",
+        rel:[""]
+    }, 
+    {
+        word:"Collar",
+        def:"Хүзүүвч, босоо амын мод эсвэл бетон цутгамал хүзүүвч хэсэг",
+        rel:[""]
+    }, 
+    {
+        word:"Combustible",
+        def:"Асамхай, шатамхай",
+        rel:["Combustion"]
+    }, 
+    {
+        word:"Combustion",
+        def:"Шаталт",
+        rel:["Combustible"]
+    }, 
+    {
+        word:"Component",
+        def:"Бүрдэл хэсэг, эд анги",
+        rel:[""]
+    }, 
+    {
+        word:"Compression",
+        def:"Шахалт, агшаах, дарах",
+        rel:["Compression ignition", "Compressor"]
+    }, 
+    {
+        word:"Compression ignition",
+        def:"Шахалтаар асаах",
+        rel:["Compressor"]
+    }, 
+    {
+        word:"Compressor",
+        def:"Шахуурга, нягтруулавч",
+        rel:["Compression","Compression ignition"]
+    }, 
+    {
+        word:"Condensation",
+        def:"шингэлэх, усжих, хуримтлах",
+        rel:[""]
+    }, 
+    {
+        word:"Conductor",
+        def:"Дамжуулагч",
+        rel:["Conduit"]
+    }, 
+    {
+        word:"Conduit",
+        def:"Дамжуулах хоолой",
+        rel:[""]
+    }, 
+    {
+        word:"Configuration",
+        def:"бүтэц, хэлбэршил",
+        rel:[""]
+    }, 
+    {
+        word:"Connecting rod",
+        def:"Сэжлүүр - Пистон буюу бүлүүрийн давших хөдөлгөөнийг (машины гулсалтыг) тахир голын хүзүүний эргэлдэх хөдөлгөөнд хувиргах эд анги",
+        rel:[""]
+    }, 
+    {
+        word:"Coolant",
+        def:"Хөргөх шингэн",
+        rel:[""]
+    }, 
+    {
+        word:"Corrosion",
+        def:"Эсэлдэх, зэв идэх, идэгдэх",
+        rel:["Corrosion resistance", "Corrosive chemicals"]
+    }, 
+    {
+        word:"Corrosion resistance",
+        def:"Зэврэлтийг эсэргүүцэх чадвар",
+        rel:["Corrosive chemicals"]
+    }, 
+    {
+        word:"Corrosive chemicals",
+        def:"Хүчиллэг, идэмхий химийн бодис",
+        rel:["Corrosion"]
+    }, 
+    {
+        word:"Counterweight",
+        def:"Тэнцвэржүүлэх ачаа, эсрэг ачаа, жин тэнцүүлэгч",
+        rel:[""]
+    }, 
+    {
+        word:"Coupling",
+        def:"Баривч - төрөл бүрийн гол, татуурга, хоолой, кабель зэргийг залган, холбоосыг нь барьж байх тоног",
+        rel:[""]
+    }, 
+    {
+        word:"Crab winch",
+        def:"дамарт эргүүлэг",
+        rel:[""]
+    },
+    {
+        word:"Debris",
+        def:"хэлтэрхий, хаягдал, үртэс",
+        rel:[""]
+    },
+    {
+        word:"Deceleration",
+        def:"Удаашруулах, тоормослох",
+        rel:[""]
+    },
+    {
+        word:"Deflect",
+        def:"Хазайх, зөрөх, гажих, хотойх, хугалах, хугарах",
+        rel:["Deflection","Deflector"]
+    },
+    {
+        word:"Deflection",
+        def:"Хазайлт (соронзон зүүний), хугарал, зөрөө, гажилт",
+        rel:["Deflect", "Deflector"]
+    },
+    {
+        word:"Deflector",
+        def:"Агаар, шингэн, дууны долгионы урсгалын чиглэл өөрчлөх байгууламж",
+        rel:["Deflect", "Deflection"]
+    },
+    {
+        word:"Delay",
+        def:"хойшлуулах, удаашруулах",
+        rel:[""]
+    },
+    {
+        word:"Degreaser",
+        def:"Тосгүйжүүлэгч",
+        rel:[""]
+    },
+    {
+        word:"Dent ",
+        def:"Хонхорхой, цөмөрхий, ором, хэрчлээс, огтлоос",
+        rel:[""]
+    },
+    {
+        word:"Deposit",
+        def:"Тунац, тортог, хаг, өнгөр",
+        rel:[""]
+    },
+
+    {
+        word: "Depth ",
+        def:"гүн, зузаан",
+        rel:[""]
+    },
+    {
+        word: "Deteriorate",
+        def:"муудах, дордох, эвдрэх",
+        rel:[""]
+    },
+    {
+        word: "Detonation",
+        def:"тэсрэлт, тэсрэл, дэлбэрэх",
+        rel:["Detonator"]
+    },
+    {
+        word: "Detonator",
+        def:"тэслүүр, тэслэвч",
+        rel:["Detonation"]
+    },
+    {
+        word: "Die",
+        def:"Хэвлүүр, тамгалах - бэлдэцийн уян налархайн хэв гажилтыг ашиглан даралтаар материалыг боловсруулах багаж, хэрэгсэл",
+        rel:["Die stamp", "riveting die", "Die-Cast"]
+    },
+    {
+        word:"Die-Cast",
+        def:"Төмөр хэвэнд цутгасан ",
+        rel:["Die stamp", "riveting die"]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },{
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },{
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+    {
+        word: "",
+        def:"",
+        rel:[""]
+    },
+
+
+];
+
+    document.getElementById("search").addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            document.getElementById("goBtn").click();
+        }
+    }); 
+    start = function (){
+        for (var i = 0; i < dictionary.length; i++) {
+            document.getElementById('word_list').innerHTML += "<li onclick = 'show (" + i + ")'>" + dictionary[i].word + "</li>";
+        }
+    }
+
+    start();
+    show = function(i) {
+        document.getElementById('word_text').innerHTML = dictionary[i].word;
+        document.getElementById('definition').innerHTML = dictionary[i].def;
+
+        var list = "";
+        for (var j = 0; j < dictionary[i].rel.length; j++){
+            list += "<li>" + dictionary[i].rel[j] + "</li>";
+            document.getElementById('related').innerHTML = list; 
+        }
+    };
+
+    show(0);
+
+    search = function(){
+
+        query = document.getElementById('search').value.trim();
+        var querychanged = query.charAt(0).toUpperCase() + query.slice(1);
+
+    if (querychanged == "") {
+
+        return;
+    }
+
+        found = -1;
+        for (var i = 0; i < dictionary.length; i++) {
+            if (querychanged == dictionary[i].word) {
+            found = i;
+            break;
+    }else {
+        document.getElementById('word_text').innerHTML = "Word not found"; 
+        document.getElementById('definition').innerHTML = "The word you entered is not in here";
+        document.getElementById('related').innerHTML = "No related words"
+     }
+    }
+
+    if (found >= 0) {
+        show(found);
+     }
+    }
+
+</script>
