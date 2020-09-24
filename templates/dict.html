@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dict test</title>
+    <title>Dict</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dictstyle.css') }}">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
+
 <body>
     <div class="header">
         <img id="logo" src="{{ url_for('static', filename='logo.png') }}">
@@ -15,11 +17,13 @@
     <div class="wrapper">
         <div class="words">
             <input type="text" id="search" placeholder="search .. ">
-            <button id="goBtn" onclick="search()">Go</button>
-
+            <button id="goBtn" onclick="get_words()">Go</button>
+            <!-- 
+        {% for term in dictionary %} 
             <ul id="word_list">
-                
+                <li>{{term[0]}}</li>
             </ul>
+        {% endfor %}  -->
         </div>
         <div class="word">
             <h3 id="word_text"></h3>
@@ -32,61 +36,28 @@
         </div>
     </div>
 </body>
+
 </html>
+
 <script type="text/javascript">
-    dictionary = {{dictionary}}
-    
-    document.getElementById("search").addEventListener("keyup", function(event) {
-        event.preventDefault();
-        if (event.keyCode === 13) {
-            document.getElementById("goBtn").click();
-        }
-    }); 
-    start = function (){
-        for (var i = 0; i < dictionary.length; i++) {
-            document.getElementById('word_list').innerHTML += "<li onclick = 'show (" + i + ")'>" + dictionary[i].word + "</li>";
-        }
-    }
 
-    start();
-    show = function(i) {
-        document.getElementById('word_text').innerHTML = dictionary[i].word;
-        document.getElementById('definition').innerHTML = dictionary[i].definition;
+    function get_words() {
+        let search = $('#search').val()
+        $.ajax({
 
-        var list = "";
-        for (var j = 0; j < dictionary[i].rel.length; j++){
-            list += "<li>" + dictionary[i].rel[j] + "</li>";
-            document.getElementById('related').innerHTML = list; 
-        }
-    };
+            type: 'GET',
+            url: 'http://localhost:5000/home/' + search,
+            dataType: "json",
 
-    show(0);
-
-    search = function(){
-
-        query = document.getElementById('search').value.trim();
-        var querychanged = query.charAt(0).toUpperCase() + query.slice(1);
-
-    if (querychanged == "") {
-
-        return;
-    }
-
-        found = -1;
-        for (var i = 0; i < dictionary.length; i++) {
-            if (querychanged == dictionary[i].word) {
-            found = i;
-            break;
-    }else {
-        document.getElementById('word_text').innerHTML = "Word not found"; 
-        document.getElementById('definition').innerHTML = "The word you entered is not in here";
-        document.getElementById('related').innerHTML = "No related words"
-     }
-    }
-
-    if (found >= 0) {
-        show(found);
-     }
-    }
-
+            success: function (response) {
+                let word = response.words
+                document.getElementById("definition").innerHTML = word;
+                // $('#definition').html = words
+            },
+            error: function (response) {
+            },
+            complete: function (response) {
+            },
+}); 
+    }    
 </script>
