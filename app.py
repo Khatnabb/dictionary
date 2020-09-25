@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from query import *
+import json 
 
 app = Flask(__name__)
 
@@ -8,12 +9,13 @@ def home():
     return render_template('dict.html')
 
 
-@app.route('/home/<string:searchinput>')
+
+@app.route('/home/<searchinput>')
 def api_search(searchinput):
 
     from query import get_searched_word
     words = get_searched_word(searchinput=searchinput)
-    return words
+    return  json.dumps({ 'words': words})
 
 # @app.route('/login')
 # def login():

@@ -40,18 +40,19 @@
 </html>
 
 <script type="text/javascript">
-
+    // var words_global;
     function get_words() {
         let search = $('#search').val()
         $.ajax({
 
             type: 'GET',
-            url: 'http://localhost:5000/home/' + search,
+            url: '/home/' + search,
             dataType: "json",
 
             success: function (response) {
                 let word = response.words
                 document.getElementById("definition").innerHTML = word;
+                // words_global = words;
                 // $('#definition').html = words
             },
             error: function (response) {
