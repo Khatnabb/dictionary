@@ -5,42 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dict</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dictstyle.css') }}">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>    
+    <script src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/start1.css') }}">
+    
 </head>
 
 <body>
-    <div class="header">
-        <img id="logo" src="{{ url_for('static', filename='logo.png') }}">
-        <h1>OTUG Mining dictionary</h1>
-    </div>
-    <div class="wrapper">
-        <div class="words">
-            <input type="text" id="search" placeholder="search .. ">
-            <button id="goBtn" onclick="get_words()">Go</button>
-            <!-- 
-        {% for term in dictionary %} 
-            <ul id="word_list">
-                <li>{{term[0]}}</li>
-            </ul>
-        {% endfor %}  -->
+    <div id="app">
+        <div>
+            <a href="{{ url_for('contribute') }}">Contribute!</a>
         </div>
-        <div class="word">
-            <h3 id="word_text"></h3>
-            <p id="definition"></p>
-
-            <hr>
-
-            <h3>Related words:</h3>
-            <li id="related"></li>
+        <div class="header" >
+            <img id="logo" src="{{ url_for('static', filename='colorlogo.png') }}">
+            <h1>Mining Dictionary</h1>
         </div>
-    </div>
+        <div class="searchbox">
+            <input type="text" name="term" required id="search">
+            <label for="term" class="label-name" >
+                <span class="sbtitle">Enter your search here:</span>
+            </label>
+            <a href="#" id="goBtn" onclick="get_words(); inputvalid()" ><i class="fa fa-lg fa-search"></i></a>
+        </div>
+        <div class="row">
+            <div class="word">
+                <h3>Word search: <br> Таны хайсан үг:</h3>
+                <p id="searchEntry" >
+
+                </p>
+            </div>
+            <div class="definition">
+                <h3>Definition: <br> Утга: </h3>
+                <p id="def" >
+                
+                </p>
+            </div>
+        </div>
+    </div>    
 </body>
-
 </html>
 
 <script type="text/javascript">
-    // var words_global;
+    
     function get_words() {
         let search = $('#search').val()
         $.ajax({
@@ -51,14 +61,23 @@
 
             success: function (response) {
                 let word = response.words
-                document.getElementById("definition").innerHTML = word;
-                // words_global = words;
-                // $('#definition').html = words
+                document.getElementById("def").innerHTML = word;
+                document.getElementById("searchEntry").innerHTML = search;
             },
             error: function (response) {
             },
             complete: function (response) {
             },
 }); 
-    }    
+    }
+     
+     
+
+    $(document).ready(function(){
+        $('#search').keyup(function(event){
+            if(event.which === 13) {
+                $('#goBtn').click();
+            }
+        })
+    });
 </script>

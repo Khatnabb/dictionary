@@ -9,10 +9,6 @@ import pandas as pd
 #     cursor.execute(query)
 #     data = cursor.fetchall()
 
-
-
-
-
 def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=None, driver='{SQL SERVER}'):
     
     driver = "{SQL SERVER}"
@@ -35,3 +31,5 @@ def get_searched_word(searchinput):
     WHERE Term = '%s' """ % searchinput
     df = sql_link(q)
     return df['Def'][0]
+
+

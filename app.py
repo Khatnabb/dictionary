@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from query import *
 import json 
 
@@ -8,6 +8,24 @@ app = Flask(__name__)
 def home():
     return render_template('dict.html')
 
+@app.route('/contribute')
+def contribute():
+    return render_template('contribute.html')
+
+@app.route('/login', methods=['POST','GET'])
+def login():
+
+    if request.method == "POST":
+    # term = request.form['ug']
+    # utga = request.form['utga']
+        print(request.data)
+        data = dict(request.args)
+        print(data)
+        # data = request.json
+        
+        return json.dumps({'data': data})
+
+    # return json.dumps({'term':term, 'utga':utga})
 
 
 @app.route('/home/<searchinput>')
@@ -17,8 +35,5 @@ def api_search(searchinput):
     words = get_searched_word(searchinput=searchinput)
     return  json.dumps({ 'words': words})
 
-# @app.route('/login')
-# def login():
-#     return "<h1>Login</h1>"
 if __name__ == "__main__":
     app.run(debug=True)

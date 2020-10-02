@@ -1,17 +1,5 @@
 import pyodbc
 import pandas as pd
-# conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=words; trusted_connection=YES;"
-
-# query = "SELECT TOP 20 Term FROM dict"
-
-# with pyodbc.connect(conx_string) as conx:
-#     cursor = conx.cursor()
-#     cursor.execute(query)
-#     data = cursor.fetchall()
-
-
-
-
 
 def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=None, driver='{SQL SERVER}'):
     

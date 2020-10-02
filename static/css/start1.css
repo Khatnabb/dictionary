@@ -1,0 +1,185 @@
+body{
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+}
+.header{
+    text-align: center;
+}
+
+#logo{
+    margin-top: 10px;
+    width: 150px;
+    height: auto;
+}
+#goBtn{
+    color:rgb(245, 121, 19);
+}
+
+.searchbox{
+    width: 70%;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    left: 25%;
+    
+    
+}
+.searchbox input{
+    width: 70%;
+    height: 50%;
+    padding-top: 20px;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.searchbox label{
+    position: absolute;
+    bottom: 0px;
+    left: 0%;
+    width: 70%;
+    height: 100%;
+    pointer-events: none;
+    border-bottom: 1px solid black;
+}
+.searchbox label::after{
+    content: "";
+    position: absolute;
+    left: 0px;
+    bottom: -1px;
+    height: 100%;
+    width: 100%;
+    border-bottom: 3px solid rgb(245, 121, 19);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+.sbtitle{
+    position: absolute;
+    bottom: 5px;
+    left: 0px;
+    transition: all 0.3s ease;
+}
+
+.searchbox input:focus + .label-name .sbtitle, 
+.searchbox input:valid + .label-name .sbtitle{
+    transform: translateY(-150%);
+    font-size: 14px;
+    color: rgb(245, 121, 19);
+}
+
+.searchbox input:focus + .label-name::after, 
+.searchbox input:valid + .label-name::after{
+    transform: translateX(0%);
+}
+
+#app{
+    border: 1.5px solid rgb(7, 158, 168);
+    width: 55%;
+    height: auto;  
+}
+
+#container{
+    border: 1.5px solid rgb(7, 158, 168);
+    width: 55%;
+    height: 100%;
+    position: relative;
+}
+
+.row{
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0 0;
+    height: auto;
+}
+.word{
+    box-sizing: border-box;
+    flex: 30%;
+    max-width: 30%;
+    float: left;
+    margin: 0 auto;    
+}
+.definition {
+    box-sizing: border-box;
+    flex: 50%;
+    max-width: 50%;
+    float: right;
+    margin: 0 0;
+  
+}
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+.addNew{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    position: absolute;
+    left: 15%;
+  
+    
+}
+.addNew label{
+    padding: 5px 0;
+    
+}
+.addNew input{
+    height: 30px;
+    font-family: 'Montserrat', sans-serif;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    border-bottom: 1px solid;
+    
+}
+
+.button-hover{
+    position: relative;
+    background: linear-gradient(90deg, rgba(1,202,207,1) 0%, rgba(255,166,23,1) 50%, rgba(255,92,23,1) 100%);
+    border: 0;
+    cursor: pointer;
+    margin: 1em;
+    padding: 0.3em;
+    min-width: 230px;
+    border-radius: 20px;
+    outline: none;
+}
+.button-hover::before,
+.button-hover::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(1,202,207,1) 0%, rgba(255,166,23,1) 50%, rgba(255,92,23,1) 100%);
+    border-radius: 20px;
+    transition: all .5s ease-in-out;
+}
+.button-hover:hover::before{
+    filter: blur(5px);
+}
+.button-hover:hover::after{
+    filter: blur(15px);
+}
+
+
+.button-hover span{
+    position: relative;
+    z-index: 3;
+    display: block;
+    padding: .9em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: #000;
+    background-color:#fff;
+    border-radius: 17px;
+}
