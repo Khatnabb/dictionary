@@ -1,8 +1,15 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from query import *
-import json 
+import json, pyodbc
 
 app = Flask(__name__)
+
+conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=words; trusted_connection=YES;"
+
+with pyodbc.connect(conx_string) as conx:
+    cursor = conx.cursor()
+    
+
 
 @app.route('/home')
 def home():
@@ -12,21 +19,23 @@ def home():
 def contribute():
     return render_template('contribute.html')
 
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login')
 def login():
+    return render_template('edit.html')
+
+@app.route('/addNew', methods=['POST','GET'])
+def addNew():
 
     if request.method == "POST":
-    # term = request.form['ug']
-    # utga = request.form['utga']
-        print(request.data)
-        data = dict(request.args)
-        print(data)
-        # data = request.json
         
-        return json.dumps({'data': data})
+        postingterm = request.form['postingterm']
+        postingdef = request.form['postingdef']
 
-    # return json.dumps({'term':term, 'utga':utga})
+        cursor.execute("INSERT INTO newEntries (Term, Def) VALUES (?,?)", (postingterm, postingdef))
+        cursor.commit()
+        return redirect(url_for('contribute'))
 
+    
 
 @app.route('/home/<searchinput>')
 def api_search(searchinput):

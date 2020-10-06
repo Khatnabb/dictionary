@@ -13,23 +13,13 @@
     <div id="container">
         <div>
             <a href="{{ url_for('home') }}">Go Back!</a>
-            <a href="{{ url_for('login') }}">Login</a>
         </div>
         <div class="header" >
             <img id="logo" src="{{ url_for('static', filename='colorlogo.png') }}">
             <h1>Mining Dictionary</h1>
         </div>
        
-        <form class="addNew" role="form" action="{{ url_for('addNew') }}" method="POST" >  
-            <label for="ug" >New entry</label>
-            <input id="postingterm" name="postingterm" class="term" placeholder="таны оруулах үг"><br>
-            <label for="utga" >Definition/Description</label>
-            <input id="postingdef" name="postingdef" class="utga" placeholder="оруулах үгийн утга/тайлбар">
-            <br>
-            <button class="button-hover" id="btnsubmit" type="submit">
-                <span>Submit/Илгээх</span>
-            </button>
-        </form>   
+      
             
 
     <script>
@@ -40,15 +30,7 @@
                             $('#goBtn').click();
                         }
                     })
-                });
-
-    //      $('#btnsubmit').click(function(){
-    //    alert("I truly appreciate your contribution! May your day be blessed!");
-//    });
-        
-   
-
-      
+                });    
 
     </script>
 </body>
