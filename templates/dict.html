@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dict</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/vuex"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>    
-    <script src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>  
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/start1.css') }}">
-    
+    <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet"> -->
+    <link href="{{ url_for('static', filename='css/start1.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >    
+
 </head>
 
 <body>
@@ -25,14 +23,14 @@
             <h1>Mining Dictionary</h1>
         </div>
         <div class="searchbox">
-            <input type="text" name="term" required id="search">
-            <label for="term" class="label-name" >
+            <input type="text" name="term" required id="search" onkeyup="auto_complete()">
+            <label for="term" class="label-name">
                 <span class="sbtitle">Enter your search here:</span>
             </label>
-            <a href="#" id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
-        </div>
+            <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
+        </div>  
         <div class="row">
-            <div class="word">
+            <div class="word"> 
                 <h3>Word search: <br> Таны хайсан үг:</h3>
                 <p id="searchEntry" >
 
@@ -49,8 +47,40 @@
 </body>
 </html>
 
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
+<script src="{{ url_for('static', filename='js/sweetalert2.js') }}" ></script>
 <script type="text/javascript">
-    
+
+    // function sweetalert(message = "brimbrom"){
+    //     Swal.fire("Success","Brim Brom","success")
+    // }
+
+    function sweetalertfail(message = "The word you searched is not found"){
+        Swal.fire("Word Not Found", message ,"error")
+    }
+
+    function auto_complete() {
+        let search = $('#search').val()
+        $.ajax({
+
+            type: 'GET',
+            url: '/home/autocomplete/' + search,
+            dataType: "json",
+
+            success: function (response) {
+                console.log(response)
+                let word = response.words
+                document.getElementById("def").innerHTML = word;
+                document.getElementById("searchEntry").innerHTML = search;
+            },
+            error: function (response) {
+                console.log(response)
+                sweetalertfail(response.responseJSON.response)
+            },
+            complete: function (response) {
+            },
+});
+    }
     function get_words() {
         let search = $('#search').val()
         $.ajax({
@@ -60,18 +90,19 @@
             dataType: "json",
 
             success: function (response) {
+                console.log(response)
                 let word = response.words
                 document.getElementById("def").innerHTML = word;
                 document.getElementById("searchEntry").innerHTML = search;
             },
             error: function (response) {
+                console.log(response)
+                sweetalertfail(response.responseJSON.response)
             },
             complete: function (response) {
             },
 }); 
     }
-     
-     
 
     $(document).ready(function(){
         $('#search').keyup(function(event){

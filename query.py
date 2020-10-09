@@ -5,7 +5,7 @@ def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=No
     
     driver = "{SQL SERVER}"
     server = "localhost\SQLEXPRESS"
-    database = "words"
+    database = "otdict"
 
     conn_str = 'DRIVER=%s;SERVER=%s;DATABASE=%s;Trusted_Connection=yes' % (driver, server, database)
 
@@ -16,12 +16,30 @@ def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=No
 
 def get_searched_word(searchinput):
 
-    q = """SELECT [Term],[Def],[Rel]
+    q = """SELECT Def
 
-    FROM [words].[dbo].[dict]
+    FROM [otdict].[dbo].[otdictionary]
 
     WHERE Term = '%s' """ % searchinput
     df = sql_link(q)
-    
-    return df["Def"][0]
 
+    return df['Def'][0]
+
+def auto_complete(span):
+    q = """SELECT Term, Def
+
+    FROM [otdict].[dbo].[otdictionary]
+
+    WHERE Term LIKE '{}%' """.format(span)  
+    df = sql_link(q)
+    
+    return list(df['Term'])
+# def Royischeckingtheword(word):
+#     import re
+
+#     regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+
+#     if(regex.search(word) == None):
+#         return word
+#     else:
+#         return word
