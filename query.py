@@ -34,6 +34,7 @@ def auto_complete(span):
     df = sql_link(q)
     
     return list(df['Term'])
+    
 # def Royischeckingtheword(word):
 #     import re
 

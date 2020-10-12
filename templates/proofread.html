@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTUG Mining Dictionary Adding words</title>
+    <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/edit.css') }}" rel="stylesheet">
+
+</head>
+<body>
+    <h1>Edit/Proofread</h1>
+     <div class="container mt-5">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Tick</th>
+                      <th scope="col">#</th>
+                      <th scope="col">Term</th>
+                      <th scope="col">Def</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for data in newEntries %}
+                      <form action="" method="get|post">
+                    <tr name ="{{data.ID}}">
+                      <th scope="row"><input class="checkbox" type="checkbox"></th>
+                      <td id="{{data.ID}}">{{data.ID}}</td>
+                      <td><input class="input" onchange=typeroy(value) id="newterm" name ="{{data.Term}}" value="{{data.Term}}"></td>
+                      <td><input class="input" onchange=typeroy(value) id="newdef" name= "{{data.Def}}" value="{{data.Def}}"></td>
+                      <td><button type="button" class="btn btn-outline-success btn-sm" id="Btn" >Save</button></td>
+                    </tr>
+                    </form>
+                    {% endfor %}
+                  </tbody>
+            </table>
+          </div>
+    </div>
+   
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+    <script type = 'text/javascript'>
+    
+    function typeroy(val) {
+      console.log(val)
+      }
+
+  //     $("body").on("click", "#table #Btn", function () {
+  //         var row = $(this).closest("tr");
+  //         $("td", row).each(function () {
+  //               if ($(this).find("input").length > 0) {
+  //                   var input = $(this).find("input");
+  //                   input.hide();
+  //               }
+  //           });
+  // });
+
+
+//         $.ajax({
+
+//             type: 'GET',
+//             url: '/proofread/' + idx,
+//             dataType: "json",
+
+//             success: function (response) {
+//                 console.log(response)
+//                 let word = response.words
+//             },
+//             error: function (response) {
+//                 console.log(response)
+             
+//             },
+//             complete: function (response) {
+//             },
+// }); 
+//     }
+
+        $('.input').hover(function(){
+          $(this).css({"border-bottom":"2px solid orange"});
+          }, function(){ 
+              $(this).css({"border-bottom":""});
+        });
+
+
+            // $(document).ready(function () {
+            //         $('#postingdef').keyup(function (event) {
+            //             if (event.which === 13) {
+            //                 $('#goBtn').click();
+            //             }
+            //         })
+            //     });    
+
+          $('.btn').click(function(){
+            alert($(this).find("td:eq(2) input[type='text']").val());
+          })
+    </script>
+</body>
+</html>

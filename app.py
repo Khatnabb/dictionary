@@ -10,7 +10,6 @@ with pyodbc.connect(conx_string) as conx:
     cursor = conx.cursor()
     
 
-
 @app.route('/home')
 def home():
     return render_template('dict.html')
@@ -19,13 +18,38 @@ def home():
 def contribute():
     return render_template('contribute.html')
 
-@app.route('/login')
-def login():
+@app.route('/proofread/', methods = ['POST', 'GET'])
+def proofread():
+
     cursor.execute("SELECT * FROM newEntries")
     data = cursor.fetchall()
-    return render_template('edit.html', newEntries = data)
 
+    return render_template('proofread.html', newEntries = data)
+
+@app.route('/proofread/<string:idx>', methods = ['POST', 'GET'])
+def update(idx):
+    if request.method == "GET":
+
+        cursor.execute("SELECT * FROM newEntries WHERE ID = ?", idx)
+        edit_data = cursor.fetchall()
         
+        return render_template('proofread.html', newEntries = edit_data)
+
+    if request.method == "POST":
+
+        newterm = request.form['newterm']
+        newdef = request.form['newdef']
+        
+        cursor.execute("""  INSERT INTO otdictionary(Term, Def)
+                            SELECT Term, Def FROM [otdict].[dbo].[newEntries]
+
+                            WHERE Term = '{}';
+
+                            DELETE FROM [otdict].[dbo].[newEntries]
+
+                            WHERE Term = '{}';""", (newterm))
+        cursor.commit()
+
 @app.route('/addNew', methods=['POST','GET'])
 def addNew():
 

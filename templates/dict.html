@@ -8,42 +8,54 @@
     <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet"> -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/start1.css') }}" rel="stylesheet" type="text/css" >
     <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >    
 
 </head>
 
 <body>
-    <div id="app">
-        <div>
-            <a href="{{ url_for('contribute') }}">Contribute!</a>
-        </div>
-        <div class="header" >
-            <img id="logo" src="{{ url_for('static', filename='colorlogo.png') }}">
-            <h1>Mining Dictionary</h1>
-        </div>
-        <div class="searchbox">
-            <input type="text" name="term" required id="search" onkeyup="auto_complete()">
-            <label for="term" class="label-name">
-                <span class="sbtitle">Enter your search here:</span>
-            </label>
-            <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
-        </div>  
+    <div class="container myHeader">
         <div class="row">
-            <div class="word"> 
-                <h3>Word search: <br> Таны хайсан үг:</h3>
-                <p id="searchEntry" >
-
-                </p>
-            </div>
-            <div class="definition">
-                <h3>Definition: <br> Утга: </h3>
-                <p id="def" >
-                
-                </p>
+            <div class="col-3 mycol" ><img id="logo" src="{{ url_for('static', filename='colorlogo.png') }}"></div>
+            <div class="col-6 mycol-title"><h1>Oyu Tolgoi Underground Mining Dictionary</h1></div>
+            <div class="col-3 mycol"><a href="{{ url_for('contribute') }}">Contribute!</a></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col mySearch">
+                <div class="searchbox">
+                    <input type="text" name="term" id="search">
+                    <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="suggestions" ></div>
+            </div>
+        </div>
+    </div>
+    <div class="container ">
+        <div class="row DictSection">
+            <div class="col WordSearched">
+                <h4>Word you searched for:</h4>
+                <p id="searchEntry" ></p>
+            </div>
+            <div class="col DefSearched">
+                <h4>Definition:</h4>
+                <p id="def"></p>
+            </div>
+        </div>
+    </div>
+    
+
+
+   
+
 </body>
 </html>
 
@@ -55,32 +67,64 @@
     //     Swal.fire("Success","Brim Brom","success")
     // }
 
-    function sweetalertfail(message = "The word you searched is not found"){
-        Swal.fire("Word Not Found", message ,"error")
-    }
+    // function sweetalertfail(message = "The word you searched is not found"){
+    //     Swal.fire("Word Not Found", message ,"error")
+    // }
 
-    function auto_complete() {
+    
+        
+    const searchInput = document.querySelector('#search');
+    const suggestionsPanel = document.querySelector('.suggestions');
+    searchInput.addEventListener('keyup',function(){
         let search = $('#search').val()
         $.ajax({
-
             type: 'GET',
             url: '/home/autocomplete/' + search,
             dataType: "json",
 
             success: function (response) {
-                console.log(response)
-                let word = response.words
-                document.getElementById("def").innerHTML = word;
-                document.getElementById("searchEntry").innerHTML = search;
-            },
-            error: function (response) {
-                console.log(response)
-                sweetalertfail(response.responseJSON.response)
-            },
-            complete: function (response) {
-            },
-});
-    }
+            let word = response.words
+            suggestionsPanel.innerHTML = '';
+                
+        for(i = 0; i < word.length; i++){
+            const div = document.createElement('div');
+            div.innerHTML = word[i];
+            suggestionsPanel.appendChild(div);
+        };
+        $('body').on('click', '.suggestions > div', function(){
+            $('.searchbox input').val($(this).text()).focus();
+            $('.suggestions').html("");
+        });
+        $('body').click(function(e){
+            if(!$(e.target).is('input, div, a')){
+                $('.searchbox input').val('').focus();
+                $('.suggestions').html("");
+                
+            }
+        });
+
+        $('input').change(function(){
+            $(".WordSearched, .DefSearched").removeClass('open');
+        })
+
+    },
+        error: function (response) {
+            console.log(response)
+            // sweetalertfail(response.responseJSON.response)
+    },
+        complete: function (response) {
+
+        }
+        });
+    })
+      
+    // const searchInput = document.querySelector('#search');
+    // const suggestionsPanel = document.querySelector('.suggestions');
+    // searchInput.addEventListener('keyup',function(){
+    //     let search = $('#search').val()
+
+
+   
     function get_words() {
         let search = $('#search').val()
         $.ajax({
@@ -92,8 +136,10 @@
             success: function (response) {
                 console.log(response)
                 let word = response.words
-                document.getElementById("def").innerHTML = word;
-                document.getElementById("searchEntry").innerHTML = search;
+                $(".WordSearched, .DefSearched").addClass('open');
+                $('.suggestions').html('');
+                document.getElementById('searchEntry').innerHTML = search;
+                document.getElementById('def').innerHTML = word;
             },
             error: function (response) {
                 console.log(response)

@@ -1,4 +1,84 @@
-body{
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+#logo{
+    margin-top: 10px;
+    max-width: 80%;
+    max-height: 100%;
+}
+
+.myHeader{
+    margin-top: 1%;
+}
+.mySearch{
+    display: flex;
+    justify-content: center;
+    margin-top: 4%;
+}
+
+.mycol-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+} 
+
+.mycol a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.searchbox{
+    border: 1px solid black;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    width: 40%;
+    
+}
+.searchbox > input{
+    background: transparent;
+    flex: 1;
+    outline: none;
+    border: none;
+}
+
+.suggestions{
+    margin-top: 1%;
+    border-top:2px solid  rgb(245, 121, 19);
+    
+}
+.suggestions > div{
+    padding: 15px;
+    font: 15px;
+    color: #000;
+    border-top: 1px solid #666;
+    cursor: pointer;
+}
+.suggestions > div:hover{
+    background-color: rgb(245, 121, 19); 
+}
+
+.WordSearched, .DefSearched {
+    
+    display: none;
+}
+.open{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+.contBody{
     height: 90vh;
     display: flex;
     align-items: center;
@@ -6,115 +86,17 @@ body{
     flex-direction: column;
     font-family: 'Montserrat', sans-serif;
 }
-.header{
-    text-align: center;
-}
-
-#logo{
+.contLogo{
     margin-top: 10px;
-    width: 150px;
-    height: auto;
+    max-width: 30%;
+    max-height: 30%;
 }
-#goBtn{
-    color:rgb(245, 121, 19);
-}
-
-.searchbox{
-    width: 70%;
-    height: 50px;
-    position: relative;
-    overflow: hidden;
-    left: 25%;
-    
-    
-}
-.searchbox input{
-    width: 70%;
-    height: 50%;
-    padding-top: 20px;
-    border: none;
-    outline: none;
-    font-family: 'Montserrat', sans-serif;
-
-}
-
-.searchbox label{
-    position: absolute;
-    bottom: 0px;
-    left: 0%;
-    width: 70%;
-    height: 100%;
-    pointer-events: none;
-    border-bottom: 1px solid black;
-}
-.searchbox label::after{
-    content: "";
-    position: absolute;
-    left: 0px;
-    bottom: -1px;
-    height: 100%;
-    width: 100%;
-    border-bottom: 3px solid rgb(245, 121, 19);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-.sbtitle{
-    position: absolute;
-    bottom: 5px;
-    left: 0px;
-    transition: all 0.3s ease;
-}
-
-.searchbox input:focus + .label-name .sbtitle, 
-.searchbox input:valid + .label-name .sbtitle{
-    transform: translateY(-150%);
-    font-size: 14px;
-    color: rgb(245, 121, 19);
-}
-
-.searchbox input:focus + .label-name::after, 
-.searchbox input:valid + .label-name::after{
-    transform: translateX(0%);
-}
-
-#app{
-    border: 1.5px solid rgb(7, 158, 168);
-    width: 55%;
-    height: auto;  
-}
-
 #container{
     border: 1.5px solid rgb(7, 158, 168);
     width: 55%;
     height: 100%;
     position: relative;
-}
-
-.row{
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px 0 0;
-    height: auto;
-}
-.word{
-    box-sizing: border-box;
-    flex: 30%;
-    max-width: 30%;
-    float: left;
-    margin: 0 auto;    
-}
-.definition {
-    box-sizing: border-box;
-    flex: 50%;
-    max-width: 50%;
-    float: right;
-    margin: 0 0;
-  
-}
-a{
-    text-decoration: none;
-    color: #000;
+    
 }
 
 .addNew{
@@ -183,3 +165,6 @@ a{
     background-color:#fff;
     border-radius: 17px;
 }
+
+
+
