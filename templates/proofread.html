@@ -11,44 +11,116 @@
 </head>
 <body>
     <h1>Edit/Proofread</h1>
-     <div class="container mt-5">
-        <div class="table-responsive">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">Tick</th>
-                      <th scope="col">#</th>
-                      <th scope="col">Term</th>
-                      <th scope="col">Def</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {% for data in newEntries %}
-                      <form action="" method="get|post">
-                    <tr name ="{{data.ID}}">
-                      <th scope="row"><input class="checkbox" type="checkbox"></th>
-                      <td id="{{data.ID}}">{{data.ID}}</td>
-                      <td><input class="input" onchange=typeroy(value) id="newterm" name ="{{data.Term}}" value="{{data.Term}}"></td>
-                      <td><input class="input" onchange=typeroy(value) id="newdef" name= "{{data.Def}}" value="{{data.Def}}"></td>
-                      <td><button type="button" class="btn btn-outline-success btn-sm" id="Btn" >Save</button></td>
-                    </tr>
-                    </form>
-                    {% endfor %}
-                  </tbody>
-            </table>
+
+    <div class="container" >
+      <div class="row">
+        <div class="col md-12">
+          <div class="jumbotron p-3">
+            <h2>Add, edit, save new entries<button type="button" class="btn btn-success float-right"
+              data-toggle="modal" data-target="#addmodal">Add new</button> </h2>
+
+              <table class="table table-hover table-light" id="myTable">
+                <tr>
+                  <th>ID</th>
+                  <th>Term</th>
+                  <th>Definition</th>
+                  <th>Action</th>
+                </tr>
+                {% for data in newEntries %} 
+                <tr>
+                  <td class="{{data.ID}}">{{data.ID}}</td>
+                  <td class="tdterm">{{data.Term}}</td>
+                  <td class="tddef">{{data.Def}}</td>
+                  <td>
+                    <a href="/update/{{data.ID}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{data.ID}}">Edit</a>
+                    <a id="bTn" class="btn btn-danger btn-xs" onclick=royhehe() >Save</a>
+                  </td>
+                </tr>
+                <div id="modaledit{{data.ID}}" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Add</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form action="{{url_for('update')}}" method="POST">
+                          <div class="form-group">
+                            <label>Term:</label>
+                            <input type="hidden" name="id" value="{{data.ID}}">
+                            <input type="text" class="form-control" name="term" value="{{data.Term}}">
+                          </div>
+                          <div class="form-group">
+                            <label>Definition:</label>
+                            <input type="text" class="form-control" name="definition" value="{{data.Def}}">
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Add</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="addmodal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Add new word</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form action="" method="POST">
+                          <div class="form-group">
+                            <label>Term:</label>
+                            <input type="hidden" name="id" value="{{data.ID}}">
+                            <input type="text" class="form-control" name="term" value="">
+                          </div>
+                          <div class="form-group">
+                            <label>Definition:</label>
+                            <input type="text" class="form-control" name="definition" value="">
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-primary float-right" type="submit">Add+</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </table>
           </div>
+        </div>
+      </div>
     </div>
    
     <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 
     <script type = 'text/javascript'>
+    function royhehe(){
+      $(this).parents('tr').find('td:nth-child(8)').css('color','red');
+    }
     
-    function typeroy(val) {
-      console.log(val)
-      }
+
+    //  $('#bTn').click(function(){
+    //    let entry = {};
+    //    entry.Term = row.find('.tdterm').find('input').val();
+    //    console.log(entry.Term);
+    //  })
+
+    //  var customer = {};
+    //         customer.CustomerId = row.find(".CustomerId").find("span").html();
+    //         customer.Name = row.find(".Name").find("span").html();
+    //         customer.Country = row.find(".Country").find("span").html();
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/Home/UpdateCustomer",
+    //             data: '{customer:' + JSON.stringify(customer) + '}',
+    //             contentType: "application/json; charset=utf-8",
+    //             dataType: "json"
+      
 
   //     $("body").on("click", "#table #Btn", function () {
   //         var row = $(this).closest("tr");
@@ -80,11 +152,7 @@
 // }); 
 //     }
 
-        $('.input').hover(function(){
-          $(this).css({"border-bottom":"2px solid orange"});
-          }, function(){ 
-              $(this).css({"border-bottom":""});
-        });
+      
 
 
             // $(document).ready(function () {
@@ -95,9 +163,9 @@
             //         })
             //     });    
 
-          $('.btn').click(function(){
-            alert($(this).find("td:eq(2) input[type='text']").val());
-          })
+          // $('.btn').click(function(){
+          //   alert($(this).find("td:eq(2) input[type='text']").val());
+          // })
     </script>
 </body>
 </html>

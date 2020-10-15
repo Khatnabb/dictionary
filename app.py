@@ -26,29 +26,29 @@ def proofread():
 
     return render_template('proofread.html', newEntries = data)
 
-@app.route('/proofread/<string:idx>', methods = ['POST', 'GET'])
-def update(idx):
-    if request.method == "GET":
+# @app.route('/proofread/<string:idx>', methods = ['POST', 'GET'])
+# def update(idx):
+#     if request.method == "GET":
 
-        cursor.execute("SELECT * FROM newEntries WHERE ID = ?", idx)
-        edit_data = cursor.fetchall()
+#         cursor.execute("SELECT * FROM newEntries WHERE ID = ?", idx)
+#         edit_data = cursor.fetchall()
         
-        return render_template('proofread.html', newEntries = edit_data)
+#         return render_template('proofread.html', newEntries = edit_data)
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        newterm = request.form['newterm']
-        newdef = request.form['newdef']
+#         newterm = request.form['newterm']
+#         newdef = request.form['newdef']
         
-        cursor.execute("""  INSERT INTO otdictionary(Term, Def)
-                            SELECT Term, Def FROM [otdict].[dbo].[newEntries]
+#         cursor.execute("""  INSERT INTO otdictionary(Term, Def)
+#                             SELECT Term, Def FROM [otdict].[dbo].[newEntries]
 
-                            WHERE Term = '{}';
+#                             WHERE Term = '{}';
 
-                            DELETE FROM [otdict].[dbo].[newEntries]
+#                             DELETE FROM [otdict].[dbo].[newEntries]
 
-                            WHERE Term = '{}';""", (newterm))
-        cursor.commit()
+#                             WHERE Term = '{}';""", (newterm))
+#         cursor.commit()
 
 @app.route('/addNew', methods=['POST','GET'])
 def addNew():
@@ -68,7 +68,7 @@ def api_search(searchinput):
     import re
     from query import get_searched_word
 
-    regex = re.compile('[@_!#$%^&*()<>?\|}{~:.;:,!-=]')
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
     if (regex.search(searchinput) == None):
         
         try:
@@ -86,19 +86,49 @@ def api_autocomplete(searchinput):
     import re
     from query import auto_complete
 
-    regex = re.compile('[@_!#$%^&*()<>?\|}{~:.;:,!-=]')
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
     if (regex.search(searchinput) == None):
         
         try:
             words = auto_complete(span=searchinput)
-            return json.dumps({'words': words[:10]})
+            return json.dumps({'words': words})
         except IndexError:
             return {'response': 'The word you searched is not found'}, 400
         
     else:
         return {'response': 'The word cannot contain special characters in it'}, 400
 
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    if request.method == 'POST':
+
+        idx = request.form['id']
+        term = request.form['term']
+        definition = request.form['definition']
+        cursor.execute("UPDATE newEntries SET Term = ?, Def = ?  WHERE ID = ?", term, definition, idx)
+        cursor.commit()
+        return redirect(url_for('proofread'))
+
+
+@app.route('/save/<string:idx>', methods=['GET', 'POST'])
+def save():
+    if request.method == 'POST':
+
+        idx = request.form['id']
+        term = request.form['term']
+        definition = request.form['definition']
         
+        cursor.execute("""    INSERT INTO otdictionary(Term, Def)
+#                             SELECT Term, Def FROM [otdict].[dbo].[newEntries]
+
+#                             WHERE Term = '{}';
+
+#                             DELETE FROM [otdict].[dbo].[newEntries]
+
+#                             WHERE Term = '{}';""", (term))
+        cursor.commit()
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 

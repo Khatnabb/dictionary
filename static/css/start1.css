@@ -1,15 +1,74 @@
 body {
     font-family: 'Montserrat', sans-serif;
+    background-color: #e0f1ee;
 }
+
+.main{
+    width: 65%;
+    height: 80%;
+    border: 3px solid #ececec;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12); 
+    background-color: #9cd3ca;
+
+}
+.wrapper{
+    display: flex;
+    align-items: stretch;
+}
+/* #sidebar{
+    min-width: 250px;
+    max-width: 250px;
+    
+} */
+#sidebar ul li {
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 0.9em;
+    display: block;
+    border: 1px solid black;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow:  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12); 
+    background-color: #9cd3ca;
+}
+#sidebar ul li.top{
+    margin-top: 15vw;
+}
+
+.btn{
+    background-color: #e3a6a6;
+}
+.myAbout{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 
 #logo{
     margin-top: 10px;
-    max-width: 80%;
+    max-width: 60%;
     max-height: 100%;
 }
 
 .myHeader{
     margin-top: 1%;
+    
 }
 .mySearch{
     display: flex;
@@ -23,11 +82,17 @@ body {
     justify-content: center;
     text-align: center;
 } 
+h1{
+    font-size: 2.7vw;
+}
 
-.mycol a{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.searchbox i{
+    position: absolute;
+    transform: translate(0, -50%);
+    right: 4%;
+    top: 50%;
+    content: f002;
+
 }
 .searchbox{
     border: 1px solid black;
@@ -36,6 +101,7 @@ body {
     align-items: center;
     padding: 12px;
     width: 40%;
+    position: relative;
     
 }
 .searchbox > input{
@@ -45,10 +111,20 @@ body {
     border: none;
 }
 
-.suggestions{
+.open{
     margin-top: 1%;
-    border-top:2px solid  rgb(245, 121, 19);
-    
+    border-top: 2px solid  rgb(245, 121, 19);
+    border-bottom: 2px solid  rgb(245, 121, 19); ;   
+    height: 270px;
+    overflow: scroll;
+    box-shadow: 0 15px 12px -11px rgba(32,33,36,.28), 12px 0 12px -11px rgba(32,33,36,.28), -12px 0 12px -11px rgba(32,33,36,.28);
+}
+
+.suggestions::-webkit-scrollbar{
+    background: transparent;
+}
+.suggestions::-webkit-scrollbar-corner{
+    background: transparent;
 }
 .suggestions > div{
     padding: 15px;
@@ -56,6 +132,7 @@ body {
     color: #000;
     border-top: 1px solid #666;
     cursor: pointer;
+    transition: 0.5s;
 }
 .suggestions > div:hover{
     background-color: rgb(245, 121, 19); 
@@ -65,12 +142,12 @@ body {
     
     display: none;
 }
-.open{
+/* .open{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
+} */
 
 
 a{
@@ -96,13 +173,43 @@ a{
     width: 55%;
     height: 100%;
     position: relative;
+    box-shadow:  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12); 
+    background-color: #9cd3ca;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     
+}
+.addnewcontainer{
+    border-radius: 5px;
+    width: 70%;
+    height: 50%;
+    box-shadow:  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12); 
+    position: relative;
+    background-color: #fbfdfd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
 }
 
 .addNew{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 40%;
     position: absolute;
     left: 15%;
   
@@ -115,11 +222,13 @@ a{
 .addNew input{
     height: 30px;
     font-family: 'Montserrat', sans-serif;
-    border-top: none;
+    /* border-top: none;
     border-left: none;
-    border-right: none;
+    border-right: none; */
+    border: none;
     outline: none;
     border-bottom: 1px solid;
+    
     
 }
 
