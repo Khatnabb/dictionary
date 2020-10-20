@@ -4,85 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dict</title>
+    <title>OT Dictionary</title>
     <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/start1.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" >
     <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >    
 
 </head>
 
 <body>
-
-   
-    <div class="container main">
-
-   
-    <div class="container myHeader">
-        <div class="row">
-            <!-- <div class="col-3 mycol"><a href="{{ url_for('contribute') }}">Contribute!</a></div> -->
-            <div class="col-8 mycol-title"><h1>Oyu Tolgoi Underground Mining Dictionary</h1></div>
-            <div class="col-4 mycol" ><img id="logo" src="{{ url_for('static', filename='colorlogo.png') }}"></div>
+    <div class="wrapper">
+        <div class="sidebar">
+            <h4>Glossary of technical terms</h4>
+            <ul> 
+                <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Glossary</a></li>
+                <li><a href="" data-toggle="modal" data-target="#about" ><i class="fas fa-hand-point-right"></i>About</a></li>
+                <li><a href="{{ url_for('contribute') }}"><i class="fas fa-hand-holding-medical"></i>Contribute!</a></li>
+                <li><a href="{{ url_for('proofread') }}"><i class="fas fa-edit"></i>Login</a></li>
+                <li><a href="" data-toggle="modal" data-target="#contact"><i class="fas fa-comment-dots"></i>Contact</a></li>
+            </ul> 
+            <div class="logo"><img id="logo" src="{{ url_for('static', filename='colorlogo.png') }}"></div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col mySearch">
-                <div class="searchbox">
-                    <input type="text" name="term" id="search" autocomplete="off">
-                    <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
+           <div class="main_content">
+         
+                 <div class="header">Welcome to the OT Technical Glossary!</div>  
+                   
+                   <div class="searchbox-container">
+                    <div class="searchbox">
+                        <input type="text" name="term" id="search" autocomplete="off">
+                        <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
+                    </div>
+                    <div class="suggestions" ></div>    
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="suggestions" ></div>
-            </div>
-        </div>
-    </div>
-    <div class="container ">
-        <div class="row DictSection">
-            <div class="col WordSearched">
-                <h4>Word you searched for:</h4>
-                <p id="searchEntry" ></p>
-            </div>
-            <div class="col DefSearched">
-                <h4>Definition:</h4>
-                <p id="def"></p>
-            </div>
-        </div>
-    </div>
-    
-</div>
-
-<div class="wrapper">
-    <nav id="sidebar">
-        <ul class="list-unstyled components">
-            
-            <li class="top">
-                <a href="{{ url_for('home') }}">Dictionary</a>
-            </li>
-            <li>
-                <a href="" data-toggle="modal" data-target="#about">About</a>
-            </li>
-            <li>
-                <a href="{{ url_for('contribute') }}">Contribute</a>
-            </li>
-            <li>
-                <a href="{{ url_for('proofread') }}">Login</a>
-            </li>
-            <li>
-                <a href="" data-toggle="modal" data-target="#contact">Contact</a>
-            </li>
-            
-        </ul>
+                 <div class="searchSection">
+                     <div class="searched" >
+                        <p id="searchEntry"></p>
+                        <hr>
+                        <p id="def"></p>
+                     </div> 
+                 </div>
+                <div class="info">
+                   <h6>Энэхүү Оюу Толгойн Техникийн үг хэллэгийн товч толь бичгийг ашиглаж буй танд баярлалаа!</h6>
+                   <p>Гүний уурхай, барилга угсралт болон машин техникийн холбогдолтой үг хэллэгийг багтаасан ба Оюу Толгойн бүх ажилчдад зориулав.<br>
+                       Хэрэв та тус толь бичигт байхгүй мэргэжлийн үг хэллэгийг нэмж хувь нэмэр оруулахыг хүсвэл <strong>Contribute</strong> хэсэгт хандан илгээж болно.<br>
+                       Танд санал хүсэлт эсвэл ашиглалттай холбоотой асуудал гарвал <strong>Contact</strong> хэсгийн мэдээллийг харна уу.
+                   </p>
+                </div>
         
-    </nav>    
-</div>
+        </div>
+    </div>     
+
 
 <div id="about" class="modal modal-lg myAbout" role="dialog">
     <div class="modal-dialog-centered modal-lg">
@@ -99,9 +72,9 @@
             terminologies.  
             ask subject-matter experts and engineers to contribute 
             <hr>
-            Special thanks to <strong>Erkhembayar Enkhtaivan</strong> 
+            Shout out to <strong>Erkhembayar Enkhtaivan</strong> 
             /Technician Data, Geotechnical Services OT/
-            who have made significant contribution throughout the creation. His immense help has made this project come true. 
+            who has worked on the backend. 
             <hr>
             Last but not least, thank you all who have made suggestions and helped me along the way.<br><br>
             Sincerely,<br>
@@ -118,7 +91,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">If you any issues or feedback to report, please email us </h4>
+          <h4 class="modal-title">Санал сэтгэгдэл эсвэл асуудал гарвал: </h4>
         </div>
         <div class="modal-body">
           <p>
@@ -127,6 +100,11 @@
             <hr>
             @Erkhembayar Enkhtaivan: <br>
                 erkhembayare@ot.mn
+          </p>
+          <hr>
+          <h4>Үгсийн сантай холбоотой асуудлаар:</h4>
+          <p>@Erkhbayar Batkhuu:<br>
+                erkhbayarb@ot.mn
           </p>
         </div>
         <div class="modal-footer">
@@ -139,11 +117,13 @@
 </html>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" ></script>
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
 <script src="{{ url_for('static', filename='js/sweetalert2.js') }}" ></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script type="text/javascript">
 
+    // $('#about').modal({backdrop: 'static', keyboard: true});  
     
 
     function sweetalert(message = "brimbrom"){
@@ -160,6 +140,7 @@
     const suggestionsPanel = document.querySelector('.suggestions');
     searchInput.addEventListener('keyup',function(){
         let search = $('#search').val()
+        
         $.ajax({
             type: 'GET',
             url: '/home/autocomplete/' + search,
@@ -168,32 +149,35 @@
             success: function (response) {
             let word = response.words
             suggestionsPanel.innerHTML = '';
-                
-        for(i = 0; i < word.length; i++){
-            const div = document.createElement('div');
+            $('.searchSection').fadeOut();
+                  
+            for(i = 0; i < word.length; i++){
+            const li = document.createElement('li');
             $('.suggestions').addClass('open');
-            div.innerHTML = word[i];
-            suggestionsPanel.appendChild(div);
-        };
-        $('body').on('click', '.suggestions > div', function(){
-            $('.searchbox input').val($(this).text()).focus();
+            li.innerHTML = word[i];
+            suggestionsPanel.appendChild(li);
+
+        };      
+            
+        $('body').on('click', '.suggestions > li', function(){
+            $('.searchbox input').val($(this).text());
+            $('.suggestions').removeClass('open');
             $('.suggestions').html("");
+            get_words();
         });
         $('body').click(function(e){
-            if(!$(e.target).is('input, div, a')){
+        
+            if(!$(e.target).is('input, a, li')){
                 $('.searchbox input').val('').focus();
+                $('.suggestions').removeClass('open');
                 $('.suggestions').html("");
-                
+                $('.searchSection').fadeOut();              
             }
         });
 
-        // $('input').change(function(){
-        //     $(".WordSearched, .DefSearched").removeClass('open');
-        // })
-
     },
         error: function (response) {
-            console.log(response)
+            console.log(response);
             sweetalertfail(response.responseJSON.response)
     },
         complete: function (response) {
@@ -202,12 +186,6 @@
         });
     })
       
-    // const searchInput = document.querySelector('#search');
-    // const suggestionsPanel = document.querySelector('.suggestions');
-    // searchInput.addEventListener('keyup',function(){
-    //     let search = $('#search').val()
-
-
    
     function get_words() {
         let search = $('#search').val()
@@ -218,12 +196,12 @@
             dataType: "json",
 
             success: function (response) {
-                console.log(response)
+            
                 let word = response.words
-                $(".WordSearched, .DefSearched").addClass('open');
-                $('.suggestions').html('');
+                $('.searchSection').fadeIn(600);
                 document.getElementById('searchEntry').innerHTML = search;
                 document.getElementById('def').innerHTML = word;
+        
             },
             error: function (response) {
                 console.log(response)
@@ -233,6 +211,12 @@
             },
 }); 
     }
+
+        //     $(document).ready(function(){
+        //          $("goBtn").click(function(){
+        //     $(".searchSection").fadeIn(slow);
+        // });
+        // });
 
 
     // anime({

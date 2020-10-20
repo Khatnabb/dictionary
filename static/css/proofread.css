@@ -1,0 +1,54 @@
+body{ 
+    font-family: 'Montserrat', sans-serif;
+}
+input{
+    border: none;
+    outline: none;
+}
+
+
+table .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}
+
+table th{
+    text-align: center;
+}
+.edit{
+    background-color: #e8cfa9;
+}
+.save{
+    background-color: #d0e8bc;
+}
+.addNewbutton{
+    font-weight: bold;
+}
+
+.navbar-nav{
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-item{
+    padding: 0 40px;
+}
+
+.ediTable{
+    margin-top: 40px;
+}
+.selectPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.pagination-container{
+    border-bottom: 1px solid;
+}
+.pagination-container ul li a{
+    color: #000;
+    padding: 10px;
+}

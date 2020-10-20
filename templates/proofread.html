@@ -6,34 +6,50 @@
     <title>OTUG Mining Dictionary Adding words</title>
     <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/edit.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/proofread.css') }}" rel="stylesheet">
 
 </head>
 <body>
-    <h1>Edit/Proofread</h1>
-
-    <div class="container" >
-      <div class="row">
-        <div class="col md-12">
-          <div class="jumbotron p-3">
-            <h2>Add, edit, save new entries<button type="button" class="btn btn-success float-right"
-              data-toggle="modal" data-target="#addmodal">Add new</button> </h2>
-
-              <table class="table table-hover table-light" id="myTable">
+    <!-- <h1>Edit/Proofread</h1>
+    <h2>Welcome, {{currentuser}}</h2> -->
+    <nav class="navbar navbar-light" style="background-color: #e4d6c9;">
+      <a class="navbar-brand">
+        <img src="{{ url_for('static', filename='colorlogo.png') }}" width="70" height="50" class="d-inline-block align-top" alt="">
+      </a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}"><i class="fas fa-home"></i>Glossary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('contribute') }}"><i class="fas fa-hand-holding-medical"></i>Contribute</a>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn addNewbutton"
+              data-toggle="modal" data-target="#addmodal">Add new++</button>
+            </li>
+        </ul>
+      <span class="navbar-brand mb-0 h1" style="text-transform: uppercase;">Glossary of Technical Terms</span>
+    </nav>
+    <div class="container ediTable">
+      <div class="table-responsive-xl">
+                <table class="table table-hover" id="myTable">
+                <thead style="background-color: rgb(221, 115, 66);">
                 <tr>
-                  <th>ID</th>
+                  <th style="display: none;">ID</th>
                   <th>Term</th>
                   <th>Definition</th>
                   <th>Action</th>
                 </tr>
+                </thead>
                 {% for data in newEntries %} 
                 <tr>
-                  <td class="{{data.ID}}">{{data.ID}}</td>
+                  <td style="display: none;">{{data.ID}}</td>
                   <td class="tdterm">{{data.Term}}</td>
                   <td class="tddef">{{data.Def}}</td>
-                  <td>
-                    <a href="/update/{{data.ID}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{data.ID}}">Edit</a>
-                    <a id="bTn" class="btn btn-danger btn-xs" onclick=royhehe() >Save</a>
+                  <td class="buttons">
+                    <a href="/update/{{data.ID}}" class="btn btn-xs mr-3 edit" data-toggle="modal" data-target="#modaledit{{data.ID}}">Edit</a>
+                    <a class="btn btn-xs mr-5 save" >Save</a>
+                    <a class="btn btn-danger btn-xs delete" >Delete</a>
                   </td>
                 </tr>
                 <div id="modaledit{{data.ID}}" class="modal fade" role="dialog">
@@ -68,15 +84,15 @@
                         <h4 class="modal-title">Add new word</h4>
                       </div>
                       <div class="modal-body">
-                        <form action="" method="POST">
+                        <form action="{{url_for('addNewProofread')}}" method="POST">
                           <div class="form-group">
                             <label>Term:</label>
-                            <input type="hidden" name="id" value="{{data.ID}}">
-                            <input type="text" class="form-control" name="term" value="">
+                            <!-- <input type="hidden" name="id" value="{{data.ID}}"> -->
+                            <input type="text" class="form-control" name="term" value="" autocomplete="off">
                           </div>
                           <div class="form-group">
                             <label>Definition:</label>
-                            <input type="text" class="form-control" name="definition" value="">
+                            <input type="text" class="form-control" name="definition" value="" autocomplete="off">
                           </div>
                           <div class="form-group">
                             <button class="btn btn-primary float-right" type="submit">Add+</button>
@@ -88,84 +104,45 @@
                 </div>
                 {% endfor %}
               </table>
-          </div>
-        </div>
-      </div>
-    </div>
+              
+              </div>
+       </div>
+       <div class="selectPage">
+        <span id="paginator"></span>
+       </div>
+       
+   
+          
    
     <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/paginathing.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 
     <script type = 'text/javascript'>
-    function royhehe(){
-      $(this).parents('tr').find('td:nth-child(8)').css('color','red');
-    }
-    
+  
+      $(".save").click(function () {
+          var $row = $(this).closest("tr");  
+          var idx = $row.find("td:nth-child(1)").text();
+          $.post("/save/" + idx, {'idx':idx});
+          $row.fadeOut();
+        });
 
-    //  $('#bTn').click(function(){
-    //    let entry = {};
-    //    entry.Term = row.find('.tdterm').find('input').val();
-    //    console.log(entry.Term);
-    //  })
-
-    //  var customer = {};
-    //         customer.CustomerId = row.find(".CustomerId").find("span").html();
-    //         customer.Name = row.find(".Name").find("span").html();
-    //         customer.Country = row.find(".Country").find("span").html();
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/Home/UpdateCustomer",
-    //             data: '{customer:' + JSON.stringify(customer) + '}',
-    //             contentType: "application/json; charset=utf-8",
-    //             dataType: "json"
-      
-
-  //     $("body").on("click", "#table #Btn", function () {
-  //         var row = $(this).closest("tr");
-  //         $("td", row).each(function () {
-  //               if ($(this).find("input").length > 0) {
-  //                   var input = $(this).find("input");
-  //                   input.hide();
-  //               }
-  //           });
-  // });
-
-
-//         $.ajax({
-
-//             type: 'GET',
-//             url: '/proofread/' + idx,
-//             dataType: "json",
-
-//             success: function (response) {
-//                 console.log(response)
-//                 let word = response.words
-//             },
-//             error: function (response) {
-//                 console.log(response)
-             
-//             },
-//             complete: function (response) {
-//             },
-// }); 
-//     }
-
-      
-
-
-            // $(document).ready(function () {
-            //         $('#postingdef').keyup(function (event) {
-            //             if (event.which === 13) {
-            //                 $('#goBtn').click();
-            //             }
-            //         })
-            //     });    
-
-          // $('.btn').click(function(){
-          //   alert($(this).find("td:eq(2) input[type='text']").val());
-          // })
+        $('.delete').click(function(){
+          var $row = $(this).closest("tr"); 
+          var idx = $row.find("td:nth-child(1)").text();
+          $.post("/delete/" + idx, {'idx':idx});
+          $row.remove(); 
+        });        
+       
+        $('table tbody').paginathing({
+                perPage: 7,
+                containerClass: 'pagination-container',
+                insertAfter: ('#paginator')
+          });
+	  
     </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from query import *
 import json, pyodbc
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -8,7 +10,20 @@ conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=otdict
 
 with pyodbc.connect(conx_string) as conx:
     cursor = conx.cursor()
-    
+
+auth = HTTPBasicAuth()
+
+users = {
+    "Erkhbayarb": generate_password_hash("Erkhbayarb123$"),
+    "Erkhembayare": generate_password_hash("Erkhembayare123$"),
+    "Khatantuul": generate_password_hash("Erkhembayare123$")
+}
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and \
+            check_password_hash(users.get(username), password):
+        return username
 
 @app.route('/home')
 def home():
@@ -19,36 +34,13 @@ def contribute():
     return render_template('contribute.html')
 
 @app.route('/proofread/', methods = ['POST', 'GET'])
+@auth.login_required
 def proofread():
 
     cursor.execute("SELECT * FROM newEntries")
     data = cursor.fetchall()
 
     return render_template('proofread.html', newEntries = data)
-
-# @app.route('/proofread/<string:idx>', methods = ['POST', 'GET'])
-# def update(idx):
-#     if request.method == "GET":
-
-#         cursor.execute("SELECT * FROM newEntries WHERE ID = ?", idx)
-#         edit_data = cursor.fetchall()
-        
-#         return render_template('proofread.html', newEntries = edit_data)
-
-#     if request.method == "POST":
-
-#         newterm = request.form['newterm']
-#         newdef = request.form['newdef']
-        
-#         cursor.execute("""  INSERT INTO otdictionary(Term, Def)
-#                             SELECT Term, Def FROM [otdict].[dbo].[newEntries]
-
-#                             WHERE Term = '{}';
-
-#                             DELETE FROM [otdict].[dbo].[newEntries]
-
-#                             WHERE Term = '{}';""", (newterm))
-#         cursor.commit()
 
 @app.route('/addNew', methods=['POST','GET'])
 def addNew():
@@ -61,6 +53,18 @@ def addNew():
         cursor.execute("INSERT INTO newEntries (Term, Def) VALUES (?,?)", (postingterm, postingdef))
         cursor.commit()
         return redirect(url_for('contribute'))
+
+@app.route('/addNewProofread', methods=['POST','GET'])
+def addNewProofread():
+
+    if request.method == "POST":
+        
+        term = request.form['term']
+        definition = request.form['definition']
+
+        cursor.execute("INSERT INTO otdictionary (Term, Def) VALUES (?,?)", (term, definition))
+        cursor.commit()
+        return redirect(url_for('proofread'))
 
 @app.route('/home/<searchinput>')
 def api_search(searchinput):
@@ -94,9 +98,8 @@ def api_autocomplete(searchinput):
             return json.dumps({'words': words})
         except IndexError:
             return {'response': 'The word you searched is not found'}, 400
-        
-    else:
-        return {'response': 'The word cannot contain special characters in it'}, 400
+        else:
+            return {'response': 'The word cannot contain special characters in it'}, 400
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
@@ -110,24 +113,23 @@ def update():
         return redirect(url_for('proofread'))
 
 
-@app.route('/save/<string:idx>', methods=['GET', 'POST'])
-def save():
+@app.route('/save/<idx>', methods=['GET', 'POST'])
+def save(idx):
     if request.method == 'POST':
 
-        idx = request.form['id']
-        term = request.form['term']
-        definition = request.form['definition']
-        
-        cursor.execute("""    INSERT INTO otdictionary(Term, Def)
-#                             SELECT Term, Def FROM [otdict].[dbo].[newEntries]
-
-#                             WHERE Term = '{}';
-
-#                             DELETE FROM [otdict].[dbo].[newEntries]
-
-#                             WHERE Term = '{}';""", (term))
+        cursor.execute("INSERT INTO otdictionary(Term, Def) SELECT Term, Def FROM [otdict].[dbo].[newEntries] WHERE ID = {}; DELETE FROM [otdict].[dbo].[newEntries]  WHERE ID = {};".format(idx,idx))
         cursor.commit()
+        
+    return redirect(url_for('proofread'))
 
+@app.route('/delete/<idx>', methods=['GET', 'POST'])
+def delete(idx):
+    if request.method == 'POST':
+
+        cursor.execute("DELETE FROM [otdict].[dbo].[newEntries]  WHERE ID = ?", idx)
+        cursor.commit()
+        
+    return redirect(url_for('proofread'))
 
 if __name__ == "__main__":
     app.run(debug=True)

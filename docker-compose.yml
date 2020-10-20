@@ -1,0 +1,29 @@
+version: '1.1'
+services:
+
+  app_glossary:
+    build:
+      context: .      
+    restart: always
+    env_file:
+      - /data/env/dashboard-global.env
+    ports: 
+      - "5001:5000"
+    volumes:
+      - .:/app
+      - /etc/localtime:/etc/localtime:ro
+      - /data/credential/client.keytab:/data/client.keytab
+      - /data/credential/krb5-client.conf:/etc/krb5.conf
+    working_dir: /app
+    environment:
+        - PYTHONDONTWRITEBYTECODE=0
+        - FLASK_APP=app.py
+        - FLASK_DEBUG=0    
+    command: bash -c  "cron
+                       && kinit sa-mn-plotlyservice -k -t /data/client.keytab
+                       && flask run --host 0.0.0.0 "    
+
+networks:
+  default:
+    external:
+      name: dash_network

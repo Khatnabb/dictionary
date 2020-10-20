@@ -25,6 +25,7 @@ def get_searched_word(searchinput):
 
     return df['Def'][0]
 
+
 def auto_complete(span):
     q = """SELECT Term, Def
 
@@ -34,7 +35,17 @@ def auto_complete(span):
     df = sql_link(q)
     
     return list(df['Term'])
+
+def save_to_main(idx):
+    q = """                  INSERT INTO otdictionary(Term, Def)
+                             SELECT Term, Def FROM [otdict].[dbo].[newEntries]
+                             WHERE ID = {};
+                             DELETE FROM [otdict].[dbo].[newEntries]
+                             WHERE ID = {}; """.format(idx,idx)
+    df = sql_link(q)
+    return df
     
+
 # def Royischeckingtheword(word):
 #     import re
 
