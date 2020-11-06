@@ -14,17 +14,29 @@ def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=No
     conn.close()
     return df
 
-def get_searched_word(searchinput):
+def get_searched_word_en(searchinput):
 
     q = """SELECT Def
 
     FROM [otdict].[dbo].[otdictionary]
 
     WHERE Term = '%s' """ % searchinput
+    
     df = sql_link(q)
 
     return df['Def'][0]
 
+def get_searched_word_mn(searchinput):
+
+    q = """SELECT Term
+
+    FROM [otdict].[dbo].[otdictionary]
+
+    WHERE Def = N'%s' """ % searchinput
+    
+    df = sql_link(q)
+
+    return df['Term'][0]
 
 def auto_complete(span):
     q = """SELECT Term, Def
@@ -36,14 +48,31 @@ def auto_complete(span):
     
     return list(df['Term'])
 
-def save_to_main(idx):
-    q = """                  INSERT INTO otdictionary(Term, Def)
-                             SELECT Term, Def FROM [otdict].[dbo].[newEntries]
-                             WHERE ID = {};
-                             DELETE FROM [otdict].[dbo].[newEntries]
-                             WHERE ID = {}; """.format(idx,idx)
+def auto_complete_mn(span):
+    q = """SELECT Def
+
+    FROM [otdict].[dbo].[otdictionary]
+
+    WHERE Def LIKE N'{}%' """.format(span)  
     df = sql_link(q)
-    return df
+    
+    return list(df['Def'])
+
+def check_for_duplicates(searchinput):
+    q= """SELECT COUNT(*) as count 
+    FROM [otdict].[dbo].[notfound1] 
+    WHERE Term = '%s'""" % searchinput
+    df = sql_link(q)
+    return df['count'][0]
+
+# def save_to_main(idx):
+#     q = """                  INSERT INTO otdictionary(Term, Def)
+#                              SELECT Term, Def FROM [otdict].[dbo].[newEntries]
+#                              WHERE ID = {};
+#                              DELETE FROM [otdict].[dbo].[newEntries]
+#                              WHERE ID = {}; """.format(idx,idx)
+#     df = sql_link(q)
+#     return df
     
 
 # def Royischeckingtheword(word):

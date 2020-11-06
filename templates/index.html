@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OT Dictionary</title>
+    <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet"> -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >   
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" > 
+<style>
+    /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+</head>
+
+<body>
+   <section id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='black.png') }}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#top">GLOSSARY</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contribute">CONTRIBUTE</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">ABOUT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contact">CONTACT</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('proofread') }}">LOGIN</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+   </section>   
+   
+   <section id="searchsection">
+       <div class="container">
+        <div class="row searchrow">
+            <div class="col-md-6">
+                <div class="searchbox-container">
+                    <div class="searchbox">
+                        <!-- <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                          </label> -->
+
+                          <p><button id="lang" name="EN" onclick="lang_toggle()">EN</button></p>
+                        <input type="text" name="term" id="search" autocomplete="off" value="" size="50" >
+                            <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
+                            
+                            <!-- <div class="input-group mt-0 mb-3">
+                                <input id="email" name="email" type="text" class="form-control" placeholder="Имэйл хаяг" aria-describedby="basic-addon2" autocomplete="off">
+                                <div class="input-group-append">
+                                  <span class="input-group-text" id="basic-addon2">@ot.mn</span>
+                                </div>
+                              </div>  -->
+                    </div>
+                    <div class="suggestions" ></div>    
+                </div>   
+                <div class="intro">
+                    <p class="intro-title">Өдрийн мэнд!</p>
+                    <p>
+                        Энэхүү Оюу Толгойн Техникийн үг хэллэгийн товч толь бичгийг ашиглаж буй танд баярлалаа!
+                        Тус толь бичигт гүний уурхай, барилга угсралт болон машин техниктэй холбогдолтой үг хэллэгийг багтаасан ба Оюу Толгойн бүх ажилчдад зориулав.
+                    </p>
+                </div>
+                <div class="searchSection">
+                    <div class="searched" >
+                       <p id="searchEntry"></p>
+                       <hr>
+                       <p id="def"></p>
+                    </div> 
+                </div>   
+            </div>
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='learning.jpg') }}" class="img-fluid">
+            </div>
+        </div>
+       </div>
+   </section>
+
+   <section id="contribute"> 
+    <div class="container text-center">
+        <h3 class="title">Contribute!</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <form class="addNew" role="form" action="{{ url_for('contribute_add_new') }}" method="POST" >  
+                    <p>Шинэ үгс нэмэх</p>                     
+                    <!-- <input id="postingterm" name="postingterm" class="term" placeholder="Шинээр нэмэх үг" autocomplete="off" required><br> -->
+                    <!-- <a onclick="get_words1()">Check</a>     -->
+                    <!-- <input id="postingdef" name="postingdef" class="utga" placeholder="Нэмэх үгийн утга/тайлбар" autocomplete="off" required> -->
+                    <div class="box">
+                        <div class="deed">
+                            <input id="postingterm" name="postingterm" class="term" required autocomplete="off">
+                            <label for="term" class="label-name">
+                                <span class="span-name">Term</span>
+                            </label>
+                        </div><br/>
+                        <div class="dood">
+                            <input id="postingdef" name="postingdef" class="utga" required autocomplete="off">
+                            <label for="definition" class="label-name">
+                                <span class="span-name">Definition</span>
+                            </label>
+                        </div>
+                    </div>  
+                
+                    <div class="input-group mt-0 mb-3">
+                        <input id="email" name="email" type="text" class="form-control" placeholder="Имэйл хаяг" aria-describedby="basic-addon2" autocomplete="off">
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2">@ot.mn</span>
+                        </div>
+                      </div> 
+                      
+                    <div class="buttonbox">
+                      <button class="button-hover" id="btnsubmit" type="submit">
+                        <span>Илгээх</span>
+                    </button>
+                    </div>
+                </form>    
+            </div>
+            <div class="col-md-6">
+                <div class="existingSearch">
+                    <!-- <p>Та шинээр үг оруулахдаа тухайн үгийн ямар утгууд толь бичигт орсон байгааг (хэрэв дор гарч ирсэн тохиолдолд) 
+                        нягталж хараарай. Хэрэв таны оруулахыг хүссэн утга байвал өөр тайлбар эсвэл өөр шинэ үг оруулна уу. 
+                    </p> -->
+                    <h5 class="contributetext">Тус үгийн дараах утгууд толь бичигт байна:</h5 >
+                </div>
+                <div class="shape">
+                    <p id="existingDef"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+   <section id="about">
+    <div class="container text-center">
+        <h3 class="title">About the resource</h3>
+        <div class="row">
+            <div class="col-md-6 aboutus">
+                <p class="aboutustext">This project was initiated and designed by Khatantuul Batbold.
+                    She has been working as a translator for Underground project since 2018.
+                    She has worked on the front-end and glossary data building.
+                </p>
+                <img src="{{ url_for('static', filename='1.png') }}">
+                <p class="details"><b>Khatantuul Batbold</b><br>Front-end</p>
+            </div>
+            <div class="col-md-6 aboutus">
+                <p class="aboutustext">This resource would not have been here without the help of Erkhembayar Enkhtaivan.
+                     He has been working as Data Technician for OTUG since 2019
+                    and spent invaluable time developing the back end. 
+                </p>
+                <img src="{{ url_for('static', filename='0.jpg') }}">
+                <p class="details"><b>Erkhembayar Enkhtaivan</b><br>Back-end</p>
+            </div>
+        </div>
+    </div>
+   </section>
+   <section id="info">
+       <div class="container text-center">
+           <h3 class="title">Useful tips!</h3>
+        <div class="row">
+            <div class="col-md-5 infoimg">
+                <img src="{{ url_for('static', filename='info.jpeg') }}" class="img-fluid">
+            </div>
+            <div class="col-md-7 infotext">
+                <h5>Хэл сурах арга барил</h5>
+                <p>Хэрэв та хэдэн жилийн өмнөөс л хэл сурах гараагаа эхэлсэн ч төдийлөн ахицгүй, 
+                    нэг л сайжрахгүй байгаа бол хэл сурах арга барилаа өөрчлөөд нэг үзээрэй. 
+                    Энэхүү зурагт аливаа зүйлийг нүдээр харж сонсох мөн түүнийгээ өөрийн үгээр 
+                    ярих нь хамгийн үр дүнтэй суралцах арга барил болохыг харуулсан байна. Хэл 
+                    сурахад заавал унших, бичих, ярих болон сонсох гэж ангилан тусдаа мэт ойлгох 
+                    албагүй. Таны сонсгол сайжрах тусам аялга, үгийн баялаг болон өгүүлбэр зүйн ерөнхий 
+                    бүтцийн ойлголт сайжирч байдаг. Мөн цээж бичиг хийхэд зэрэг таны сонсгол сайжирч, 
+                    зөв бичиж сурах, үгийн баялаг нэмэгдэх давуу талтай. Өөрийн хэл сурах арга барил 
+                    болон суралцаж болох бусадтай хуваалцахаар доорх 
+                </p>
+            </div>
+        </div>
+       </div>
+       <hr>
+            <div class="scrollrow">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='lea.png') }}">
+                    <p>Олон төрлийн сэдвээр энгийн хэлбэрээр бичигдсэн өгүүллэгүүдээр 
+                        удаан эсвэл энгийн хурдыг сонгон цээж бичиг хийж дараа нь өөрийгөө шалган сонсгол, өгүүлбэр зүй, 
+                        үгсийн сангаа сайжруулах болно. 
+                    </p>
+                    <a href="https://www.learnenglish.de/dictationpage.html">Энд дарна уу</a>
+                </div>
+                <div class="card">
+                    <img src="{{ url_for('static', filename='newslogo.png') }}">
+                    <h3>News in Levels</h3>
+                    <p>Таны англи хэлний мэдлэг хараахан том сонин нийтлэл гарчиглах болоогүй байгаа бол 
+                        энгийн хэлбэрээр мэдээ, мэдээлэл уншингаа хэлээ сайжруулах боломжтой. Өөрийн түвшингээ сонгож 
+                        сонсонгоо даган унших боломжтой. 
+                    </p>
+                    <a href="https://www.newsinlevels.com/">Энд дарна уу</a>
+                </div>
+                <div class="card">
+                    <img src="{{ url_for('static', filename='longman.png') }}">
+                    <p>Англиас англи хэлний маш энгийн үгээр тайлбарласан толь бичиг. Үгийн
+                       англи тайлбарыг унших нь зарим тохиолдолд утгыг илүү ойлгох давуу талтай. 
+                       Энгийн үгсээр тайлбарласан тул их ойлгомжтой.  
+                    </p>
+                    <a href="https://www.ldoceonline.com/">Энд дарна уу</a>
+                </div>     
+                <div class="card">
+                    <img src="{{ url_for('static', filename='quizlet.jpg') }}">
+                    <p>Шинэ үгсээ энд тэнд бичиж цээжлэх дуртай хүмүүст 
+                        орчин үед хэрэглэхэд хялбар, суралцахад
+                        хамгийн сайн туслах онлайн флашкард. Үгсээ бичээд хадгалахаас гадна өөрийгөө шалгах, тухайн 
+                        үгсээ тоглоом болгон хувиргаж хөгжилтэй байдлаар суралцах болно. 
+                    </p>
+                    <a href="https://quizlet.com/">Энд дарна уу</a>
+                </div>
+                <div class="card">
+                    <iframe src="https://www.youtube.com/embed/fQwqes1cQ8E"></iframe>
+                    <p>Заавал өөрт тань сонирхолгүй, хүнд үг хэллэг ашигласан сонин, ном, мэдээ сонсож байхаар
+                        хөгжилтэй видео үзэж суралцах нь сонсгол, яриа болон үгийн баялаг сайжруулах хамгийн сайн арга. 
+                    </p>
+                    <a href="https://www.youtube.com/channel/UCKgpamMlm872zkGDcBJHYDg">Энд дарна уу</a>
+                </div>    
+                <div class="card">
+                    <img src="{{ url_for('static', filename='howjsay.png') }}">
+                    <p>Та ямар ч үгийн дуудлагыг эндээс сонсож даган хэлж сайжруулах боломжтой.
+                        Мэдээж өөрийн дуудлага, хэл ярианаас санаа зоволгүй ярилцаж сурах нь илүү чухал. Гэвч 
+                        сайжруулах боломжтой зүйлсийг оролдоод үзэх хэрэгтэй. 
+                    </p>
+                    <a href="https://howjsay.com/">Энд дарна уу</a>
+                </div>        
+            </div>     
+     
+   </section>
+   <section id="contact">
+    <div class="container text-center">
+        
+        <div class="row">
+            <div class="col-md-4">
+                <p>Ашиглалттай холбоотой асуудлаар</p>
+                <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn"><img src="{{ url_for('static', filename='email.png') }}" class="img-fluid emailicon">Send mail</a>
+            </div>
+            <div class="col-md-4">
+                <p>Үгсийн сантай холбоотой асуудлаар</p>
+                <a href="mailto:erkhbayarb@ot.mn?cc=achiiginb@ot.mn"><img src="{{ url_for('static', filename='email.png') }}" class="img-fluid emailicon">Send mail</a>
+            </div>
+            <div class="col-md-4">
+                <p>ОТГУ-н Орчуулгийн баг</p>
+                <a href="mailto:yadamtsooz@ot.mn"><img src="{{ url_for('static', filename='email.png') }}" class="img-fluid emailicon">Send mail</a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" ></script>
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
+<script src="{{ url_for('static', filename='js/sweetalert2.js') }}" ></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/smooth-scroll.js') }}"></script>
+<script type="text/javascript">
+
+    function lang_toggle() {
+    var x = document.getElementById("lang");
+    if (x.innerHTML === "EN") {
+        x.innerHTML = "MN";
+    } else {
+        x.innerHTML = "EN";
+    }
+    }
+
+        // $('.addrow').click(function(){
+        // build = "<tr><td><input></td><td><input></td></tr>"
+        // let tableBody = $('table tbody');
+        // tableBody.append(build);
+        // });
+
+    function sweetalert(message = "brimbrom"){
+        Swal.fire("Success","Brim Brom","success")
+    }
+
+    function sweetalertfail(message = "The word you searched is not found"){
+        var contribute = "Please click here to contribute"
+        var tocontribute = contribute.link('http://localhost:5000/contribute')
+        Swal.fire("Word Not Found ", message + "<BR>" +  tocontribute, "info")
+    }
+
+    const searchInput = document.querySelector('#search');
+    const suggestionsPanel = document.querySelector('.suggestions');
+    
+    // function klsa(){
+    //     var 
+    // }
+    
+
+    searchInput.addEventListener('keydown',function(){
+        let search = $('#search').val()
+        let lang = $('#lang').text()
+        // console.log(lang)
+        console.log(search)
+
+        $.ajax({
+            type: 'GET',
+            url: '/home/autocomplete/' +  search + /lang/ + lang,
+            dataType: "json",
+
+            success: function (response) {
+            let word = response.words
+            suggestionsPanel.innerHTML = '';
+            $('.intro').hide();
+
+            for(i = 0; i < word.length; i++){
+                
+            const li = document.createElement('li');
+            li.innerHTML = word[i];
+
+            suggestionsPanel.appendChild(li);
+            $('.suggestions').addClass('open');
+            $('.suggestions').slideDown('slow');
+            // document.getElementById('searchEntry').innerHTML = word[0];
+
+        };      
+            
+    $('body').on('click', '.suggestions > li', function(){
+        let litext = $('.suggestions > li').text();
+
+        $('.searchbox input').val($(this).text());
+        $('.suggestions').slideUp('slow');
+        get_words();
+        
+    });
+    
+
+    $('body').click(function(e){
+    
+        if(!$(e.target).is('input, a, li')){
+            $('.searchbox input').val('').focus();
+            $('.suggestions').slideUp('slow');           
+        }
+    });
+
+    },
+        error: function (response) {
+            console.log(response);
+            // sweetalertfail(response.responseJSON.response)
+    },
+        complete: function (response) {
+
+        }
+        });
+    })
+      
+    function get_words() {
+        let search = $('#search').val()
+        $.ajax({
+
+            type: 'GET',
+            url: '/home/' + search,
+            dataType: "json",
+
+            success: function (response) {
+            
+                let word = response.words
+                $('.searchSection').fadeIn(600);
+                document.getElementById('searchEntry').innerHTML = search;
+                document.getElementById('def').innerHTML = word;
+                
+            },
+            error: function (response) {
+                console.log(response)
+                sweetalertfail(response.responseJSON.response)
+            },
+            complete: function (response) {
+            },
+}); 
+    }
+    const searchInputcontribute = document.querySelector('#postingterm');
+
+    searchInputcontribute.addEventListener('keyup',function(){
+        let search = $('#postingterm').val()
+
+        $.ajax({
+
+            type: 'GET',
+            url: '/home/check/' + search,
+            dataType: "json",
+
+            success: function (response) {
+            
+                let word = response.words
+            
+                // document.getElementById('baigaaUg').innerHTML = search;
+                document.getElementById('existingDef').innerHTML = word;
+                
+            },
+            error: function (response) {
+                console.log(response)
+                // sweetalert(response.responseJSON.response)
+            },
+            complete: function (response) {
+            },
+}); 
+    })
+
+   
+
+    $(document).ready(function(){
+        $('#search').keyup(function(event){
+            if(event.which === 13) {
+                $('#goBtn').click();
+            }
+        })
+    });
+
+    var scroll = new SmoothScroll('a[href*="#"]');
+
+
+
+</script>

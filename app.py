@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from query import *
+# from query import *
 import json, pyodbc
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -27,11 +27,102 @@ def verify_password(username, password):
 
 @app.route('/home')
 def home():
-    return render_template('dict.html')
+    return render_template('index.html')
+
+@app.route('/home/<searchinput>')
+def api_main_search(searchinput):
+    
+    import re
+    from query import get_searched_word_en, check_for_duplicates
+    
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
+    if (regex.search(searchinput) == None):
+        
+        try:
+            words = get_searched_word_en(searchinput=searchinput)
+            return json.dumps({'words': words})
+
+        except IndexError:
+
+            count = check_for_duplicates(searchinput)
+            if count == 0:
+                cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
+                cursor.commit()
+            else:
+                cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
+                cursor.commit()
+            # return redirect(url_for('proofread'))
+
+            return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
+        
+    else:
+        return {'response': 'The word cannot contain special characters in it'}, 400
+
+@app.route('/home/check/<searchinput>/')
+def api_contribute_search(searchinput):
+    
+    import re
+    from query import get_searched_word_en
+
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
+    if (regex.search(searchinput) == None):
+        
+        try:
+            words = get_searched_word_en( searchinput = searchinput)
+            return json.dumps({'words': words})
+
+        except IndexError:
+
+            return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
+        
+    else:
+        return {'response': 'The word cannot contain special characters in it'}, 400
+
+@app.route('/home/autocomplete/<string:searchinput>/lang/<lang>')
+def api_autocomplete(searchinput,lang):
+    
+    import re
+    from query import auto_complete, auto_complete_mn
+    
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
+    if (regex.search(searchinput) == None):
+        if lang == "EN":
+            try:
+                words = auto_complete(span=searchinput)
+                return json.dumps({'words': words})
+                # return json.dumps({'words': words[:10]})
+            except IndexError:
+                return {'response': 'The word you searched is not found'}, 400
+            else:
+                return {'response': 'The word cannot contain special characters in it'}, 400
+        else:
+            try:
+                words = auto_complete_mn(span=searchinput)
+                return json.dumps({'words': words})
+                # return json.dumps({'words': words[:10]})
+            except IndexError:
+                return {'response': 'Хайсан үг олдсонгүй кккк'}, 400
+            else:
+                return {'response': 'The word cannot contain special characters in it'}, 400
+
 
 @app.route('/contribute')
 def contribute():
     return render_template('contribute.html')
+
+@app.route('/contribute/addnew', methods=['POST','GET'])
+def contribute_add_new():
+
+    if request.method == "POST":
+
+        postingterm = request.form['postingterm']
+        postingdef = request.form['postingdef']
+        postingemail = request.form['email']    
+        
+        cursor.execute("INSERT INTO newEntries (Term, Def,Email) VALUES (?,?,?)", (postingterm, postingdef,postingemail))
+        cursor.commit()
+        return render_template('index.html')
+
 
 @app.route('/proofread/', methods = ['POST', 'GET'])
 @auth.login_required
@@ -40,21 +131,12 @@ def proofread():
     cursor.execute("SELECT * FROM newEntries")
     data = cursor.fetchall()
 
-    return render_template('proofread.html', newEntries = data)
+    cursor.execute("SELECT * FROM notfound1")
+    search_freq = cursor.fetchall()
 
-@app.route('/addNew', methods=['POST','GET'])
-def addNew():
+    return render_template('proofread.html', newEntries = data, notFound = search_freq)
 
-    if request.method == "POST":
-        
-        postingterm = request.form['postingterm']
-        postingdef = request.form['postingdef']
-
-        cursor.execute("INSERT INTO newEntries (Term, Def) VALUES (?,?)", (postingterm, postingdef))
-        cursor.commit()
-        return redirect(url_for('contribute'))
-
-@app.route('/addNewProofread', methods=['POST','GET'])
+@app.route('/proofread/addnew', methods=['POST','GET'])
 def addNewProofread():
 
     if request.method == "POST":
@@ -66,42 +148,7 @@ def addNewProofread():
         cursor.commit()
         return redirect(url_for('proofread'))
 
-@app.route('/home/<searchinput>')
-def api_search(searchinput):
-    
-    import re
-    from query import get_searched_word
-
-    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
-    if (regex.search(searchinput) == None):
-        
-        try:
-            words = get_searched_word(searchinput=searchinput)
-            return json.dumps({'words': words})
-        except IndexError:
-            return {'response': 'The word you searched is not found'}, 400
-        
-    else:
-        return {'response': 'The word cannot contain special characters in it'}, 400
-
-@app.route('/home/autocomplete/<searchinput>')
-def api_autocomplete(searchinput):
-    
-    import re
-    from query import auto_complete
-
-    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
-    if (regex.search(searchinput) == None):
-        
-        try:
-            words = auto_complete(span=searchinput)
-            return json.dumps({'words': words})
-        except IndexError:
-            return {'response': 'The word you searched is not found'}, 400
-        else:
-            return {'response': 'The word cannot contain special characters in it'}, 400
-
-@app.route('/update', methods=['GET', 'POST'])
+@app.route('/proofread/update', methods=['GET', 'POST'])
 def update():
     if request.method == 'POST':
 
@@ -113,7 +160,7 @@ def update():
         return redirect(url_for('proofread'))
 
 
-@app.route('/save/<idx>', methods=['GET', 'POST'])
+@app.route('/proofread/save/<idx>', methods=['GET', 'POST'])
 def save(idx):
     if request.method == 'POST':
 
@@ -122,7 +169,7 @@ def save(idx):
         
     return redirect(url_for('proofread'))
 
-@app.route('/delete/<idx>', methods=['GET', 'POST'])
+@app.route('/proofread/delete/<idx>', methods=['GET', 'POST'])
 def delete(idx):
     if request.method == 'POST':
 
@@ -137,9 +184,9 @@ if __name__ == "__main__":
 # @app.route('/home/<searchinput>')
 # def api_search(searchinput):
 
-#     from query import get_searched_word, Royischeckingtheword
+#     from query import get_searched_word_en, Royischeckingtheword
 
-#     words = get_searched_word(searchinput=searchinput)
+#     words = get_searched_word_en(searchinput=searchinput)
  
 #     return  json.dumps({ 'words': words})
 

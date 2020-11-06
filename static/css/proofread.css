@@ -1,6 +1,85 @@
-body{ 
+body{
     font-family: 'Montserrat', sans-serif;
+    background-color: #fff;
 }
+
+#nav-bar{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar{
+    background:#fcb026;
+    padding: 0 !important;
+}
+
+.navbar-brand img{
+    height: 40px;
+    padding-left: 20px;
+}
+.navbar-nav li{
+    padding: 0 10px;
+}
+
+.navbar-nav li a {
+    color: #000 !important;
+    font-weight: 600;
+    float: right;
+    text-align: left;
+}
+.fa-bars{
+    color: #fff;
+    font-size: 30px !important;
+}
+.navbar-toggler{
+    outline: none !important;
+}
+
+#header{
+    text-align: center;
+}
+
+.myTabs{
+    display: flex;
+    flex-wrap: wrap;
+    /* margin-top: 35px; */
+    margin: 35px;
+    /* padding: 25px; */
+
+}
+
+.myTabs input[type='radio']{
+    display: none;
+}
+
+.myTabs label{
+    padding: 0 1.5em;
+    line-height: 3em;
+    margin-right: 2px;
+    font-weight: bold;
+    color: rgba(0,0,0,.5);
+    margin-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    background-color: #fcb026;
+}
+.myTabs .tab{
+    width: 100%;
+    padding-top: 20px;
+    background: #f3f2ef;
+    order: 1;
+    display: none;
+}
+
+.myTabs input[type='radio']:checked + label + .tab{
+    display: block;
+}
+
+.myTabs input[type='radio']:checked + label{
+    background: #f3f2ef;
+}
+
+
 input{
     border: none;
     outline: none;
@@ -9,35 +88,36 @@ input{
 
 table .buttons {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;  
+}
+
+
+.addNewbutton{
+    border: 1px solid;
+    margin-left: 15px;
+    background: #000;
+    color: #fff;
+}
+
+.addNewbutton:hover{
+    color: #fff;
 }
 
 table th{
     text-align: center;
+    font-size: 1.2em;
+    background-color: #ccc;
+    
 }
+
 .edit{
     background-color: #e8cfa9;
 }
 .save{
     background-color: #d0e8bc;
 }
-.addNewbutton{
-    font-weight: bold;
-}
 
-.navbar-nav{
-    display: flex;
-    flex-direction: row;
-}
-
-.nav-item{
-    padding: 0 40px;
-}
-
-.ediTable{
-    margin-top: 40px;
-}
 .selectPage{
     display: flex;
     flex-direction: column;

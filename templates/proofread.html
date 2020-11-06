@@ -5,112 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTUG Mining Dictionary Adding words</title>
     <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/proofread.css') }}" rel="stylesheet">
 
 </head>
 <body>
-    <!-- <h1>Edit/Proofread</h1>
-    <h2>Welcome, {{currentuser}}</h2> -->
-    <nav class="navbar navbar-light" style="background-color: #e4d6c9;">
-      <a class="navbar-brand">
-        <img src="{{ url_for('static', filename='colorlogo.png') }}" width="70" height="50" class="d-inline-block align-top" alt="">
-      </a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('home') }}"><i class="fas fa-home"></i>Glossary</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('contribute') }}"><i class="fas fa-hand-holding-medical"></i>Contribute</a>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="btn addNewbutton"
-              data-toggle="modal" data-target="#addmodal">Add new++</button>
-            </li>
+  <section id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='black.png') }}"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home') }}">GLOSSARY</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">CONTRIBUTE</a>
+          </li>
         </ul>
-      <span class="navbar-brand mb-0 h1" style="text-transform: uppercase;">Glossary of Technical Terms</span>
+      </div>
     </nav>
-    <div class="container ediTable">
-      <div class="table-responsive-xl">
-                <table class="table table-hover" id="myTable">
-                <thead style="background-color: rgb(221, 115, 66);">
-                <tr>
-                  <th style="display: none;">ID</th>
-                  <th>Term</th>
-                  <th>Definition</th>
-                  <th>Action</th>
-                </tr>
-                </thead>
-                {% for data in newEntries %} 
-                <tr>
-                  <td style="display: none;">{{data.ID}}</td>
-                  <td class="tdterm">{{data.Term}}</td>
-                  <td class="tddef">{{data.Def}}</td>
-                  <td class="buttons">
-                    <a href="/update/{{data.ID}}" class="btn btn-xs mr-3 edit" data-toggle="modal" data-target="#modaledit{{data.ID}}">Edit</a>
-                    <a class="btn btn-xs mr-5 save" >Save</a>
-                    <a class="btn btn-danger btn-xs delete" >Delete</a>
-                  </td>
-                </tr>
-                <div id="modaledit{{data.ID}}" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Add</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form action="{{url_for('update')}}" method="POST">
-                          <div class="form-group">
-                            <label>Term:</label>
-                            <input type="hidden" name="id" value="{{data.ID}}">
-                            <input type="text" class="form-control" name="term" value="{{data.Term}}">
+  </section>
+  <section id="header">
+    <div class="container"> 
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Proofread and Analytics Section</h3>
+          <p>Thank you for your time</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+
+    <div class="myTabs">
+      <input type="radio" id="tabTable" name="mytabs" checked='checked'>
+      <label for="tabTable">Proofread Section</label>
+      <div class="tab" >
+        <div class="container ediTable active" id="Table" data-tab-content>
+          <div class="table-responsive-xl">
+                    <table class="table table-hover table-bordered" id="myTable">
+                    <thead>
+                    <tr>
+                      <th style="display: none;">ID</th>
+                      <th style="width: 20%;">Term</th>
+                      <th style="width: 40%;">Definition</th>
+                      <th style="width: 25%;">Action<button class="btn btn-xs addNewbutton" data-toggle="modal" data-target="#addmodal">Direct add</button></th>
+                      
+                    </tr>
+                    </thead>
+                    {% for data in newEntries %} 
+                    <tr>
+                      <td style="display: none;">{{data.ID}}</td>
+                      <td class="tdterm">{{data.Term}}</td>
+                      <td class="tddef">{{data.Def}}</td>
+                      <td class="buttons">
+                        <a href="/update/{{data.ID}}" class="btn btn-xs edit" data-toggle="modal" data-target="#modaledit{{data.ID}}">Edit</a>
+                        <a class="btn btn-xs save" >Save</a>
+                        <a class="btn btn-danger btn-xs delete" >Delete</a>
+                      </td>
+                    </tr>
+                    <div id="modaledit{{data.ID}}" class="modal fade" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Add</h4>
                           </div>
-                          <div class="form-group">
-                            <label>Definition:</label>
-                            <input type="text" class="form-control" name="definition" value="{{data.Def}}">
+                          <div class="modal-body">
+                            <form action="{{url_for('update')}}" method="POST">
+                              <div class="form-group">
+                                <label>Term:</label>
+                                <input type="hidden" name="id" value="{{data.ID}}">
+                                <input type="text" class="form-control" name="term" value="{{data.Term}}">
+                              </div>
+                              <div class="form-group">
+                                <label>Definition:</label>
+                                <input type="text" class="form-control" name="definition" value="{{data.Def}}">
+                              </div>
+                              <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Add</button>
+                              </div>
+                            </form>
                           </div>
-                          <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Add</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div id="addmodal" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Add new word</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form action="{{url_for('addNewProofread')}}" method="POST">
-                          <div class="form-group">
-                            <label>Term:</label>
-                            <!-- <input type="hidden" name="id" value="{{data.ID}}"> -->
-                            <input type="text" class="form-control" name="term" value="" autocomplete="off">
-                          </div>
-                          <div class="form-group">
-                            <label>Definition:</label>
-                            <input type="text" class="form-control" name="definition" value="" autocomplete="off">
-                          </div>
-                          <div class="form-group">
-                            <button class="btn btn-primary float-right" type="submit">Add+</button>
-                          </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </table>
-              
-              </div>
-       </div>
-       <div class="selectPage">
-        <span id="paginator"></span>
-       </div>
-       
+                    <div id="addmodal" class="modal fade" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Add new word</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{{url_for('addNewProofread')}}" method="POST">
+                              <div class="form-group">
+                                <label>Term:</label>
+                                <input type="hidden" name="id" value="{{data.ID}}"> 
+                                <input type="text" class="form-control" name="term" value="" autocomplete="off">
+                              </div>
+                              <div class="form-group">
+                                <label>Definition:</label>
+                                <input type="text" class="form-control" name="definition" value="" autocomplete="off">
+                              </div>
+                              <div class="form-group">
+                                <button class="btn btn-primary float-right" type="submit">Add+</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </table>
+                  
+                  </div> 
+                  <div class="selectPage">
+                    <span id="paginator"></span>
+                   </div>
+           </div>
+        
+      </div>
+      <input type="radio" id="tabAnalyze" name="mytabs">
+      <label for="tabAnalyze">Analyze Section</label>
+       <div class="tab" >
+        <h3>Analyze</h3>
+        <hr> 
+         <div>
+          <table>
+            <thead>
+              <tr>
+              <th>Ugs</th>
+              <th>Frequency</th>
+            </tr>
+            </thead>
+            <tbody>
+              {% for search_freq in notFound %} 
+              <tr>
+                <td>{{search_freq.Term}}</td>
+                <td>{{search_freq.Frequency}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div> 
+
+  
+    
+  </section>
+
+  <section>
+   
+  </section>
    
           
    
@@ -136,13 +184,32 @@
           $.post("/delete/" + idx, {'idx':idx});
           $row.remove(); 
         });        
+
+
        
-        $('table tbody').paginathing({
-                perPage: 7,
-                containerClass: 'pagination-container',
-                insertAfter: ('#paginator')
-          });
-	  
+        // $('table tbody').paginathing({
+        //         perPage: 7,
+        //         containerClass: 'pagination-container',
+        //         insertAfter: ('#paginator')
+        //   });
+
+
+// this is for creating tabs, but css looks better
+
+          // const tabs = document.querySelectorAll('[data-tab-target]')
+          // const tabContents = document.querySelectorAll('[data-tab-content]')
+
+          // tabs.forEach(function(tab){
+          //   tab.addEventListener('click', function(){
+          //     const target = document.querySelector(tab.dataset.tabTarget) 
+          //     tabContents.forEach(function(tabContent){
+          //       tabContent.classList.remove('active')
+          //     }) 
+          //     target.classList.add('active')
+          //   })
+          // })
+
+          
     </script>
 </body>
 </html>
