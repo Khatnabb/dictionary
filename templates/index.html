@@ -363,12 +363,22 @@ input:checked + .slider:before {
     const searchInput = document.querySelector('#search');
     const suggestionsPanel = document.querySelector('.suggestions');
     
-    // function klsa(){
-    //     var 
-    // }
+    function populate(word){
+        $.each(word, function (idx, w) {
+            $('.suggestions').append(`<li name = ${w}>${w}</li>`)
+    })};
     
-
-    searchInput.addEventListener('keydown',function(){
+     $('body').on('click', '.suggestions > li', function(){
+        // let litext = $('.suggestions > li').text();
+        // console.log(litext)
+        $('.searchbox input').val($(this).text());
+        // let texttest = $('.searchbox input').val($(this).text());
+        // console.log(texttest)
+        $('.suggestions').slideUp('slow');
+        get_words();  
+    });
+    
+    searchInput.addEventListener('keyup',function(){
         let search = $('#search').val()
         let lang = $('#lang').text()
         // console.log(lang)
@@ -383,29 +393,33 @@ input:checked + .slider:before {
             let word = response.words
             suggestionsPanel.innerHTML = '';
             $('.intro').hide();
-
-            for(i = 0; i < word.length; i++){
+            populate(word);
+            // for(i = 0; i < word.length; i++){
                 
-            const li = document.createElement('li');
-            li.innerHTML = word[i];
-
-            suggestionsPanel.appendChild(li);
+            // const li = document.createElement('li');
+            // li.innerHTML = word[i];
+            
+            // suggestionsPanel.appendChild(li);
+            
+            // $.each(word, function (idx, w) {
+            //         $('.suggestions').append(`<li>${w}</li>`)
+            
             $('.suggestions').addClass('open');
             $('.suggestions').slideDown('slow');
-            // document.getElementById('searchEntry').innerHTML = word[0];
 
-        };      
+        // });      
             
-    $('body').on('click', '.suggestions > li', function(){
-        let litext = $('.suggestions > li').text();
-
-        $('.searchbox input').val($(this).text());
-        $('.suggestions').slideUp('slow');
-        get_words();
+    // $('body').on('click', '.suggestions > li', function(){
+    //     // let litext = $('.suggestions > li').text();
+    //     // console.log(litext)
+    //     $('.searchbox input').val($(this).text());
+    //     // let texttest = $('.searchbox input').val($(this).text());
+    //     // console.log(texttest)
+    //     $('.suggestions').slideUp('slow');
+    //     get_words();
         
-    });
+    // });
     
-
     $('body').click(function(e){
     
         if(!$(e.target).is('input, a, li')){
@@ -420,7 +434,6 @@ input:checked + .slider:before {
             // sweetalertfail(response.responseJSON.response)
     },
         complete: function (response) {
-
         }
         });
     })
