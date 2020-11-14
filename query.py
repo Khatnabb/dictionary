@@ -20,7 +20,7 @@ def get_searched_word_en(searchinput):
 
     FROM [otdict].[dbo].[otdictionary]
 
-    WHERE Term = '%s' """ % searchinput
+    WHERE Term = '{}' """.format(searchinput)
     
     df = sql_link(q)
 
@@ -32,8 +32,8 @@ def get_searched_word_mn(searchinput):
 
     FROM [otdict].[dbo].[otdictionary]
 
-    WHERE Def = N'%s' """ % searchinput
-    
+    WHERE Def LIKE N'%{}%' """.format(searchinput)
+          
     df = sql_link(q)
 
     return df['Term'][0]
@@ -53,7 +53,7 @@ def auto_complete_mn(span):
 
     FROM [otdict].[dbo].[otdictionary]
 
-    WHERE Def LIKE N'{}%' """.format(span)  
+    WHERE Def LIKE N'%{}%' """.format(span)
     df = sql_link(q)
     
     return list(df['Def'])
@@ -61,7 +61,7 @@ def auto_complete_mn(span):
 def check_for_duplicates(searchinput):
     q= """SELECT COUNT(*) as count 
     FROM [otdict].[dbo].[notfound1] 
-    WHERE Term = '%s'""" % searchinput
+    WHERE Term = '{}' """.format(searchinput)
     df = sql_link(q)
     return df['count'][0]
 

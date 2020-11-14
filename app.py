@@ -29,31 +29,51 @@ def verify_password(username, password):
 def home():
     return render_template('index.html')
 
-@app.route('/home/<searchinput>')
-def api_main_search(searchinput):
+@app.route('/home/<string:searchinput>/lang/<lang>')
+def api_main_search(searchinput,lang):
     
     import re
-    from query import get_searched_word_en, check_for_duplicates
+    from query import get_searched_word_en,get_searched_word_mn, check_for_duplicates
     
-    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!=]')
+
     if (regex.search(searchinput) == None):
+        if lang == "EN-MN":
         
-        try:
-            words = get_searched_word_en(searchinput=searchinput)
-            return json.dumps({'words': words})
+            try:
+                words = get_searched_word_en(searchinput=searchinput)
+                return json.dumps({'words': words})
 
-        except IndexError:
+            except IndexError:
 
-            count = check_for_duplicates(searchinput)
-            if count == 0:
-                cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
-                cursor.commit()
-            else:
-                cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
-                cursor.commit()
-            # return redirect(url_for('proofread'))
+                count = check_for_duplicates(searchinput)
+                if count == 0:
+                    cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
+                    cursor.commit()
+                else:
+                    cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
+                    cursor.commit()
+                # return redirect(url_for('proofread'))
 
-            return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
+                return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
+        else:
+
+            try:
+                words = get_searched_word_mn(searchinput=searchinput)
+                return json.dumps({'words': words})
+
+            except IndexError:
+
+                count = check_for_duplicates(searchinput)
+                if count == 0:
+                    cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
+                    cursor.commit()
+                else:
+                    cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
+                    cursor.commit()
+                # return redirect(url_for('proofread'))
+
+                return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
         
     else:
         return {'response': 'The word cannot contain special characters in it'}, 400
@@ -86,7 +106,7 @@ def api_autocomplete(searchinput,lang):
     
     regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
     if (regex.search(searchinput) == None):
-        if lang == "EN":
+        if lang == "EN-MN":
             try:
                 words = auto_complete(span=searchinput)
                 return json.dumps({'words': words})
@@ -137,7 +157,7 @@ def proofread():
     return render_template('proofread.html', newEntries = data, notFound = search_freq)
 
 @app.route('/proofread/addnew', methods=['POST','GET'])
-def addNewProofread():
+def addNewProofread():  
 
     if request.method == "POST":
         

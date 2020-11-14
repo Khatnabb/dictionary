@@ -10,7 +10,7 @@ body{
 }
 
 .navbar{
-    background:#fcb026;
+    background:#2D2C45;
     padding: 0 !important;
 }
 
@@ -23,7 +23,7 @@ body{
 }
 
 .navbar-nav li a {
-    color: #000 !important;
+    color: #fff !important;
     font-weight: 600;
     float: right;
     text-align: left;
@@ -36,15 +36,20 @@ body{
     outline: none !important;
 }
 
-#header{
+.titlecontainer{
+    margin-top: 30px;
     text-align: center;
+    text-align: start;
 }
 
+.titlecontainer img{
+    width: auto;
+    height: 150px;
+}
 .myTabs{
     display: flex;
     flex-wrap: wrap;
-    /* margin-top: 35px; */
-    margin: 35px;
+    margin: 30px 35px;
     /* padding: 25px; */
 
 }
@@ -53,7 +58,7 @@ body{
     display: none;
 }
 
-.myTabs label{
+.tablabel{
     padding: 0 1.5em;
     line-height: 3em;
     margin-right: 2px;
@@ -61,7 +66,7 @@ body{
     color: rgba(0,0,0,.5);
     margin-bottom: 0;
     border-radius: 10px 10px 0 0;
-    background-color: #fcb026;
+    background-color: #ccc;
 }
 .myTabs .tab{
     width: 100%;
@@ -86,22 +91,13 @@ input{
 }
 
 
-table .buttons {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;  
-}
-
-
 .addNewbutton{
     border: 1px solid;
     margin-left: 15px;
-    background: #000;
-    color: #fff;
 }
 
 .addNewbutton:hover{
-    color: #fff;
+    color: #ae0015;
 }
 
 table th{
@@ -110,12 +106,26 @@ table th{
     background-color: #ccc;
     
 }
+.buttons i{
+    color: #fff;
+}
+
+table .buttons{
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+}
 
 .edit{
     background-color: #e8cfa9;
+   
 }
 .save{
-    background-color: #d0e8bc;
+    background-color: #4db538;
+  
+}
+.delete{
+    background-color: #ae0015;
 }
 
 .selectPage{
@@ -131,4 +141,8 @@ table th{
 .pagination-container ul li a{
     color: #000;
     padding: 10px;
+}
+
+.analyticstable{
+    padding: 20px;
 }

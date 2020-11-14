@@ -13,7 +13,7 @@
 <body>
   <section id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='black.png') }}"></a>
+      <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/colorlogo.png') }}"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -29,21 +29,24 @@
       </div>
     </nav>
   </section>
-  <section id="header">
+  <!-- <section id="header">
     <div class="container"> 
-      <div class="row">
-        <div class="col-md-12">
+      <div class="row titlecontainer">
+        <div class="col-md-6">
+          <img src="{{ url_for('static', filename='images/analytics.jpg') }}" class="img-fluid">
+        </div>
+        <div class="col-md-6">
           <h3>Proofread and Analytics Section</h3>
           <p>Thank you for your time</p>
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <section>
 
     <div class="myTabs">
       <input type="radio" id="tabTable" name="mytabs" checked='checked'>
-      <label for="tabTable">Proofread Section</label>
+      <label class="tablabel" for="tabTable">Proofread</label>
       <div class="tab" >
         <div class="container ediTable active" id="Table" data-tab-content>
           <div class="table-responsive-xl">
@@ -52,8 +55,8 @@
                     <tr>
                       <th style="display: none;">ID</th>
                       <th style="width: 20%;">Term</th>
-                      <th style="width: 40%;">Definition</th>
-                      <th style="width: 25%;">Action<button class="btn btn-xs addNewbutton" data-toggle="modal" data-target="#addmodal">Direct add</button></th>
+                      <th style="width: 50%;">Definition</th>
+                      <th style="width: 15%;">Action<button class="btn btn-xs addNewbutton" data-toggle="modal" data-target="#addmodal">Add</button></th>
                       
                     </tr>
                     </thead>
@@ -63,16 +66,16 @@
                       <td class="tdterm">{{data.Term}}</td>
                       <td class="tddef">{{data.Def}}</td>
                       <td class="buttons">
-                        <a href="/update/{{data.ID}}" class="btn btn-xs edit" data-toggle="modal" data-target="#modaledit{{data.ID}}">Edit</a>
-                        <a class="btn btn-xs save" >Save</a>
-                        <a class="btn btn-danger btn-xs delete" >Delete</a>
-                      </td>
+                        <a href="/update/{{data.ID}}" class="btn btn-xs edit" data-toggle="modal" data-target="#modaledit{{data.ID}}"><i class="fas fa-pen"></i></a>
+                        <a class="btn btn-xs delete" ><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-xs save" ><i class="fas fa-check-circle"></i></a>
+                      </td> 
                     </tr>
                     <div id="modaledit{{data.ID}}" class="modal fade" role="dialog">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h4 class="modal-title">Add</h4>
+                            <h4 class="modal-title">Edit</h4>
                           </div>
                           <div class="modal-body">
                             <form action="{{url_for('update')}}" method="POST">
@@ -86,7 +89,7 @@
                                 <input type="text" class="form-control" name="definition" value="{{data.Def}}">
                               </div>
                               <div class="form-group">
-                                <button class="btn btn-primary" type="submit">Add</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
                               </div>
                             </form>
                           </div>
@@ -129,16 +132,17 @@
         
       </div>
       <input type="radio" id="tabAnalyze" name="mytabs">
-      <label for="tabAnalyze">Analyze Section</label>
+      <label class="tablabel" for="tabAnalyze">Analytics</label>
        <div class="tab" >
-        <h3>Analyze</h3>
+        <h3>Glossary searches</h3>
         <hr> 
-         <div>
-          <table>
+         <div class="container analyticstable">
+           <div class="table-responsive-lg">
+          <table class="table table-bordered">
             <thead>
               <tr>
-              <th>Ugs</th>
-              <th>Frequency</th>
+              <th style="width: 40%;">Searches</th>
+              <th style="width: 10%;" >Frequency</th>
             </tr>
             </thead>
             <tbody>
@@ -150,6 +154,7 @@
               {% endfor %}
             </tbody>
           </table>
+        </div>
         </div> 
 
   

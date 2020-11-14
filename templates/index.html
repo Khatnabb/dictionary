@@ -6,82 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OT Dictionary</title>
     <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&family=Source+Sans+Pro:wght@400;600;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >   
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" > 
-<style>
-    /* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
 </head>
 
 <body>
    <section id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='black.png') }}"></a>
+        <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/colorlogo.png') }}"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -96,11 +34,14 @@ input:checked + .slider:before {
             <li class="nav-item">
               <a class="nav-link" href="#about">ABOUT</a>
             </li>
-            <li class="nav-item">
+              <li class="nav-item">
+                <a class="nav-link" href="#info">LEARNING</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="#contact">CONTACT</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('proofread') }}">LOGIN</a>
+                <a class="nav-link" href="{{ url_for('proofread') }}">PROOFREAD</a>
               </li>
           </ul>
         </div>
@@ -113,26 +54,16 @@ input:checked + .slider:before {
             <div class="col-md-6">
                 <div class="searchbox-container">
                     <div class="searchbox">
-                        <!-- <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                          </label> -->
 
-                          <p><button id="lang" name="EN" onclick="lang_toggle()">EN</button></p>
+                          <p><button id="lang" name="EN-MN" onclick="lang_toggle()">EN-MN</button></p>
                         <input type="text" name="term" id="search" autocomplete="off" value="" size="50" >
-                            <a id="goBtn" onclick="get_words()" ><i class="fa fa-lg fa-search"></i></a>
+                            <a id="goBtn" onclick="get_words()"><i class="fa fa-lg fa-search"></i></a>
                             
-                            <!-- <div class="input-group mt-0 mb-3">
-                                <input id="email" name="email" type="text" class="form-control" placeholder="Имэйл хаяг" aria-describedby="basic-addon2" autocomplete="off">
-                                <div class="input-group-append">
-                                  <span class="input-group-text" id="basic-addon2">@ot.mn</span>
-                                </div>
-                              </div>  -->
                     </div>
                     <div class="suggestions" ></div>    
                 </div>   
                 <div class="intro">
-                    <p class="intro-title">Өдрийн мэнд!</p>
+                    <p class="intro-title">Техникийн үг хэллэгийн хураангуй толь</p>
                     <p>
                         Энэхүү Оюу Толгойн Техникийн үг хэллэгийн товч толь бичгийг ашиглаж буй танд баярлалаа!
                         Тус толь бичигт гүний уурхай, барилга угсралт болон машин техниктэй холбогдолтой үг хэллэгийг багтаасан ба Оюу Толгойн бүх ажилчдад зориулав.
@@ -147,7 +78,7 @@ input:checked + .slider:before {
                 </div>   
             </div>
             <div class="col-md-6">
-                <img src="{{ url_for('static', filename='learning.jpg') }}" class="img-fluid">
+                <img src="{{ url_for('static', filename='images/learning.jpg') }}" class="img-fluid">
             </div>
         </div>
        </div>
@@ -178,7 +109,7 @@ input:checked + .slider:before {
                         </div>
                     </div>  
                 
-                    <div class="input-group mt-0 mb-3">
+                    <div class="input-group mt-0 mb-3 emailinput">
                         <input id="email" name="email" type="text" class="form-control" placeholder="Имэйл хаяг" aria-describedby="basic-addon2" autocomplete="off">
                         <div class="input-group-append">
                           <span class="input-group-text" id="basic-addon2">@ot.mn</span>
@@ -194,13 +125,16 @@ input:checked + .slider:before {
             </div>
             <div class="col-md-6">
                 <div class="existingSearch">
-                    <!-- <p>Та шинээр үг оруулахдаа тухайн үгийн ямар утгууд толь бичигт орсон байгааг (хэрэв дор гарч ирсэн тохиолдолд) 
+                    <p>*** Та шинээр үг оруулахдаа тухайн үгийн ямар утгууд толь бичигт орсон байгааг (хэрэв дор гарч ирсэн тохиолдолд) 
                         нягталж хараарай. Хэрэв таны оруулахыг хүссэн утга байвал өөр тайлбар эсвэл өөр шинэ үг оруулна уу. 
-                    </p> -->
-                    <h5 class="contributetext">Тус үгийн дараах утгууд толь бичигт байна:</h5 >
+                        ..................................
+                    </p>
                 </div>
-                <div class="shape">
-                    <p id="existingDef"></p>
+                <div class="termcheck">
+                    <h5 class="contributetext">Тус үгийн дараах утгууд толь бичигт байна:</h5 >
+                    <div class="shape">
+                        <p id="existingDef"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,7 +149,7 @@ input:checked + .slider:before {
                     She has been working as a translator for Underground project since 2018.
                     She has worked on the front-end and glossary data building.
                 </p>
-                <img src="{{ url_for('static', filename='1.png') }}">
+                <img src="{{ url_for('static', filename='images/1.png') }}">
                 <p class="details"><b>Khatantuul Batbold</b><br>Front-end</p>
             </div>
             <div class="col-md-6 aboutus">
@@ -223,7 +157,7 @@ input:checked + .slider:before {
                      He has been working as Data Technician for OTUG since 2019
                     and spent invaluable time developing the back end. 
                 </p>
-                <img src="{{ url_for('static', filename='0.jpg') }}">
+                <img src="{{ url_for('static', filename='images/0.jpg') }}">
                 <p class="details"><b>Erkhembayar Enkhtaivan</b><br>Back-end</p>
             </div>
         </div>
@@ -232,9 +166,9 @@ input:checked + .slider:before {
    <section id="info">
        <div class="container text-center">
            <h3 class="title">Useful tips!</h3>
-        <div class="row">
+        <div class="row infocontainer">
             <div class="col-md-5 infoimg">
-                <img src="{{ url_for('static', filename='info.jpeg') }}" class="img-fluid">
+                <img src="{{ url_for('static', filename='images/info.png') }}" class="img-fluid">
             </div>
             <div class="col-md-7 infotext">
                 <h5>Хэл сурах арга барил</h5>
@@ -252,9 +186,15 @@ input:checked + .slider:before {
         </div>
        </div>
        <hr>
-            <div class="scrollrow">
+       <!-- <div class="container">
+        <div class="row justify-content-center">
+           
+        </div>
+       </div> -->
+            <div class=" scrollrow">
+                
                 <div class="card">
-                    <img src="{{ url_for('static', filename='lea.png') }}">
+                    <img src="{{ url_for('static', filename='images/lea.png') }}">
                     <p>Олон төрлийн сэдвээр энгийн хэлбэрээр бичигдсэн өгүүллэгүүдээр 
                         удаан эсвэл энгийн хурдыг сонгон цээж бичиг хийж дараа нь өөрийгөө шалган сонсгол, өгүүлбэр зүй, 
                         үгсийн сангаа сайжруулах болно. 
@@ -262,8 +202,8 @@ input:checked + .slider:before {
                     <a href="https://www.learnenglish.de/dictationpage.html">Энд дарна уу</a>
                 </div>
                 <div class="card">
-                    <img src="{{ url_for('static', filename='newslogo.png') }}">
-                    <h3>News in Levels</h3>
+                    <img src="{{ url_for('static', filename='images/newslogo.png') }}">
+                    <h5>News in Levels</h5>
                     <p>Таны англи хэлний мэдлэг хараахан том сонин нийтлэл гарчиглах болоогүй байгаа бол 
                         энгийн хэлбэрээр мэдээ, мэдээлэл уншингаа хэлээ сайжруулах боломжтой. Өөрийн түвшингээ сонгож 
                         сонсонгоо даган унших боломжтой. 
@@ -271,7 +211,7 @@ input:checked + .slider:before {
                     <a href="https://www.newsinlevels.com/">Энд дарна уу</a>
                 </div>
                 <div class="card">
-                    <img src="{{ url_for('static', filename='longman.png') }}">
+                    <img src="{{ url_for('static', filename='images/longman.png') }}">
                     <p>Англиас англи хэлний маш энгийн үгээр тайлбарласан толь бичиг. Үгийн
                        англи тайлбарыг унших нь зарим тохиолдолд утгыг илүү ойлгох давуу талтай. 
                        Энгийн үгсээр тайлбарласан тул их ойлгомжтой.  
@@ -279,7 +219,22 @@ input:checked + .slider:before {
                     <a href="https://www.ldoceonline.com/">Энд дарна уу</a>
                 </div>     
                 <div class="card">
-                    <img src="{{ url_for('static', filename='quizlet.jpg') }}">
+                    <iframe src="https://www.youtube.com/embed/fQwqes1cQ8E"></iframe>
+                    <p>Заавал өөрт тань сонирхолгүй, хүнд үг хэллэг ашигласан сонин, ном, мэдээ сонсож байхаар
+                        хөгжилтэй видео үзэж суралцах нь сонсгол, яриа болон үгийн баялаг сайжруулах хамгийн сайн арга. 
+                    </p>
+                    <a href="https://www.youtube.com/channel/UCKgpamMlm872zkGDcBJHYDg">Энд дарна уу</a>
+                </div>    
+                <!-- <div class="card">
+                    <img src="{{ url_for('static', filename='howjsay.png') }}">
+                    <p>Та ямар ч үгийн дуудлагыг эндээс сонсож даган хэлж сайжруулах боломжтой.
+                        Мэдээж өөрийн дуудлага, хэл ярианаас санаа зоволгүй ярилцаж сурах нь илүү чухал. Гэвч 
+                        сайжруулах боломжтой зүйлсийг оролдоод үзэх хэрэгтэй. 
+                    </p>
+                    <a href="https://howjsay.com/">Энд дарна уу</a>
+                </div>   -->
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/quizlet.jpg') }}">
                     <p>Шинэ үгсээ энд тэнд бичиж цээжлэх дуртай хүмүүст 
                         орчин үед хэрэглэхэд хялбар, суралцахад
                         хамгийн сайн туслах онлайн флашкард. Үгсээ бичээд хадгалахаас гадна өөрийгөө шалгах, тухайн 
@@ -287,40 +242,58 @@ input:checked + .slider:before {
                     </p>
                     <a href="https://quizlet.com/">Энд дарна уу</a>
                 </div>
-                <div class="card">
-                    <iframe src="https://www.youtube.com/embed/fQwqes1cQ8E"></iframe>
-                    <p>Заавал өөрт тань сонирхолгүй, хүнд үг хэллэг ашигласан сонин, ном, мэдээ сонсож байхаар
-                        хөгжилтэй видео үзэж суралцах нь сонсгол, яриа болон үгийн баялаг сайжруулах хамгийн сайн арга. 
-                    </p>
-                    <a href="https://www.youtube.com/channel/UCKgpamMlm872zkGDcBJHYDg">Энд дарна уу</a>
-                </div>    
-                <div class="card">
-                    <img src="{{ url_for('static', filename='howjsay.png') }}">
-                    <p>Та ямар ч үгийн дуудлагыг эндээс сонсож даган хэлж сайжруулах боломжтой.
-                        Мэдээж өөрийн дуудлага, хэл ярианаас санаа зоволгүй ярилцаж сурах нь илүү чухал. Гэвч 
-                        сайжруулах боломжтой зүйлсийг оролдоод үзэх хэрэгтэй. 
-                    </p>
-                    <a href="https://howjsay.com/">Энд дарна уу</a>
-                </div>        
-            </div>     
+            </div>
+        
      
    </section>
    <section id="contact">
-    <div class="container text-center">
-        
-        <div class="row">
-            <div class="col-md-4">
-                <p>Ашиглалттай холбоотой асуудлаар</p>
-                <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn"><img src="{{ url_for('static', filename='email.png') }}" class="img-fluid emailicon">Send mail</a>
+    <div class="container text-center"   >
+        <h3 class="title">Contact</h3>
+        <div class="row transcontainer">
+            <div class="col-md-3 transteamtitle text-center">
+                <h3>OTUP
+                    Business Services Translation Team</h3>     
+                <img src="{{ url_for('static', filename='images/contract.png') }}" class="img-fluid">          
             </div>
-            <div class="col-md-4">
-                <p>Үгсийн сантай холбоотой асуудлаар</p>
-                <a href="mailto:erkhbayarb@ot.mn?cc=achiiginb@ot.mn"><img src="{{ url_for('static', filename='email.png') }}" class="img-fluid emailicon">Send mail</a>
-            </div>
-            <div class="col-md-4">
-                <p>ОТГУ-н Орчуулгийн баг</p>
-                <a href="mailto:yadamtsooz@ot.mn"><img src="{{ url_for('static', filename='email.png') }}" class="img-fluid emailicon">Send mail</a>
-            </div>
+            <div class="col-md-9 transteam">
+                <div class="transteamtext">
+                    <p>
+                        Бизнес үйлчилгээний хэлтсийн Орчуулгын алба нь 15 хүний (Албаны ахлах 1, Орчуулгын хянагч 2, Орчуулагч 12) 
+                        бүрэлдэхүүнтэйгээр ажиллаж байгаагийн 13 албан хаагч Уурхайн талбайд байрлаж ОТ гүний уурхайн хэлтэс нэгжүүдэд 
+                        үлдсэн 2 албан хаагч нь Улаанбаатар хот Шангрила оффист ажиллаж байна. 
+                    </p>
+                </div>
+                <div class="transteamtext">
+                    <p>
+                        Орчуулгын хүсэлт гаргахдаа ErkhbayarB@ot.mn, YadamtsooZ@ot.mn AchiiginB@ot.mn гэсэн цахим 
+                        шуудангийн хаягууд руу явуулах шаардлагатай бөгөөд ингэснээр орчуулгын 
+                        хүсэлт орхигдохгүй байх нөхцөл болж өгөх юм. Тус алба нь ​ОТ Гүний уурхайн 
+                        төслийн бүх баг, хэлтсүүдэд Англи-Монгол, Монгол-Англи аман болон бичгийн орчуулгын үйлчилгээ 
+                        үзүүлэн ажилладаг.   
+                    </p>   
+                </div>
+                 <div class="transteamtext">
+                    <p>
+                        Хүсэлт гаргагч нь өөрийн шууд удирдлагаа цахим шуудангийн СС (Carbon Copy) хэсэгт мөн 
+                        оруулсан байх шаардлагатайг анхаарна уу.
+                    </p>
+                 </div>
+            </div>               
+                    <div class="footercontainer">
+                        <div>
+                            <p>Үгсийн сантай холбоотой асуудлаар</p>
+                            <a href="mailto:erkhbayarb@ot.mn?cc=achiiginb@ot.mn"><img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon"></a>
+                        </div>
+                        <div>
+                            <p>Ашиглалттай холбоотой асуудлаар</p>
+                            <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn"><img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon"></a>
+                        </div>
+                        <div>
+                            <p>ОТГУ-н Орчуулгийн баг</p>
+                            <a href="mailto:yadamtsooz@ot.mn"><img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon"></a>
+                        </div>
+                       
+                    </div>            
         </div>
     </div>
 </section>
@@ -330,6 +303,7 @@ input:checked + .slider:before {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" ></script>
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
+<script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 <script src="{{ url_for('static', filename='js/sweetalert2.js') }}" ></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/smooth-scroll.js') }}"></script>
@@ -337,10 +311,10 @@ input:checked + .slider:before {
 
     function lang_toggle() {
     var x = document.getElementById("lang");
-    if (x.innerHTML === "EN") {
-        x.innerHTML = "MN";
+    if (x.innerHTML === "EN-MN") {
+        x.innerHTML = "MN-EN";
     } else {
-        x.innerHTML = "EN";
+        x.innerHTML = "EN-MN";
     }
     }
 
@@ -366,27 +340,29 @@ input:checked + .slider:before {
     function populate(word){
         $.each(word, function (idx, w) {
             $('.suggestions').append(`<li name = ${w}>${w}</li>`)
+            // $('.suggestions li:first').addClass('selected')
     })};
     
      $('body').on('click', '.suggestions > li', function(){
-        // let litext = $('.suggestions > li').text();
-        // console.log(litext)
         $('.searchbox input').val($(this).text());
-        // let texttest = $('.searchbox input').val($(this).text());
-        // console.log(texttest)
         $('.suggestions').slideUp('slow');
         get_words();  
     });
     
+     
+   
+
     searchInput.addEventListener('keyup',function(){
         let search = $('#search').val()
         let lang = $('#lang').text()
-        // console.log(lang)
-        console.log(search)
+        let value=$.trim($("#search").val());
+       
+        if(value.length > 0){
 
+        }
         $.ajax({
             type: 'GET',
-            url: '/home/autocomplete/' +  search + /lang/ + lang,
+            url: '/home/autocomplete/' + search + /lang/ + lang,
             dataType: "json",
 
             success: function (response) {
@@ -394,6 +370,9 @@ input:checked + .slider:before {
             suggestionsPanel.innerHTML = '';
             $('.intro').hide();
             populate(word);
+
+            
+
             // for(i = 0; i < word.length; i++){
                 
             // const li = document.createElement('li');
@@ -406,19 +385,9 @@ input:checked + .slider:before {
             
             $('.suggestions').addClass('open');
             $('.suggestions').slideDown('slow');
-
-        // });      
             
-    // $('body').on('click', '.suggestions > li', function(){
-    //     // let litext = $('.suggestions > li').text();
-    //     // console.log(litext)
-    //     $('.searchbox input').val($(this).text());
-    //     // let texttest = $('.searchbox input').val($(this).text());
-    //     // console.log(texttest)
-    //     $('.suggestions').slideUp('slow');
-    //     get_words();
-        
-    // });
+           
+            
     
     $('body').click(function(e){
     
@@ -427,6 +396,8 @@ input:checked + .slider:before {
             $('.suggestions').slideUp('slow');           
         }
     });
+
+    
 
     },
         error: function (response) {
@@ -440,10 +411,11 @@ input:checked + .slider:before {
       
     function get_words() {
         let search = $('#search').val()
+        let lang = $('#lang').text()
         $.ajax({
 
             type: 'GET',
-            url: '/home/' + search,
+            url: '/home/' + search + /lang/ + lang,
             dataType: "json",
 
             success: function (response) {
@@ -471,13 +443,13 @@ input:checked + .slider:before {
 
             type: 'GET',
             url: '/home/check/' + search,
+            
             dataType: "json",
 
             success: function (response) {
             
                 let word = response.words
-            
-                // document.getElementById('baigaaUg').innerHTML = search;
+                $('.termcheck').fadeIn(600);
                 document.getElementById('existingDef').innerHTML = word;
                 
             },
@@ -502,6 +474,79 @@ input:checked + .slider:before {
 
     var scroll = new SmoothScroll('a[href*="#"]');
 
+    // $('.scrollrow').draggable({
+    //     cursor:'move',
+    //     axis: 'x',
+    //     containment:'overflow',
+    //     scroll: false
+    // });
 
+            //     $('.searchbox input').keydown(function(e) {
+            // switch (e.which) {
+            //     case 40:
+            //     e.preventDefault(); // prevent moving the cursor
+            //     $('li:not(:last-child).selected').removeClass('selected')
+            //         .next().addClass('selected');
+            //     break;
+            //     case 38:
+            //     e.preventDefault(); // prevent moving the cursor
+            //     $('li:not(:first-child).selected').removeClass('selected')
+            //         .prev().addClass('selected');
+            //     break;
+            // }
+            // });
+
+            // $('.searchbox input').keyup(function() {
+            // if (this.value.length >= 1) {
+            //     $('.suggestions').show();
+            // } else {
+            //     $('.suggestions').hide();
+            // }
+            // })
+
+            var li = $('.suggestions > li');
+            var liSelected; 
+            $(window).keydown(function(e) {
+                if(e.which === 40) {
+                    if(liSelected) {
+                        liSelected.removeClass('selected');
+                        next = liSelected.next();
+                        if(next.length > 0) {
+                            liSelected = next.addClass('selected');
+                        } else {
+                            liSelected = li.eq(0).addClass('selected');
+                        }
+                    } else {
+                        liSelected = li.eq(0).addClass('selected');
+                    }
+                } else if(e.which === 38) {
+                    if(liSelected) {
+                        liSelected.removeClass('selected');
+                        next = liSelected.prev();
+                        if(next.length > 0) {
+                            liSelected = next.addClass('selected');
+                        } else {
+                            liSelected = li.last().addClass('selected');
+                        }
+                    } else {
+                        liSelected = li.last().addClass('selected');
+                    }
+                }
+            });
+
+//             var selected = ;
+// $(document).keydown(function(e){
+    // $('.suggestions li:first').addClass('selected')
+//     selected = $('.suggestions li').removeClass('selected');
+//     var y = selected.index();
+
+//     if (e.keyCode == 38) {
+//         y--;
+//     }
+//     if (e.keyCode == 40) {
+//         y++
+//     }
+//     selected = $('.suggestions li').eq(y).addClass('selected');
+// });
 
 </script>
