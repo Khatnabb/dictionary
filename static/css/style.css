@@ -139,6 +139,7 @@ body{
     transition: 0.5s;   
     margin: 0;
     list-style-type: none;
+    overflow: scroll;
 }
 .suggestions > li:hover{
     background-color: #F4F7F8;

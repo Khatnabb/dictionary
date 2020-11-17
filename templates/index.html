@@ -56,11 +56,12 @@
                     <div class="searchbox">
 
                           <p><button id="lang" name="EN-MN" onclick="lang_toggle()">EN-MN</button></p>
-                        <input type="text" name="term" id="search" autocomplete="off" value="" size="50" >
+                        <input type="text" name="term" id="search" autocomplete="off" value="" size="50">
+                        <!-- <input type="text" name="term" id="search" autocomplete="off" value="" size="50" onkeyup="auto_complete()"> -->
                             <a id="goBtn" onclick="get_words()"><i class="fa fa-lg fa-search"></i></a>
                             
                     </div>
-                    <div class="suggestions" ></div>    
+                    <div class="suggestions" style="overflow: scroll;" ></div>    
                 </div>   
                 <div class="intro">
                     <p class="intro-title">Техникийн үг хэллэгийн хураангуй толь</p>
@@ -334,12 +335,14 @@
         Swal.fire("Word Not Found ", message + "<BR>" +  tocontribute, "info")
     }
 
+
     const searchInput = document.querySelector('#search');
     const suggestionsPanel = document.querySelector('.suggestions');
     
     function populate(word){
         $.each(word, function (idx, w) {
             $('.suggestions').append(`<li>${w}</li>`)
+
             
     })};
     
@@ -349,15 +352,18 @@
         get_words();  
     });
     
-     
-    searchInput.addEventListener('keyup',function(){
+
+    // function auto_complete() {
+        searchInput.addEventListener('keyup',function(e){
+            var code = (e.keyCode || e.which);
+            
+            if(code == 38 || code == 40 || code == 13) {
+        return;
+    }
         let search = $('#search').val()
         let lang = $('#lang').text()
         let value=$.trim($("#search").val());
        
-        if(value.length > 0){
-
-        }
         $.ajax({
             type: 'GET',
             url: '/home/autocomplete/' + search + /lang/ + lang,
@@ -368,35 +374,19 @@
             suggestionsPanel.innerHTML = '';
             $('.intro').hide();
             populate(word);
-
-            
-
-            // for(i = 0; i < word.length; i++){
-                
-            // const li = document.createElement('li');
-            // li.innerHTML = word[i];
-            
-            // suggestionsPanel.appendChild(li);
-            
-            // $.each(word, function (idx, w) {
-            //         $('.suggestions').append(`<li>${w}</li>`)
             
             $('.suggestions').addClass('open');
-            // $('.suggestions li:first').addClass('selected');
-            $('.suggestions').slideDown('slow');
-            
-           
-            
-    
+            $('.suggestions').slideDown('slow');        
+            $('.suggestions li:first').addClass('selected');
+            // royhoorhon(e)
     $('body').click(function(e){
     
         if(!$(e.target).is('input, a, li')){
             $('.searchbox input').val('').focus();
             $('.suggestions').slideUp('slow');           
         }
-    });
 
-    
+    });
 
     },
         error: function (response) {
@@ -406,8 +396,8 @@
         complete: function (response) {
         }
         });
-    })
-      
+})
+
     function get_words() {
         let search = $('#search').val()
         let lang = $('#lang').text()
@@ -461,125 +451,36 @@
 }); 
     })
 
-   
-
-    $(document).ready(function(){
-        $('#search').keyup(function(event){
-            if(event.which === 13) {
-                $('#goBtn').click();
-            }
-        })
-    });
 
     var scroll = new SmoothScroll('a[href*="#"]');
 
-   
 
-            //     $('.searchbox input').keydown(function(e) {
-            // switch (e.which) {
-            //     case 40:
-            //     e.preventDefault(); // prevent moving the cursor
-            //     $('li:not(:last-child).selected').removeClass('selected')
-            //         .next().addClass('selected');
-            //     break;
-            //     case 38:
-            //     e.preventDefault(); // prevent moving the cursor
-            //     $('li:not(:first-child).selected').removeClass('selected')
-            //         .prev().addClass('selected');
-            //     break;
-            // }
-            // });
-
-            // $('.searchbox input').keyup(function() {
-            // if (this.value.length >= 1) {
-            //     $('.suggestions').show();
-            // } else {
-            //     $('.suggestions').hide();
-            // }
-            // })
-
-    //     $(".suggestions").ready(function(){
-    // $('#search').keyup(function(event){
-    //     if(event.which === 40) {
-    //         $('#goBtn').click();
-    //     }
-    // })
-// });
-// #searchsection > div > div > div:nth-child(1) > div.searchbox-container > div.suggestions.open
-
-    // $('body').on('keydown', '.suggestions > li', function(event){
-    //     if (event.which == 40) {
-    //         $('.suggestions li:first').addClass('selected');
-    //     }
-       
-    // });
-    
-    var li = $('li');
-    var liSelected; 
-    $(document).ready(function(){
-        $('#search').keyup(function(event){
-            if(event.which === 40) {
-                 
-                    if(liSelected) {
-                        $('.suggestions open > li').removeClass('selected');
-                        next = liSelected.next();
-                        if(next.length > 0) {
-                            liSelected = next.addClass('selected');
+    $("#search").on('input focus keypress keydown', function(e) {
+                        if (e.which == 38) {
+                            if($('.suggestions li.selected').index() == 0) return;
+                        if(!$('.suggestions li.selected')){
+                            $('.suggestions li.selected').eq(0).removeClass('selected');
                         } else {
-                            liSelected = li.eq(0).addClass('selected');
-                        }
-                    } else {
-                        liSelected = li.eq(0).addClass('selected');
-                    }
-                } else if(event.which === 38) {
-                    if(liSelected) {
-                        liSelected.removeClass('selected');
-                        next = liSelected.prev();
-                        if(next.length > 0) {
-                            liSelected = next.addClass('selected');
+                            $('.suggestions li.selected').eq(0).removeClass('selected').prev().addClass('selected');
+                            $('#search').val($('.selected').text());
+                         }
+                        } else if (e.which == 40) {
+                            if($(".suggestions li.selected").index()==$(".suggestions li").length-1) return;
+                        if( ! $('.suggestions li.selected')){
+                            $('.suggestions li').eq(0).addClass('selected');
+                            $('#search').val($('.selected').text());
                         } else {
-                            liSelected = li.last().addClass('selected');
+                            $('.suggestions li.selected').eq(0).removeClass('selected').next().addClass('selected');
+                            $('#search').val($('.selected').text());
+                         }
                         }
-                    } else {
-                        liSelected = li.last().addClass('selected');
-                    }
-                }
-            }
-        )
-    });
-
-
-            // var li = $('li');
-            // var liSelected; 
-
-            // searchInput.keydown(function(e) {
-            //     if(e.which === 40) {
-            //         if(liSelected) {
-            //             liSelected.removeClass('selected');
-            //             next = liSelected.next();
-            //             if(next.length > 0) {
-            //                 liSelected = next.addClass('selected');
-            //             } else {
-            //                 liSelected = li.eq(0).addClass('selected');
-            //             }
-            //         } else {
-            //             liSelected = li.eq(0).addClass('selected');
-            //         }
-            //     } else if(e.which === 38) {
-            //         if(liSelected) {
-            //             liSelected.removeClass('selected');
-            //             next = liSelected.prev();
-            //             if(next.length > 0) {
-            //                 liSelected = next.addClass('selected');
-            //             } else {
-            //                 liSelected = li.last().addClass('selected');
-            //             }
-            //         } else {
-            //             liSelected = li.last().addClass('selected');
-            //         }
-            //     }
-            // });
-
-
+                        $('.searchbox-container .suggestions').scrollTop(0).scrollTop($('.suggestions .selected:first').offset().top-$('.searchbox-container .suggestions').height());
+                        if (e.which === 13) {
+                            $('#goBtn').click();
+                            $('.suggestions').slideUp('slow');  
+                        }
+                    })
 
 </script>
+
+
