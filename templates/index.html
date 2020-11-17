@@ -456,14 +456,19 @@
 
 
     $("#search").on('input focus keypress keydown', function(e) {
+
                         if (e.which == 38) {
+                            e.preventDefault();
+
                             if($('.suggestions li.selected').index() == 0) return;
                         if(!$('.suggestions li.selected')){
                             $('.suggestions li.selected').eq(0).removeClass('selected');
                         } else {
                             $('.suggestions li.selected').eq(0).removeClass('selected').prev().addClass('selected');
                             $('#search').val($('.selected').text());
+                            $(searchInput).setSelectionRange(searchInput.value.length, searchInput.value.length);
                          }
+                         
                         } else if (e.which == 40) {
                             if($(".suggestions li.selected").index()==$(".suggestions li").length-1) return;
                         if( ! $('.suggestions li.selected')){
