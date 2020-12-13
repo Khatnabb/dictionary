@@ -35,7 +35,7 @@ def api_main_search(searchinput,lang):
     import re
     from query import get_searched_word_en,get_searched_word_mn, check_for_duplicates
     
-    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!=]')
+    regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:!=]')
 
     if (regex.search(searchinput) == None):
         if lang == "EN-MN":
@@ -45,7 +45,7 @@ def api_main_search(searchinput,lang):
                 return json.dumps({'words': words})
 
             except IndexError:
-
+            
                 count = check_for_duplicates(searchinput)
                 if count == 0:
                     cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
@@ -56,7 +56,8 @@ def api_main_search(searchinput,lang):
                 # return redirect(url_for('proofread'))
 
                 return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
-        else:
+                
+        elif lang == "MN-EN":
 
             try:
                 words = get_searched_word_mn(searchinput=searchinput)
@@ -109,6 +110,7 @@ def api_autocomplete(searchinput,lang):
         if lang == "EN-MN":
             try:
                 words = auto_complete(span=searchinput)
+                
                 return json.dumps({'words': words})
                 # return json.dumps({'words': words[:10]})
             except IndexError:
@@ -118,6 +120,7 @@ def api_autocomplete(searchinput,lang):
         else:
             try:
                 words = auto_complete_mn(span=searchinput)
+                
                 return json.dumps({'words': words})
                 # return json.dumps({'words': words[:10]})
             except IndexError:
@@ -151,7 +154,7 @@ def proofread():
     cursor.execute("SELECT * FROM newEntries")
     data = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM notfound1")
+    cursor.execute("SELECT * FROM notfound1 ORDER BY Frequency DESC")
     search_freq = cursor.fetchall()
 
     return render_template('proofread.html', newEntries = data, notFound = search_freq)

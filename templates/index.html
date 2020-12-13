@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OT Dictionary</title>
     <link href="{{ url_for('static', filename='css/googleapifonts.css') }}" rel="stylesheet">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&family=Source+Sans+Pro:wght@400;600;900&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet"> -->
+    <link href="{{ url_for('static', filename='css/font.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >   
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" > 
@@ -86,60 +85,50 @@
    </section>
 
    <section id="contribute"> 
-    <div class="container text-center">
-        <h3 class="title">Contribute!</h3>
-        <div class="row">
-            <div class="col-md-6">
-                <form class="addNew" role="form" action="{{ url_for('contribute_add_new') }}" method="POST" >  
-                    <p>Шинэ үгс нэмэх</p>                     
-                    <!-- <input id="postingterm" name="postingterm" class="term" placeholder="Шинээр нэмэх үг" autocomplete="off" required><br> -->
-                    <!-- <a onclick="get_words1()">Check</a>     -->
-                    <!-- <input id="postingdef" name="postingdef" class="utga" placeholder="Нэмэх үгийн утга/тайлбар" autocomplete="off" required> -->
-                    <div class="box">
-                        <div class="deed">
-                            <input id="postingterm" name="postingterm" class="term" required autocomplete="off">
-                            <label for="term" class="label-name">
-                                <span class="span-name">Term</span>
-                            </label>
-                        </div><br/>
-                        <div class="dood">
-                            <input id="postingdef" name="postingdef" class="utga" required autocomplete="off">
-                            <label for="definition" class="label-name">
-                                <span class="span-name">Definition</span>
-                            </label>
-                        </div>
-                    </div>  
-                
-                    <div class="input-group mt-0 mb-3 emailinput">
-                        <input id="email" name="email" type="text" class="form-control" placeholder="Имэйл хаяг" aria-describedby="basic-addon2" autocomplete="off">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">@ot.mn</span>
-                        </div>
-                      </div> 
-                      
-                    <div class="buttonbox">
-                      <button class="button-hover" id="btnsubmit" type="submit">
-                        <span>Илгээх</span>
-                    </button>
-                    </div>
-                </form>    
-            </div>
-            <div class="col-md-6">
-                <div class="existingSearch">
-                    <p>*** Та шинээр үг оруулахдаа тухайн үгийн ямар утгууд толь бичигт орсон байгааг (хэрэв дор гарч ирсэн тохиолдолд) 
-                        нягталж хараарай. Хэрэв таны оруулахыг хүссэн утга байвал өөр тайлбар эсвэл өөр шинэ үг оруулна уу. 
-                        ..................................
-                    </p>
-                </div>
+     <div class="addnew">
+		<div class="welcome">
+			<h2>Contribute!</h2>
+			<p class="welcometext">Та шинээр үг оруулахдаа тухайн үгийн ямар утгууд толь бичигт орсон байгааг (хэрэв энэ хэсэгт гарч ирсэн тохиолдолд) 
+                нягталж хараарай. Хэрэв таны оруулахыг хүссэн утга байвал өөр тайлбар эсвэл өөр шинэ үг оруулна уу.</p>
                 <div class="termcheck">
-                    <h5 class="contributetext">Тус үгийн дараах утгууд толь бичигт байна:</h5 >
                     <div class="shape">
-                        <p id="existingDef"></p>
+                        <p class="contributetext">Тус үгийн дараах утгууд толь бичигт байна. Толь бичигт байхгүй утга эсвэл өөр үг оруулна уу!</p>
                     </div>
+                        <p id="existingDef"></p>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="addnewtext" style="display: none;" >
+                    <h5>Үгс нэмж "ТОКЕН" цуглуулаарай!</h5>
+                    <p>Lorem Ipsum is simply dummy text of the printing and 
+                        typesetting industry. Lorem Ipsum has been the industry's 
+                        standard dummy text ever since the 1500s, when an unknown 
+                        printer took a galley of type and scrambled it to make a 
+                        type specimen book. It has survived not only five centuries, 
+                        but also the leap into electronic typesetting, remaining 
+                        essentially unchanged. It was popularised in the 1960s with 
+                        the release of Letraset sheets containing Lorem Ipsum passages, 
+                        and more recently with desktop publishing software like Aldus 
+                        PageMaker including versions of Lorem Ipsum.</p>
+                </div>
+           <div class="infobtn">
+            <a>
+                Урамшууллын талаар мэдээлэл
+                <i class="fas fa-info-circle"></i>
+            </a>
+           </div>     
+		
+		</div>
+		<div class="addnewcontainer">
+			<form class="addNew" role="form" action="{{ url_for('contribute_add_new') }}" method="POST" >
+            <h2>Шинэ үг нэмэх</h2>
+            <input type="email" id="email" name="email" placeholder="OT Email" required><br>
+            <hr>
+			<input id="postingterm" name="postingterm" class="term" required autocomplete="off" placeholder="Term" type="text"><br>
+            <input id="postingdef" name="postingdef" class="utga" required autocomplete="off" placeholder="Definition" type="text"><br>
+			<textarea placeholder="Description..." id="description" name="description" class="tailbar" rows="3" cols="40"></textarea> 
+			<input type="submit" name="submitbtn" value="Илгээх" class="submitbtn">
+		</form>
+	</div>
+	</div>
    </section>
    <section id="about">
     <div class="container text-center">
@@ -165,13 +154,12 @@
     </div>
    </section>
    <section id="info">
-       <div class="container text-center">
-           <h3 class="title">Useful tips!</h3>
+       <div class="container">
+           
         <div class="row infocontainer">
-            <div class="col-md-5 infoimg">
-                <img src="{{ url_for('static', filename='images/info.png') }}" class="img-fluid">
-            </div>
+            
             <div class="col-md-7 infotext">
+                <h3 class="title">Learning</h3>
                 <h5>Хэл сурах арга барил</h5>
                 <p>Хэрэв та хэдэн жилийн өмнөөс л хэл сурах гараагаа эхэлсэн ч төдийлөн ахицгүй, 
                     нэг л сайжрахгүй байгаа бол хэл сурах арга барилаа өөрчлөөд нэг үзээрэй. 
@@ -184,65 +172,85 @@
                     болон суралцаж болох бусадтай хуваалцахаар доорх 
                 </p>
             </div>
+            <div class="col-md-5 infoimg">
+                <img src="{{ url_for('static', filename='images/info.png') }}" class="img-fluid">
+                <hr>
+                <h5>Үр дүнтэй суралцах хэлбэр</h5>
+            </div>
         </div>
        </div>
-       <hr>
-       <!-- <div class="container">
-        <div class="row justify-content-center">
-           
+       <hr>   
+       <div class="navigationbuttons">
+           <div class="prevnext">
+            <button class="prev">
+                <i class="fas fa-chevron-left"></i>
+                <!-- <span>Previous</span> -->
+            </button>
+            <span>Useful tools for efficient learning</span>
+            <button class="next">
+                <!-- <span>Next</span> -->
+                <i class="fas fa-chevron-right"></i>
+            </button>
+           </div>
+             
         </div>
-       </div> -->
-            <div class=" scrollrow">
-                
+            <div class=" container">
+             
+               <div class="scrollrow">
                 <div class="card">
-                    <img src="{{ url_for('static', filename='images/lea.png') }}">
+                
+                    <h3>
+                        <a href="https://www.learnenglish.de/dictationpage.html">Learnenglish.de</a>
+                        
+                    </h3>
                     <p>Олон төрлийн сэдвээр энгийн хэлбэрээр бичигдсэн өгүүллэгүүдээр 
                         удаан эсвэл энгийн хурдыг сонгон цээж бичиг хийж дараа нь өөрийгөө шалган сонсгол, өгүүлбэр зүй, 
                         үгсийн сангаа сайжруулах болно. 
                     </p>
-                    <a href="https://www.learnenglish.de/dictationpage.html">Энд дарна уу</a>
+                  
                 </div>
                 <div class="card">
-                    <img src="{{ url_for('static', filename='images/newslogo.png') }}">
-                    <h5>News in Levels</h5>
+                    <h3>
+                        <a href="https://www.newsinlevels.com/">News In Levels</a>
+                    </h3>
                     <p>Таны англи хэлний мэдлэг хараахан том сонин нийтлэл гарчиглах болоогүй байгаа бол 
                         энгийн хэлбэрээр мэдээ, мэдээлэл уншингаа хэлээ сайжруулах боломжтой. Өөрийн түвшингээ сонгож 
                         сонсонгоо даган унших боломжтой. 
                     </p>
-                    <a href="https://www.newsinlevels.com/">Энд дарна уу</a>
+            
                 </div>
                 <div class="card">
-                    <img src="{{ url_for('static', filename='images/longman.png') }}">
+                    <h3>
+                        <a href="https://www.ldoceonline.com/">Easy Longman Dictionary</a>
+                    </h3>
                     <p>Англиас англи хэлний маш энгийн үгээр тайлбарласан толь бичиг. Үгийн
                        англи тайлбарыг унших нь зарим тохиолдолд утгыг илүү ойлгох давуу талтай. 
                        Энгийн үгсээр тайлбарласан тул их ойлгомжтой.  
                     </p>
-                    <a href="https://www.ldoceonline.com/">Энд дарна уу</a>
+                    
                 </div>     
                 <div class="card">
-                    <iframe src="https://www.youtube.com/embed/fQwqes1cQ8E"></iframe>
+                    <h3>
+                        <a href="https://www.youtube.com/channel/UCKgpamMlm872zkGDcBJHYDg">Learn English with TV Series</a>
+                    </h3>
+                    <!-- <iframe src="https://www.youtube.com/embed/fQwqes1cQ8E"></iframe> -->
                     <p>Заавал өөрт тань сонирхолгүй, хүнд үг хэллэг ашигласан сонин, ном, мэдээ сонсож байхаар
                         хөгжилтэй видео үзэж суралцах нь сонсгол, яриа болон үгийн баялаг сайжруулах хамгийн сайн арга. 
                     </p>
-                    <a href="https://www.youtube.com/channel/UCKgpamMlm872zkGDcBJHYDg">Энд дарна уу</a>
                 </div>    
-                <!-- <div class="card">
-                    <img src="{{ url_for('static', filename='howjsay.png') }}">
-                    <p>Та ямар ч үгийн дуудлагыг эндээс сонсож даган хэлж сайжруулах боломжтой.
-                        Мэдээж өөрийн дуудлага, хэл ярианаас санаа зоволгүй ярилцаж сурах нь илүү чухал. Гэвч 
-                        сайжруулах боломжтой зүйлсийг оролдоод үзэх хэрэгтэй. 
-                    </p>
-                    <a href="https://howjsay.com/">Энд дарна уу</a>
-                </div>   -->
                 <div class="card">
-                    <img src="{{ url_for('static', filename='images/quizlet.jpg') }}">
+                    <h3>
+                        <a href="https://quizlet.com/">Quizlet</a>
+                    </h3>
                     <p>Шинэ үгсээ энд тэнд бичиж цээжлэх дуртай хүмүүст 
                         орчин үед хэрэглэхэд хялбар, суралцахад
                         хамгийн сайн туслах онлайн флашкард. Үгсээ бичээд хадгалахаас гадна өөрийгөө шалгах, тухайн 
                         үгсээ тоглоом болгон хувиргаж хөгжилтэй байдлаар суралцах болно. 
                     </p>
-                    <a href="https://quizlet.com/">Энд дарна уу</a>
+                   
                 </div>
+               </div>
+         
             </div>
         
      
@@ -279,25 +287,23 @@
                         оруулсан байх шаардлагатайг анхаарна уу.
                     </p>
                  </div>
-            </div>               
-                    <div class="footercontainer">
-                        <div>
-                            <p>Үгсийн сантай холбоотой асуудлаар</p>
-                            <a href="mailto:erkhbayarb@ot.mn?cc=achiiginb@ot.mn"><img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon"></a>
-                        </div>
-                        <div>
-                            <p>Ашиглалттай холбоотой асуудлаар</p>
-                            <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn"><img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon"></a>
-                        </div>
-                        <div>
-                            <p>ОТГУ-н Орчуулгийн баг</p>
-                            <a href="mailto:yadamtsooz@ot.mn"><img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon"></a>
-                        </div>
-                       
-                    </div>            
+            </div>                         
         </div>
-    </div>
+    </div> 
 </section>
+<div class="footercontainer">
+    <img src="{{ url_for('static', filename='images/email.png') }}" class="img-fluid emailicon">
+    <div>
+        <a href="mailto:erkhbayarb@ot.mn?cc=achiiginb@ot.mn">Үгсийн сантай холбоотой асуудлаар</a>
+    </div>
+    <div class="footercontactseparator">
+        <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn">Ашиглалттай холбоотой асуудлаар</a>
+    </div>
+    <div class="footercontactseparator">
+        <a href="mailto:yadamtsooz@ot.mn">ОТГУ-н Орчуулгийн баг</a>
+    </div>
+   
+</div> 
 </body>
 </html>
 
@@ -341,7 +347,7 @@
     
     function populate(word){
         $.each(word, function (idx, w) {
-            $('.suggestions').append(`<li>${w}</li>`)
+            $('.suggestions').append(`<li class = element>${w}</li>`)
 
             
     })};
@@ -353,7 +359,7 @@
     });
     
 
-    // function auto_complete() {
+    
         searchInput.addEventListener('keyup',function(e){
             var code = (e.keyCode || e.which);
             
@@ -375,14 +381,13 @@
             $('.intro').hide();
             populate(word);
             
-            $('.suggestions').addClass('open');
             $('.suggestions').slideDown('slow');        
             $('.suggestions li:first').addClass('selected');
-            // royhoorhon(e)
+        
     $('body').click(function(e){
     
-        if(!$(e.target).is('input, a, li')){
-            $('.searchbox input').val('').focus();
+        if(!$(e.target).is('input, a, li, section')){
+            $('.searchbox input').val('');
             $('.suggestions').slideUp('slow');           
         }
 
@@ -438,9 +443,17 @@
             success: function (response) {
             
                 let word = response.words
+                $('.welcometext, .addnewtext, .infobtn').hide();
+                $('.termcheck').append('<i class="fas fa-arrow-left back"></i>');
+            $('.fas').click(function(){
+                $('.welcometext, .infobtn').show();
+                $('.termcheck, .back').hide();
+            })
                 $('.termcheck').fadeIn(600);
+               
                 document.getElementById('existingDef').innerHTML = word;
-                
+
+              
             },
             error: function (response) {
                 console.log(response)
@@ -455,36 +468,46 @@
     var scroll = new SmoothScroll('a[href*="#"]');
 
 
-    $("#search").on('input focus keypress keydown', function(e) {
+            $('#search').on('keyup', function(e){
+                $('.suggestions').addClass('open');
+                if (e.which == 40){
+                    $('.element:not(:last-child).selected').removeClass('selected').next().addClass('selected');
+                    $('#search').val($('.selected').text());
+                } else if (e.which == 38) {
+                    $('.element:not(:first-child).selected').removeClass('selected').prev().addClass('selected');
+                    $('#search').val($('.selected').text());
+                }
+                $('.searchbox-container .suggestions').scrollTop(0).scrollTop($('.suggestions .selected:first').offset().top-$('.searchbox-container .suggestions').height());
 
-                        if (e.which == 38) {
-                            e.preventDefault();
-
-                            if($('.suggestions li.selected').index() == 0) return;
-                        if(!$('.suggestions li.selected')){
-                            $('.suggestions li.selected').eq(0).removeClass('selected');
-                        } else {
-                            $('.suggestions li.selected').eq(0).removeClass('selected').prev().addClass('selected');
-                            $('#search').val($('.selected').text());
-                            $(searchInput).setSelectionRange(searchInput.value.length, searchInput.value.length);
-                         }
-                         
-                        } else if (e.which == 40) {
-                            if($(".suggestions li.selected").index()==$(".suggestions li").length-1) return;
-                        if( ! $('.suggestions li.selected')){
-                            $('.suggestions li').eq(0).addClass('selected');
-                            $('#search').val($('.selected').text());
-                        } else {
-                            $('.suggestions li.selected').eq(0).removeClass('selected').next().addClass('selected');
-                            $('#search').val($('.selected').text());
-                         }
-                        }
-                        $('.searchbox-container .suggestions').scrollTop(0).scrollTop($('.suggestions .selected:first').offset().top-$('.searchbox-container .suggestions').height());
-                        if (e.which === 13) {
+                if (e.which === 13) {
                             $('#goBtn').click();
                             $('.suggestions').slideUp('slow');  
                         }
-                    })
+            });
+
+        $('.infobtn').click(function(){
+            $('.welcometext').hide();
+            $('.addnewtext').show();
+            $(this).hide();
+            $('.addnewtext').append('<i class="fas fa-arrow-left back"></i>');
+            $('.fas').click(function(){
+                $('.welcometext, .infobtn').show();
+                $('.addnewtext, .back').hide();
+            })
+        })
+
+
+        $('.next').click(function(){
+            $('.scrollrow').animate({
+                scrollLeft: '+=200px'
+            }, 'slow');
+        });
+
+        $('.prev').click(function(){
+            $('.scrollrow').animate({
+                scrollLeft: '-=200px'
+            }, 'slow');
+        });
 
 </script>
 

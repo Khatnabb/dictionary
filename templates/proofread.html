@@ -46,7 +46,7 @@
 
     <div class="myTabs">
       <input type="radio" id="tabTable" name="mytabs" checked='checked'>
-      <label class="tablabel" for="tabTable">Proofread</label>
+      <label class="tablabel firsttab" for="tabTable">Proofread</label>
       <div class="tab" >
         <div class="container ediTable active" id="Table" data-tab-content>
           <div class="table-responsive-xl">
@@ -132,29 +132,33 @@
         
       </div>
       <input type="radio" id="tabAnalyze" name="mytabs">
-      <label class="tablabel" for="tabAnalyze">Analytics</label>
+      <label class="tablabel" for="tabAnalyze">Analytics <span class="badge badge-dark">New</span></label>
        <div class="tab" >
         <h3>Glossary searches</h3>
         <hr> 
          <div class="container analyticstable">
-           <div class="table-responsive-lg">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-              <th style="width: 40%;">Searches</th>
-              <th style="width: 10%;" >Frequency</th>
-            </tr>
-            </thead>
-            <tbody>
-              {% for search_freq in notFound %} 
-              <tr>
-                <td>{{search_freq.Term}}</td>
-                <td>{{search_freq.Frequency}}</td>
+           <div class="row">
+        <div class="col-md-6">
+          <div class="table-responsive-sm">
+            <table class="table table-bordered table-sm freqtable">
+              <thead>
+                <tr>
+                <th style="width: 40%;">Searches</th>
+                <th style="width: 10%;">Frequency</th>
               </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {% for search_freq in notFound %} 
+                <tr>
+                  <td>{{search_freq.Term}}</td>
+                  <td>{{search_freq.Frequency}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div> 
+      </div>
         </div> 
 
   
@@ -213,6 +217,8 @@
           //     target.classList.add('active')
           //   })
           // })
+
+          
 
           
     </script>
