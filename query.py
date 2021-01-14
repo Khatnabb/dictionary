@@ -16,30 +16,37 @@ def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=No
 
 def get_searched_word_en(searchinput):
 
-    q = """SELECT Def
+    q = """SELECT Term, Term_definition, Term_description, Field
 
     FROM [otdict].[dbo].[otdictionary]
 
     WHERE Term = '{}' """.format(searchinput)
     
     df = sql_link(q)
-
-    return df['Def'][0]
+    df = {'Term': df['Term'][0],
+          'Definition': df['Term_definition'][0], 
+          'Description': df['Term_description'][0],
+          'Field': df['Field'][0]}
+    return df
+    
 
 def get_searched_word_mn(searchinput):
 
-    q = """SELECT Term
+    q = """SELECT Term, Term_definition, Term_description, Field
 
     FROM [otdict].[dbo].[otdictionary]
 
-    WHERE Def LIKE N'%{}%' """.format(searchinput)
+    WHERE Term_definition LIKE N'%{}%' """.format(searchinput)
           
     df = sql_link(q)
-
-    return df['Term'][0]
+    df = {'Term': df['Term'][0],
+          'Definition': df['Term_definition'][0], 
+          'Description': df['Term_description'][0],
+          'Field': df['Field'][0]}
+    return df
 
 def auto_complete(span):
-    q = """SELECT Term, Def
+    q = """SELECT Term, Term_definition
 
     FROM [otdict].[dbo].[otdictionary]
 
@@ -49,14 +56,14 @@ def auto_complete(span):
     return list(df['Term'])
 
 def auto_complete_mn(span):
-    q = """SELECT Def
+    q = """SELECT Term_definition
 
     FROM [otdict].[dbo].[otdictionary]
 
-    WHERE Def LIKE N'%{}%' """.format(span)
+    WHERE Term_definition LIKE N'%{}%' """.format(span)
     df = sql_link(q)
     
-    return list(df['Def'])
+    return list(df['Term_definition'])
 
 def check_for_duplicates(searchinput):
     q= """SELECT COUNT(*) as count 

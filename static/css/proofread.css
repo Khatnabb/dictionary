@@ -36,6 +36,27 @@ body{
     outline: none !important;
 }
 
+.intro{
+    margin: 0 auto;
+    padding: 10px;
+    background-image: url('/static/mining.jpg');
+    height: 225px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-bottom: 10px solid #002a51;
+}
+
+.intro-title{
+    font-size: 5vmin;
+    color: #fff;
+    margin-left: 60%;
+    font-weight: 600;
+    text-align: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+
 .titlecontainer{
     margin-top: 30px;
     text-align: center;

@@ -42,26 +42,30 @@ def api_main_search(searchinput,lang):
         
             try:
                 words = get_searched_word_en(searchinput=searchinput)
-                return json.dumps({'words': words})
+                # print(words)
+                # return json.dumps({'words': words})
+                return {'words': words}
 
             except IndexError:
             
-                count = check_for_duplicates(searchinput)
-                if count == 0:
-                    cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
-                    cursor.commit()
-                else:
-                    cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
-                    cursor.commit()
-                # return redirect(url_for('proofread'))
+                 count = check_for_duplicates(searchinput)
+                 if count == 0:
+                     cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
+                     cursor.commit()
+                 else:
+                     cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
+                     cursor.commit()
+                 # return redirect(url_for('proofread'))
 
-                return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
+                 return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
                 
         elif lang == "MN-EN":
 
             try:
                 words = get_searched_word_mn(searchinput=searchinput)
-                return json.dumps({'words': words})
+                # return json.dumps({'words': words})
+                # return json.dumps({'words': words})
+                return {'words': words}
 
             except IndexError:
 
@@ -90,7 +94,7 @@ def api_contribute_search(searchinput):
         
         try:
             words = get_searched_word_en( searchinput = searchinput)
-            return json.dumps({'words': words})
+            return {'words': words}
 
         except IndexError:
 
@@ -167,7 +171,7 @@ def addNewProofread():
         term = request.form['term']
         definition = request.form['definition']
 
-        cursor.execute("INSERT INTO otdictionary (Term, Def) VALUES (?,?)", (term, definition))
+        cursor.execute("INSERT INTO otdictionary (Term, Term_definition) VALUES (?,?)", (term, definition))
         cursor.commit()
         return redirect(url_for('proofread'))
 
@@ -187,7 +191,7 @@ def update():
 def save(idx):
     if request.method == 'POST':
 
-        cursor.execute("INSERT INTO otdictionary(Term, Def) SELECT Term, Def FROM [otdict].[dbo].[newEntries] WHERE ID = {}; DELETE FROM [otdict].[dbo].[newEntries]  WHERE ID = {};".format(idx,idx))
+        cursor.execute("INSERT INTO otdictionary(Term, Term_definition) SELECT Term, Def FROM [otdict].[dbo].[newEntries] WHERE ID = {}; DELETE FROM [otdict].[dbo].[newEntries]  WHERE ID = {};".format(idx,idx))
         cursor.commit()
         
     return redirect(url_for('proofread'))
