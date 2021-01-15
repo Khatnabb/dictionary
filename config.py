@@ -1,5 +1,5 @@
 import os
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class base_config(object):
     """Default configuration options."""
@@ -14,11 +14,7 @@ class base_config(object):
     FORMAT_DATE = '%Y-%m-%d'
     FORMAT_DATETIME = '%Y-%m-%d %H:%M'
 
-    users = {
-        "Erkhbayarb": generate_password_hash("Erkhbayarb123$"),
-        "Erkhembayare": generate_password_hash("Erkhembayare123$"),
-        "Khatantuul": generate_password_hash("Erkhembayare123$")
-    }
+
 
 class dev_config(base_config):
     """Development configuration options."""
@@ -30,3 +26,9 @@ class test_config(base_config):
     """Testing configuration options."""
     TESTING = True
     WTF_CSRF_ENABLED = False
+
+users = {
+    "Erkhbayarb": generate_password_hash("Erkhbayarb123$"),
+    "Erkhembayare": generate_password_hash("Erkhembayare123$"),
+    "Khatantuul": generate_password_hash("Erkhembayare123$")
+}

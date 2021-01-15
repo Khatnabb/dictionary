@@ -20,11 +20,11 @@ def verify_password(username, password):
             check_password_hash(users.get(username), password):
         return username
 
-@app.route('/home')
+@app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/home/<string:searchinput>/lang/<lang>')
+@app.route('/<string:searchinput>/lang/<lang>')
 def api_main_search(searchinput,lang):
     
     import re
