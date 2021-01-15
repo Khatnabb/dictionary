@@ -9,7 +9,7 @@ class base_config(object):
     SITE_DATABASE = 'CSV data source'
 
     SUPPORTED_LOCALES = ['en']
-    ABS_PREFIX = '/home'
+    ABS_PREFIX = '/dictionary'
 
     FORMAT_DATE = '%Y-%m-%d'
     FORMAT_DATETIME = '%Y-%m-%d %H:%M'
