@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 import json, pyodbc
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from config import users
 
 app = Flask(__name__)
 
@@ -12,12 +13,6 @@ with pyodbc.connect(conx_string) as conx:
     cursor = conx.cursor()
 
 auth = HTTPBasicAuth()
-
-users = {
-    "Erkhbayarb": generate_password_hash("Erkhbayarb123$"),
-    "Erkhembayare": generate_password_hash("Erkhembayare123$"),
-    "Khatantuul": generate_password_hash("Erkhembayare123$")
-}
 
 @auth.verify_password
 def verify_password(username, password):
@@ -93,13 +88,12 @@ def api_contribute_search(searchinput):
     if (regex.search(searchinput) == None):
         
         try:
-            words = get_searched_word_en( searchinput = searchinput)
+            words = get_searched_word_en(searchinput = searchinput)
             return {'words': words}
 
         except IndexError:
 
             return {'response': 'The word you searched is not found, we will add this word soon!'}, 400
-        
     else:
         return {'response': 'The word cannot contain special characters in it'}, 400
 
