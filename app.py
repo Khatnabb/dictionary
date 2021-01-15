@@ -5,7 +5,14 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import users
 
+def init(env, resp):
+	resp(b'200 OK', [(b'Content-Type', b'text/plain')])
+	return [b"Hello WSGI World"]
+
 app = Flask(__name__)
+app.config.from_object(base_config)
+app.wsgi_app = DispatcherMiddleware(init, {app.config['ABS_PREFIX']: app.wsgi_app})
+
 
 conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=otdict; trusted_connection=YES;"
 
