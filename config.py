@@ -32,3 +32,5 @@ users = {
     "Erkhembayare": generate_password_hash("Erkhembayare123$"),
     "Khatantuul": generate_password_hash("Erkhembayare123$")
 }
+
+

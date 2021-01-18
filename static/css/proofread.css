@@ -39,7 +39,7 @@ body{
 .intro{
     margin: 0 auto;
     padding: 10px;
-    background-image: url('/static/mining.jpg');
+    background-image: url('../images/background-img.jpg');
     height: 225px;
     background-position: center;
     background-repeat: no-repeat;

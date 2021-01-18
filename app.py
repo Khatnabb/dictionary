@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-# from query import *
+from config import base_config
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 import json, pyodbc
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,7 +13,6 @@ def init(env, resp):
 app = Flask(__name__)
 app.config.from_object(base_config)
 app.wsgi_app = DispatcherMiddleware(init, {app.config['ABS_PREFIX']: app.wsgi_app})
-
 
 conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=otdict; trusted_connection=YES;"
 
@@ -31,14 +31,17 @@ def verify_password(username, password):
 def home():
     return render_template('index.html')
 
-@app.route('/<string:searchinput>/lang/<lang>')
-def api_main_search(searchinput,lang):
+@app.route('/main_search')
+def api_main_search():
     
     import re
     from query import get_searched_word_en,get_searched_word_mn, check_for_duplicates
     
     regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:!=]')
-
+    data = dict(request.args)
+    searchinput = data['input_search']
+    lang = data['language']
+    
     if (regex.search(searchinput) == None):
         if lang == "EN-MN":
         
@@ -52,10 +55,10 @@ def api_main_search(searchinput,lang):
             
                  count = check_for_duplicates(searchinput)
                  if count == 0:
-                     cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
+                     cursor.execute("INSERT INTO search_not_found (Term_not_found, Search_frequency) VALUES (?,1)", searchinput)
                      cursor.commit()
                  else:
-                     cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
+                     cursor.execute("UPDATE [otdict].[dbo].[search_not_found] SET Search_frequency = Search_frequency + 1 WHERE Term_not_found=(?)", searchinput)
                      cursor.commit()
                  # return redirect(url_for('proofread'))
 
@@ -65,18 +68,17 @@ def api_main_search(searchinput,lang):
 
             try:
                 words = get_searched_word_mn(searchinput=searchinput)
-                # return json.dumps({'words': words})
-                # return json.dumps({'words': words})
+    
                 return {'words': words}
 
             except IndexError:
 
                 count = check_for_duplicates(searchinput)
                 if count == 0:
-                    cursor.execute("INSERT INTO notfound1 (Term, Frequency) VALUES (?,1)", searchinput)
+                    cursor.execute("INSERT INTO search_not_found (Term_not_found, Search_frequency) VALUES (?,1)", searchinput)
                     cursor.commit()
                 else:
-                    cursor.execute("UPDATE [otdict].[dbo].[notfound1] SET Frequency = Frequency + 1 WHERE Term=(?)", searchinput)
+                    cursor.execute("UPDATE [otdict].[dbo].[search_not_found] SET Search_frequency = Search_frequency + 1 WHERE Term_not_found=(?)", searchinput)
                     cursor.commit()
                 # return redirect(url_for('proofread'))
 
@@ -85,7 +87,7 @@ def api_main_search(searchinput,lang):
     else:
         return {'response': 'The word cannot contain special characters in it'}, 400
 
-@app.route('/home/check/<searchinput>/')
+@app.route('/check/<searchinput>/')
 def api_contribute_search(searchinput):
     
     import re
@@ -104,14 +106,18 @@ def api_contribute_search(searchinput):
     else:
         return {'response': 'The word cannot contain special characters in it'}, 400
 
-@app.route('/home/autocomplete/<string:searchinput>/lang/<lang>')
-def api_autocomplete(searchinput,lang):
+@app.route('/api/autocomplete')
+def api_autocomplete():
     
     import re
     from query import auto_complete, auto_complete_mn
-    
+
+    data = dict(request.args)
+    searchinput = data['input_search']
+    lang = data['language']
+
     regex = re.compile('[@_!#$%^&*<>?\|}{~:.;:,!-=]')
-    if (regex.search(searchinput) == None):
+    if (regex.search(searchinput) == None) and searchinput != "":
         if lang == "EN-MN":
             try:
                 words = auto_complete(span=searchinput)
@@ -145,9 +151,10 @@ def contribute_add_new():
 
         postingterm = request.form['postingterm']
         postingdef = request.form['postingdef']
+        postingdescription = request.form['description']
         postingemail = request.form['email']    
         
-        cursor.execute("INSERT INTO newEntries (Term, Def,Email) VALUES (?,?,?)", (postingterm, postingdef,postingemail))
+        cursor.execute("INSERT INTO added_terms (Term_added, Definition_added, Description_added, OT_email) VALUES (?,?,?,?)", (postingterm, postingdef,postingdescription,postingemail))
         cursor.commit()
         return render_template('index.html')
 
@@ -156,13 +163,13 @@ def contribute_add_new():
 @auth.login_required
 def proofread():
 
-    cursor.execute("SELECT * FROM newEntries")
+    cursor.execute("SELECT * FROM added_terms")
     data = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM notfound1 ORDER BY Frequency DESC")
+    cursor.execute("SELECT * FROM search_not_found ORDER BY Search_frequency DESC")
     search_freq = cursor.fetchall()
-
-    return render_template('proofread.html', newEntries = data, notFound = search_freq)
+    print (data, search_freq)
+    return render_template('proofread.html', added_terms = data, search_freq = search_freq)
 
 @app.route('/proofread/addnew', methods=['POST','GET'])
 def addNewProofread():  
@@ -183,7 +190,7 @@ def update():
         idx = request.form['id']
         term = request.form['term']
         definition = request.form['definition']
-        cursor.execute("UPDATE newEntries SET Term = ?, Def = ?  WHERE ID = ?", term, definition, idx)
+        cursor.execute("UPDATE added_terms SET Term_added = ?, Definition_added = ?  WHERE ID = ?", term, definition, idx)
         cursor.commit()
         return redirect(url_for('proofread'))
 
@@ -192,7 +199,7 @@ def update():
 def save(idx):
     if request.method == 'POST':
 
-        cursor.execute("INSERT INTO otdictionary(Term, Term_definition) SELECT Term, Def FROM [otdict].[dbo].[newEntries] WHERE ID = {}; DELETE FROM [otdict].[dbo].[newEntries]  WHERE ID = {};".format(idx,idx))
+        cursor.execute("INSERT INTO otdictionary(Term, Term_definition) SELECT Term_added, Definition_added FROM [otdict].[dbo].[added_terms] WHERE ID = {}; DELETE FROM [otdict].[dbo].[added_terms]  WHERE ID = {};".format(idx,idx))
         cursor.commit()
         
     return redirect(url_for('proofread'))
@@ -201,7 +208,7 @@ def save(idx):
 def delete(idx):
     if request.method == 'POST':
 
-        cursor.execute("DELETE FROM [otdict].[dbo].[newEntries]  WHERE ID = ?", idx)
+        cursor.execute("DELETE FROM [otdict].[dbo].[added_terms]  WHERE ID = ?", idx)
         cursor.commit()
         
     return redirect(url_for('proofread'))
@@ -220,3 +227,4 @@ if __name__ == "__main__":
 
 # if __name__ == "__main__":
 #     app.run(debug=True)
+

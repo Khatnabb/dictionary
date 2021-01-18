@@ -67,8 +67,8 @@ def auto_complete_mn(span):
 
 def check_for_duplicates(searchinput):
     q= """SELECT COUNT(*) as count 
-    FROM [otdict].[dbo].[notfound1] 
-    WHERE Term = '{}' """.format(searchinput)
+    FROM [otdict].[dbo].[search_not_found] 
+    WHERE Term_not_found = '{}' """.format(searchinput)
     df = sql_link(q)
     return df['count'][0]
 

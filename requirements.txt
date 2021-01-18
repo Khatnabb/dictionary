@@ -16,5 +16,6 @@ pytz==2020.1
 setuptools==49.6.0
 six==1.15.0
 toml==0.10.1
-Werkzeug==1.0.1
+Werkzeug==0.14.1
 wheel==0.35.1
+fontawesome-free==5.15.1
