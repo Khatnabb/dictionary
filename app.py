@@ -5,6 +5,7 @@ import json, pyodbc
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import users
+from query import cursor
 
 def init(env, resp):
 	resp(b'200 OK', [(b'Content-Type', b'text/plain')])
@@ -13,11 +14,6 @@ def init(env, resp):
 app = Flask(__name__)
 app.config.from_object(base_config)
 app.wsgi_app = DispatcherMiddleware(init, {app.config['ABS_PREFIX']: app.wsgi_app})
-
-conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=otdict; trusted_connection=YES;"
-
-with pyodbc.connect(conx_string) as conx:
-    cursor = conx.cursor()
 
 auth = HTTPBasicAuth()
 
@@ -110,7 +106,7 @@ def api_contribute_search(searchinput):
 def api_autocomplete():
     
     import re
-    from query import auto_complete, auto_complete_mn
+    from query import auto_complete_en, auto_complete_mn
 
     data = dict(request.args)
     searchinput = data['input_search']
@@ -120,7 +116,7 @@ def api_autocomplete():
     if (regex.search(searchinput) == None) and searchinput != "":
         if lang == "EN-MN":
             try:
-                words = auto_complete(span=searchinput)
+                words = auto_complete_en(span=searchinput)
                 print(words)
                 return json.dumps({'words': words})
                 

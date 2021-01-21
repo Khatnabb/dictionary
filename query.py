@@ -1,7 +1,17 @@
 import pyodbc
 import pandas as pd
 
-def sql_link(query, server='localhost\SQLEXPRESS', database='words',index_col=None, driver='{SQL SERVER}'):
+conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=otdict; trusted_connection=YES;"
+
+with pyodbc.connect(conx_string) as conx:
+    cursor = conx.cursor()
+
+def sql_link(query, 
+             server='localhost\SQLEXPRESS',
+             database='words',
+             conx_string,
+             index_col=None,
+             driver='{SQL SERVER}'):
     
     driver = "{SQL SERVER}"
     server = "localhost\SQLEXPRESS"
@@ -45,7 +55,7 @@ def get_searched_word_mn(searchinput):
           'Field': df['Field'][0]}
     return df
 
-def auto_complete(span):
+def auto_complete_en(span):
     q = """SELECT Term, Term_definition
 
     FROM [otdict].[dbo].[otdictionary]
@@ -73,23 +83,3 @@ def check_for_duplicates(searchinput):
     df = sql_link(q)
 
     return df['count'][0]
-
-# def save_to_main(idx):
-#     q = """                  INSERT INTO otdictionary(Term, Def)
-#                              SELECT Term, Def FROM [otdict].[dbo].[newEntries]
-#                              WHERE ID = {};
-#                              DELETE FROM [otdict].[dbo].[newEntries]
-#                              WHERE ID = {}; """.format(idx,idx)
-#     df = sql_link(q)
-#     return df
-    
-
-# def Royischeckingtheword(word):
-#     import re
-
-#     regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
-
-#     if(regex.search(word) == None):
-#         return word
-#     else:
-#         return word
