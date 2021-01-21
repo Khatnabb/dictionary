@@ -121,13 +121,13 @@ def api_autocomplete():
         if lang == "EN-MN":
             try:
                 words = auto_complete(span=searchinput)
-                
+                print(words)
                 return json.dumps({'words': words})
-                # return json.dumps({'words': words[:10]})
-            except IndexError:
-                return {'response': 'The word you searched is not found'}, 400
+                
+            except:
+                return json.dumps({'response': 'The word you searched is not found'}), 400
             else:
-                return {'response': 'The word cannot contain special characters in it'}, 400
+                return json.dumps({'response': 'The word cannot contain special characters in it'}), 400
         else:
             try:
                 words = auto_complete_mn(span=searchinput)
@@ -149,15 +149,14 @@ def contribute_add_new():
 
     if request.method == "POST":
 
-        postingterm = request.form['postingterm']
-        postingdef = request.form['postingdef']
-        postingdescription = request.form['description']
-        postingemail = request.form['email']    
+        newterm = request.form['new-term']
+        newdefinition = request.form['new-definition']
+        newdescription = request.form['new-description']
+        submitemail = request.form['submit-email']    
         
-        cursor.execute("INSERT INTO added_terms (Term_added, Definition_added, Description_added, OT_email) VALUES (?,?,?,?)", (postingterm, postingdef,postingdescription,postingemail))
+        cursor.execute("INSERT INTO added_terms (Term_added, Definition_added, Description_added, OT_email) VALUES (?,?,?,?)", (newterm, newdefinition,newdescription,submitemail))
         cursor.commit()
         return render_template('index.html')
-
 
 @app.route('/proofread/', methods = ['POST', 'GET'])
 @auth.login_required
@@ -172,7 +171,7 @@ def proofread():
     return render_template('proofread.html', added_terms = data, search_freq = search_freq)
 
 @app.route('/proofread/addnew', methods=['POST','GET'])
-def addNewProofread():  
+def addnew_proofread():  
 
     if request.method == "POST":
         

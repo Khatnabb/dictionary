@@ -1,9 +1,9 @@
 body{
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     background-color: #fff;
 }
 
-#nav-bar{
+#navbar-section{
     position: sticky;
     top: 0;
     z-index: 10;
@@ -36,7 +36,7 @@ body{
     outline: none !important;
 }
 
-.intro{
+.background{
     margin: 0 auto;
     padding: 10px;
     background-image: url('../images/background-img.jpg');
@@ -47,7 +47,7 @@ body{
     border-bottom: 10px solid #002a51;
 }
 
-.intro-title{
+.background-title{
     font-size: 5vmin;
     color: #fff;
     margin-left: 60%;
@@ -144,7 +144,7 @@ input{
 }
 
 
-.addNewbutton{
+.addnew-button{
     border: 1px solid;
     margin-left: 15px;
 }

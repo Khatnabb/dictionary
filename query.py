@@ -54,6 +54,7 @@ def auto_complete(span):
     df = sql_link(q)
     
     return list(df['Term'])
+ 
 
 def auto_complete_mn(span):
     q = """SELECT Term_definition
@@ -62,7 +63,7 @@ def auto_complete_mn(span):
 
     WHERE Term_definition LIKE N'%{}%' """.format(span)
     df = sql_link(q)
-    
+
     return list(df['Term_definition'])
 
 def check_for_duplicates(searchinput):
@@ -70,6 +71,7 @@ def check_for_duplicates(searchinput):
     FROM [otdict].[dbo].[search_not_found] 
     WHERE Term_not_found = '{}' """.format(searchinput)
     df = sql_link(q)
+
     return df['count'][0]
 
 # def save_to_main(idx):
