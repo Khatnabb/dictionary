@@ -6,12 +6,7 @@ conx_string = "driver={SQL SERVER}; server=localhost\SQLEXPRESS; database=otdict
 with pyodbc.connect(conx_string) as conx:
     cursor = conx.cursor()
 
-def sql_link(query, 
-             server='localhost\SQLEXPRESS',
-             database='words',
-             conx_string,
-             index_col=None,
-             driver='{SQL SERVER}'):
+def sql_link(query, server='localhost\SQLEXPRESS',database='words',index_col=None, driver='{SQL SERVER}'):
     
     driver = "{SQL SERVER}"
     server = "localhost\SQLEXPRESS"

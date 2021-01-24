@@ -137,10 +137,11 @@ body{
     margin-top: 25px;
 }
 
-
-input{
+#table-filter-input{
     border: none;
     outline: none;
+    width: 300px;
+    border-bottom: 2px solid #ae0015;
 }
 
 

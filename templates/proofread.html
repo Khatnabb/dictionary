@@ -6,6 +6,7 @@
     <title>OT Technical Glossary Adding new terms</title>
     <link href="{{ url_for('static', filename='css/main-font.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
     <link href="{{ url_for('static', filename='css/proofread.css') }}" rel="stylesheet">
 </head>
 
@@ -40,23 +41,27 @@
             <div class="tab" >
                 <div class="container ediTable active" id="Table" data-tab-content>
                   <div class="table-responsive-xl">
-                    <table class="table table-hover table-bordered" id="myTable">
+                    <input id="table-filter-input" type="text" placeholder="Search....."><br><br>
+                    <table class="table table-hover table-bordered" data-pagination="true">
                       <thead>
                       <tr>
                           <th style="display: none;">ID</th>
                           <th>Term</th>
                           <th>Definition</th>
                           <th>Description</th>
-                          <th>OT Email</th>
+                          <th>Field</th>
+                          <th data-sortable="">OT Email</th>
                           <th>Action<button class="btn btn-xs addnew-button" data-toggle="modal" data-target="#addmodal">+</button></th>  
                       </tr>
                       </thead>
+                      <tbody id="proofread_table" >
                     {% for data in added_terms %} 
                       <tr>
                           <td style="display: none;">{{data.ID}}</td>
                           <td class="tdterm">{{data.Term_added}}</td>
                           <td class="tddefinition">{{data.Definition_added}}</td>
                           <td class="tddescription">{{data.Description_added}}</td>
+                          <td class="tdfield">{{data.Field}}</td>
                           <td class="tdemail">{{data.OT_email}}</td>
                           <td class="buttons">
                             <a href="/update/{{data.ID}}" class="btn btn-xs edit" data-toggle="modal" data-target="#modaledit{{data.ID}}"><i class="fas fa-pen"></i></a>
@@ -80,6 +85,14 @@
                                     <div class="form-group">
                                       <label>Definition:</label>
                                       <input type="text" class="form-control" name="definition" value="{{data.Definition_added}}">
+                                    </div>
+                                    <div class="form-group">
+                                      <label>Description:</label>
+                                      <input type="text" class="form-control" name="description" value="{{data.Description_added}}">
+                                    </div>
+                                    <div class="form-group">
+                                      <label>Description:</label>
+                                      <input type="text" class="form-control" name="field" value="{{data.Field}}">
                                     </div>
                                     <div class="form-group">
                                       <button class="btn btn-primary" type="submit">Save</button>
@@ -107,6 +120,20 @@
                                         <input type="text" class="form-control" name="definition" value="" autocomplete="off">
                                       </div>
                                       <div class="form-group">
+                                        <label>Description:</label>
+                                        <input type="text" class="form-control" name="description" value="" autocomplete="off">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Field:</label>
+                                        <select id="field" name="field">
+                                          <option value="Geo">Geo</option>
+                                          <option value="M">M</option>
+                                          <option value="C">C</option>
+                                          <option value="T">T</option>
+                                          <option value="G">G</option>
+                                        </select>
+                                      </div>
+                                      <div class="form-group">
                                         <button class="btn btn-primary float-right" type="submit">Add+</button>
                                       </div>
                                     </form>
@@ -115,6 +142,7 @@
                             </div>
                           </div>
                     {% endfor %}
+                  </tbody>
                     </table>
                   </div> 
                   <div class="selectPage">
@@ -160,6 +188,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/paginathing.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
 
 
     <script type = 'text/javascript'>
@@ -167,17 +196,27 @@
       $(".save").click(function () {
           var $row = $(this).closest("tr");  
           var idx = $row.find("td:nth-child(1)").text();
-          $.post("/save/" + idx, {'idx':idx});
+          $.post('{{ config.ABS_PREFIX }}/proofread/save/' + idx, {'idx':idx});
           $row.fadeOut();
         });
 
         $('.delete').click(function(){
           var $row = $(this).closest("tr"); 
           var idx = $row.find("td:nth-child(1)").text();
-          $.post("/delete/" + idx, {'idx':idx});
+          $.post('{{ config.ABS_PREFIX }}/proofread/delete/' + idx, {'idx':idx});
           $row.remove(); 
+          
         });        
 
+
+        $(document).ready(function(){
+          $('#table-filter-input').on("keyup", function(){
+            var filter_value = $(this).val().toLowerCase();
+            $('#proofread_table tr').filter(function(){
+              $(this).toggle($(this).text().toLowerCase().indexOf(filter_value) > -1)
+            });
+          });
+        });
 
        
         // $('table tbody').paginathing({

@@ -53,7 +53,7 @@
             <div class="searchbox">
                 <div class="inputcntr">
                      <input type="text" name="term" id="search" autocomplete="off" value="" size="50">
-                     <a id="goBtn" onclick="get_words()"><i class="o-search-magnify-1 search-icon"></i></a>
+                     <a id="go-btn" onclick="get_words()"><i class="o-search-magnify-1 search-icon"></i></a>
                  </div>
                 <div class="lang-menu">
                     <img src="{{ url_for('static', filename='images/british-flag.png') }}" class="eng-flag">
@@ -143,10 +143,18 @@
                     <div class="addnew-container">
                         <form class="addnew-form" role="form" action="{{ url_for('contribute_add_new') }}" method="POST" >
                             <h2>Шинэ үг нэмэх</h2>
-                            <input id="new-term" name="new-term" class="term" required autocomplete="off" placeholder="Term" type="text"><br>
-                            <input id="new-definition" name="new-definition" class="definition" required autocomplete="off" placeholder="Definition" type="text"><br>
-                            <textarea placeholder="Description..." id="new-description" name="new-description" class="description" rows="3" cols="40"></textarea><br>
-                            <input type="email" id="submit-email" name="submit-email" placeholder="OT Email" required><br>
+                            <input id="new-term" name="new-term" class="term" required autocomplete="off" placeholder="Оруулах үг" type="text"><br>
+                            <input id="new-definition" name="new-definition" class="definition" required autocomplete="off" placeholder="Үгийн утга" type="text"><br>
+                            <textarea placeholder="Үгийн урт тайлбар /Хэрэв байгаа бол/" id="new-description" name="new-description" class="description" rows="3" cols="40"></textarea><br>
+                            <label for="field-option">Таны оруулсан утгын хамаарах салбар:</label>
+                            <select id="field-option" name="field-option">  
+                                <option value="Geo">Geo</option>
+                                <option value="M">M</option>
+                                <option value="C">C</option>
+                                <option value="T">T</option>
+                                <option value="G">G</option>
+                            </select><br>
+                            <input type="email" id="submit-email" name="submit-email" placeholder="OT Имэйл хаяг" required><br>
                             <input type="submit" name="submitbtn" value="Илгээх" class="submitbtn">
                         </form>
                     </div>
@@ -182,22 +190,30 @@
    <section id="subscription-section">
     <div class="container email-subscription-container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="email-subscription">
-                    <div class="subscription-text">
+            <div class="col-lg-6 email-subscription">
+                <div class="subscription-text">
+                    <div>
+                        <h2>Үг цээжлэх үү?</h2>
+                    </div>
+                    <div>
                         <p>
                             <span>
-                                Өдөрт нэг үг afenoeinfenvioewnigh
+                                Өдөр бүр үг цээжлэхэд тань туслая. 
+                                Та OT и-мэйл хаягаа бидэнд үлдээж 
+                                өдөр бүр энэ хураангуйд багтсан үгсээс хүлээн аваарай
                             </span>
                         </p>
                     </div>
+                </div>
+                </div>
+                <div class="col-lg-6 email-subscription">
                     <div class="subscription-form">
                         <form>
                             <input>
                             <button>Get started</button>
                         </form>
                     </div>
-                </div>
+                </div>            
             </div>  
         </div>
     </div>
@@ -410,8 +426,9 @@
     
      $('body').on('click', '.suggestions-autocomplete > li', function(){
         $('.searchbox input').val($(this).text());
+        get_words(); 
         $('.suggestions-autocomplete').slideUp('slow');
-        get_words();  
+         
     });
     
 
@@ -419,7 +436,7 @@
         searchInput.addEventListener('keyup',function(e){
             var code = (e.keyCode || e.which);
             
-            if(code == 38 || code == 40 || code == 13) {
+            if(code == 38 || code == 40 || code == 13 || code == 64 || code == 9) {
         return;
         }
         if (searchInput.value.length === 0){
@@ -427,6 +444,13 @@
                 return;
             }
         }
+      
+            if(code === 13) {	
+                // e.preventDefault();
+                $('#go-btn').click();
+                // searchInput.blur();
+            }
+    
         let search = $('#search').val();
         let lang = $(".lang-menu option:selected").text();
         let value=$.trim($("#search").val());
@@ -444,12 +468,11 @@
             success: function (response) {
             let word = response.words
             suggestionsPanel.innerHTML = '';
+
             $('.intro-text').hide();
             populate(word);
             
-            $('.suggestions-autocomplete').addClass('open').slideDown('slow');   
-            
-            
+            $('.suggestions-autocomplete').addClass('open').slideDown('slow');               
             $('.suggestions-autocomplete li:first').addClass('selected');
         
     $('body').click(function(e){
@@ -461,16 +484,52 @@
 
     });
 
+    // if ($('.suggestions-autocomplete').html() == ''){
+    //     $('.suggestions-autocomplete').append('<p class="search_not_found">Search not found, we will add this word soon :)</p>')
+    // }
+    if ($('.suggestions-autocomplete').html() == ''){
+        $('.suggestions-autocomplete').append('<a class="search_not_found">Энэ үг олдсонгүй. Хайсан үгээ бүтнээр бичин энд дарж бидэнд мэдэгдэнэ үү</a>')
+        $('.search_not_found').click(function(){
+            add_not_found_to_db(search);
+            sweetalert("Success");
+        })
+    }
     },
         error: function (response) {
             console.log(response);
-            alert(response.responseJSON)
-            // sweetalertfail(message = response.responseJSON.response)
+            // alert(response)
+            sweetalertfail(message = response.responseJSON.response)
     },
         complete: function (response) {
         }
         });
 })
+
+    function add_not_found_to_db(not_found_word){
+
+        $.post('{{ config.ABS_PREFIX }}/api/add_not_found_word/' + not_found_word, {'not_found_word':not_found_word});
+        console.log(not_found_word);
+        // $.post(Flask.url_for('add_not_found_word', {not_found_word: not_found_word }));
+//         $.ajax({
+
+// type: 'GET',
+// url: '{{ config.ABS_PREFIX }}/api/add_not_found_word',
+// dataType: "json",
+// data: data,
+// success: function (response) {
+
+
+// },
+// error: function (response) {
+//     console.log(response)
+   
+
+// },
+// complete: function (response) {
+// },
+// }); 
+    }
+
 
     function get_words() {
         let search = $('#search').val()
@@ -494,6 +553,7 @@
                 document.getElementById('searched-term-definition').innerHTML = word['Definition'];
                 document.getElementById('searched-term-description').innerHTML = word['Description'];
                 document.getElementById('searched-term-field').innerHTML = word['Field'];
+                // $('.suggestions-autocomplete').slideUp('slow');
     
             },
             error: function (response) {
@@ -558,7 +618,7 @@
                 $('.searchbox-container .suggestions-autocomplete').scrollTop(230).scrollTop($('.suggestions-autocomplete .selected:first').offset().top-$('.searchbox-container .suggestions-autocomplete').height());
 
                 if (e.which === 13) {
-                            $('#goBtn').click();
+                            $('#go-btn').click();
                             $('.suggestions-autocomplete').slideUp('slow');  
                         }
             });

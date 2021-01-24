@@ -117,13 +117,13 @@ def api_autocomplete():
         if lang == "EN-MN":
             try:
                 words = auto_complete_en(span=searchinput)
-                print(words)
+                
                 return json.dumps({'words': words})
                 
             except:
-                return json.dumps({'response': 'The word you searched is not found'}), 400
+                return {'response': 'The word you searched is not found'}, 400
             else:
-                return json.dumps({'response': 'The word cannot contain special characters in it'}), 400
+                return {'response': 'The word cannot contain special characters in it'}, 400
         else:
             try:
                 words = auto_complete_mn(span=searchinput)
@@ -132,13 +132,27 @@ def api_autocomplete():
                 # return json.dumps({'words': words[:10]})
             except IndexError:
                 return {'response': 'Хайсан үг олдсонгүй кккк'}, 400
-            else:
-                return {'response': 'The word cannot contain special characters in it'}, 400
+    else:
+        return {'response': 'Тусгай тэмдэгт агуулж болохгүй'}, 400
 
 
 @app.route('/contribute')
 def contribute():
     return render_template('contribute.html')
+
+@app.route('/api/add_not_found_word/<word>', methods=['POST','GET'])
+def add_not_found_word(word):
+    from query import check_for_duplicates
+    count = check_for_duplicates(word)
+
+    if count == 0:
+        cursor.execute("INSERT INTO search_not_found (Term_not_found, Search_frequency) VALUES (?,1)", word)
+        cursor.commit()
+    else:
+        cursor.execute("UPDATE [otdict].[dbo].[search_not_found] SET Search_frequency = Search_frequency + 1 WHERE Term_not_found=(?)", word)
+        cursor.commit()
+
+    return word
 
 @app.route('/contribute/addnew', methods=['POST','GET'])
 def contribute_add_new():
@@ -148,9 +162,10 @@ def contribute_add_new():
         newterm = request.form['new-term']
         newdefinition = request.form['new-definition']
         newdescription = request.form['new-description']
+        field = request.form['field-option']
         submitemail = request.form['submit-email']    
         
-        cursor.execute("INSERT INTO added_terms (Term_added, Definition_added, Description_added, OT_email) VALUES (?,?,?,?)", (newterm, newdefinition,newdescription,submitemail))
+        cursor.execute("INSERT INTO added_terms (Term_added, Definition_added, Description_added, Field, OT_email) VALUES (?,?,?,?,?)", (newterm, newdefinition,newdescription,field,submitemail))
         cursor.commit()
         return render_template('index.html')
 
@@ -163,7 +178,7 @@ def proofread():
 
     cursor.execute("SELECT * FROM search_not_found ORDER BY Search_frequency DESC")
     search_freq = cursor.fetchall()
-    print (data, search_freq)
+    # print (data, search_freq)
     return render_template('proofread.html', added_terms = data, search_freq = search_freq)
 
 @app.route('/proofread/addnew', methods=['POST','GET'])
@@ -173,8 +188,10 @@ def addnew_proofread():
         
         term = request.form['term']
         definition = request.form['definition']
+        description = request.form['description']
+        field = request.form['field']
 
-        cursor.execute("INSERT INTO otdictionary (Term, Term_definition) VALUES (?,?)", (term, definition))
+        cursor.execute("INSERT INTO otdictionary (Term, Term_definition, Term_description, Field) VALUES (?,?,?,?)", (term, definition, description, field))
         cursor.commit()
         return redirect(url_for('proofread'))
 
