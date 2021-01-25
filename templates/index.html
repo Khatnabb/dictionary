@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                <a class="nav-link" href="#top">GLOSSARY</a>
+                <a class="nav-link"href="#top">GLOSSARY</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#contribute-section">CONTRIBUTE</a>
@@ -141,7 +141,7 @@
                </div>
                <div class="col-lg-7">
                     <div class="addnew-container">
-                        <form class="addnew-form" role="form" action="{{ url_for('contribute_add_new') }}" method="POST" >
+                        <form class="addnew-form" role="form">
                             <h2>Шинэ үг нэмэх</h2>
                             <input id="new-term" name="new-term" class="term" required autocomplete="off" placeholder="Оруулах үг" type="text"><br>
                             <input id="new-definition" name="new-definition" class="definition" required autocomplete="off" placeholder="Үгийн утга" type="text"><br>
@@ -155,7 +155,7 @@
                                 <option value="G">G</option>
                             </select><br>
                             <input type="email" id="submit-email" name="submit-email" placeholder="OT Имэйл хаяг" required><br>
-                            <input type="submit" name="submitbtn" value="Илгээх" class="submitbtn">
+                            <input type="button" onclick="post_form()" name="submitbtn" value="Илгээх" class="submitbtn">
                         </form>
                     </div>
                </div>
@@ -380,39 +380,53 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" ></script>
 <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}" ></script>
 <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+
 <script src="{{ url_for('static', filename='js/sweetalert2.js') }}" ></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}" ></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/smooth-scroll.js') }}"></script>
 <script type="text/javascript">
 
-    function flag_toggle() {
-        var x = $(".lang-menu option:selected").text();
-    if (x === "EN-MN") {
-        $('.eng-flag').show();
-        $('.mng-flag').hide();
-    } else {
-        $('.eng-flag').hide();
-        $('.mng-flag').show();
-    }
-    }
+function post_form() {
 
-        // $('.addrow').click(function(){
-        // build = "<tr><td><input></td><td><input></td></tr>"
-        // let tableBody = $('table tbody');
-        // tableBody.append(build);
-        // });
+        let new_term = $('#new-term').val()
+        let new_definition = $("#new-definition").val();
+        let new_description = $('#new-description').val()
+        let field_option = $('#field-option option:selected').val()
+        let email = $('#submit-email').val()
 
+        let data = {'new-term': new_term,
+                    'new-definition':new_definition,
+                    'new-description': new_description,
+                    'field-option':field_option,
+                    'email': email
+                }
 
-    function sweetalert(message = "brimbrom"){
-        Swal.fire("Success","Brim Brom","success")
-    }
+                $.ajax({
 
-    function sweetalertfail(message = "Failed"){
-        var contribute = "Please click here to contribute"
-        var tocontribute = contribute.link('http://localhost:5000/contribute')
-        Swal.fire("Word Not Found ", message + "<BR>" +  tocontribute, "info")
-    }
+                    type: 'POST',
+                    url: '{{ config.ABS_PREFIX }}/contribute/addnew',
+                    dataType: "json",
+                    data: data,
+                    success: function (response) {
 
+                        alert(response.title,
+                              response.response,
+                              response.icon)
+                    },
+                    error: function (response) {
+                                               
+                        alert(response.responseJSON.title,
+                              response.responseJSON.response,
+                              response.responseJSON.icon)
+                    },
+                    complete: function (response) {
+                        // $(".addnew-form").reset();
+                        $(".addnew-form").each(function(){this.reset();
+});
+                    },
+        }); 
+        }
 
     const searchInput = document.querySelector('#search');
     const suggestionsPanel = document.querySelector('.suggestions-autocomplete');
@@ -434,100 +448,72 @@
 
     
         searchInput.addEventListener('keyup',function(e){
-            var code = (e.keyCode || e.which);
-            
-            if(code == 38 || code == 40 || code == 13 || code == 64 || code == 9) {
-        return;
-        }
-        if (searchInput.value.length === 0){
-            if(code == 8){
-                return;
-            }
-        }
-      
-            if(code === 13) {	
-                // e.preventDefault();
-                $('#go-btn').click();
-                // searchInput.blur();
-            }
-    
-        let search = $('#search').val();
-        let lang = $(".lang-menu option:selected").text();
-        let value=$.trim($("#search").val());
+                var code = (e.keyCode || e.which);
+                
+                if(code == 38 || code == 40 || code == 13 || code == 64 || code == 9) {
+                        return;
+                    }
+                if (searchInput.value.length === 0){
+                    if(code == 8){
+                        return;
+                    }
+                }
+                
+                let search = $('#search').val();
+                let lang = $(".lang-menu option:selected").text();
+                let value=$.trim($("#search").val());
 
-        let data = {'input_search': search,
-                    'language':lang
+                let data = {'input_search': search,
+                            'language':lang
+                        }
+
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ config.ABS_PREFIX }}/api/autocomplete',
+                    dataType: "json",
+                    data: data, 
+
+                    success: function (response) {
+                    let word = response.words
+                    suggestionsPanel.innerHTML = '';
+
+                    $('.intro-text').hide();
+                    populate(word);
+                    
+                    $('.suggestions-autocomplete').addClass('open').slideDown('slow');               
+                    $('.suggestions-autocomplete li:first').addClass('selected');
+                
+            $('body').click(function(e){
+            
+                if(!$(e.target).is('input, a, li, section')){
+                    $('.searchbox input').val('');
+                    $('.suggestions-autocomplete').slideUp('slow');           
                 }
 
-        $.ajax({
-            type: 'GET',
-            url: '{{ config.ABS_PREFIX }}/api/autocomplete',
-            dataType: "json",
-            data: data, 
+            });
 
-            success: function (response) {
-            let word = response.words
-            suggestionsPanel.innerHTML = '';
-
-            $('.intro-text').hide();
-            populate(word);
-            
-            $('.suggestions-autocomplete').addClass('open').slideDown('slow');               
-            $('.suggestions-autocomplete li:first').addClass('selected');
-        
-    $('body').click(function(e){
-    
-        if(!$(e.target).is('input, a, li, section')){
-            $('.searchbox input').val('');
-            $('.suggestions-autocomplete').slideUp('slow');           
-        }
-
-    });
-
-    // if ($('.suggestions-autocomplete').html() == ''){
-    //     $('.suggestions-autocomplete').append('<p class="search_not_found">Search not found, we will add this word soon :)</p>')
-    // }
-    if ($('.suggestions-autocomplete').html() == ''){
-        $('.suggestions-autocomplete').append('<a class="search_not_found">Энэ үг олдсонгүй. Хайсан үгээ бүтнээр бичин энд дарж бидэнд мэдэгдэнэ үү</a>')
-        $('.search_not_found').click(function(){
-            add_not_found_to_db(search);
-            sweetalert("Success");
+            if ($('.suggestions-autocomplete').html() == ''){
+                $('.suggestions-autocomplete').append('<a class="search_not_found">Энэ үг олдсонгүй. Хайсан үгээ бүтнээр бичин энд дарж бидэнд мэдэгдэнэ үү</a>')
+                $('.search_not_found').click(function(){
+                    add_not_found_to_db(search);
+                    alert("Хүлээн авлаа", "Бид энэ үгийг удахгүй нэмнэ", "info");
+                })
+            }
+            },
+                error: function (response) {
+                    console.log(response);
+                    // alert(response)
+                    alert(response.responseJSON.title,
+                          response.responseJSON.response,
+                          response.responseJSON.icon)
+            },
+                complete: function (response) {
+                }
+                });
         })
-    }
-    },
-        error: function (response) {
-            console.log(response);
-            // alert(response)
-            sweetalertfail(message = response.responseJSON.response)
-    },
-        complete: function (response) {
-        }
-        });
-})
 
     function add_not_found_to_db(not_found_word){
-
         $.post('{{ config.ABS_PREFIX }}/api/add_not_found_word/' + not_found_word, {'not_found_word':not_found_word});
-        console.log(not_found_word);
-        // $.post(Flask.url_for('add_not_found_word', {not_found_word: not_found_word }));
-//         $.ajax({
-
-// type: 'GET',
-// url: '{{ config.ABS_PREFIX }}/api/add_not_found_word',
-// dataType: "json",
-// data: data,
-// success: function (response) {
-
-
-// },
-// error: function (response) {
-//     console.log(response)
-   
-
-// },
-// complete: function (response) {
-// },
-// }); 
     }
 
 
@@ -538,69 +524,74 @@
                     'language':lang
                 }
 
-        $.ajax({
+                $.ajax({
 
-            type: 'GET',
-            url: '{{ config.ABS_PREFIX }}/main_search',
-            dataType: "json",
-            data: data,
-            success: function (response) {
+                    type: 'GET',
+                    url: '{{ config.ABS_PREFIX }}/main_search',
+                    dataType: "json",
+                    data: data,
+                    success: function (response) {
+                    
+                        let word = response.words
+                        $('.search-result-box').fadeIn(600);
+                    
+                        document.getElementById('searched-term').innerHTML = word['Term'];
+                        document.getElementById('searched-term-definition').innerHTML = word['Definition'];
+                        document.getElementById('searched-term-description').innerHTML = word['Description'];
+                        document.getElementById('searched-term-field').innerHTML = word['Field'];
+                        // $('.suggestions-autocomplete').slideUp('slow');
             
-                let word = response.words
-                $('.search-result-box').fadeIn(600);
-               
-                document.getElementById('searched-term').innerHTML = word['Term'];
-                document.getElementById('searched-term-definition').innerHTML = word['Definition'];
-                document.getElementById('searched-term-description').innerHTML = word['Description'];
-                document.getElementById('searched-term-field').innerHTML = word['Field'];
-                // $('.suggestions-autocomplete').slideUp('slow');
-    
-            },
-            error: function (response) {
-                console.log(response)
-                // alert('Gahai')
-                sweetalertfail(response.responseJSON.response)
-            },
-            complete: function (response) {
-            },
-}); 
-    }
+                    },
+                    error: function (response) {
+                        console.log(response)
+                        // alert('Gahai')
+                        alert(response.responseJSON.title,
+                              response.responseJSON.response,
+                              response.responseJSON.icon)
+                    },
+                    complete: function (response) {
+                    },
+        }); 
+        }
+
     const searchInputcontribute = document.querySelector('#new-term');
+        searchInputcontribute.addEventListener('keyup',function(){
+            let search = $('#new-term').val()
 
-    searchInputcontribute.addEventListener('keyup',function(){
-        let search = $('#new-term').val()
+                $.ajax({
 
-        $.ajax({
+                    type: 'GET',
+                    url: '/ottoli/check/' + search,
+                    
+                    dataType: "json",
 
-            type: 'GET',
-            url: '/ottoli/check/' + search,
-            
-            dataType: "json",
+                    success: function (response) {
+                    
+                        let word = response.words
+                        $('.addnew-info, .token-info, .token-info-btn').hide();
+                        $('.term-duplicate-check').append('<i class="o-exit-1 exit-icon"></i>');
+                        // $('.back-icon').show();
+                    $('.exit-icon').click(function(){
+                        $('.addnew-info, .token-info-btn').show();
+                        $('.term-duplicate-check, .exit-icon').hide();
+                    })
+                        $('.term-duplicate-check').fadeIn(600);
+                    
+                        document.getElementById('existing-definitions').innerHTML = word['Definition'];
 
-            success: function (response) {
-            
-                let word = response.words
-                $('.addnew-info, .token-info, .token-info-btn').hide();
-                $('.term-duplicate-check').append('<i class="o-exit-1 exit-icon"></i>');
-                // $('.back-icon').show();
-            $('.exit-icon').click(function(){
-                $('.addnew-info, .token-info-btn').show();
-                $('.term-duplicate-check, .exit-icon').hide();
+                    
+                    },
+                    error: function (response) {
+                        console.log(response)
+                        // $('.reminder-text').html('lol');
+                        alert(response.responseJSON.title,
+                              response.responseJSON.response,
+                              response.responseJSON.icon)
+                    },
+                    complete: function (response) {
+                    },
+        }); 
             })
-                $('.term-duplicate-check').fadeIn(600);
-               
-                document.getElementById('existing-definitions').innerHTML = word['Definition'];
-
-              
-            },
-            error: function (response) {
-                console.log(response)
-                // sweetalert(response.responseJSON.response)
-            },
-            complete: function (response) {
-            },
-}); 
-    })
 
 
     var scroll = new SmoothScroll('a[href*="#"]');
@@ -615,7 +606,7 @@
                     $('.element:not(:first-child).selected').removeClass('selected').prev().addClass('selected');
                     $('#search').val($('.selected').text());
                 }
-                $('.searchbox-container .suggestions-autocomplete').scrollTop(230).scrollTop($('.suggestions-autocomplete .selected:first').offset().top-$('.searchbox-container .suggestions-autocomplete').height());
+                $('.suggestions-autocomplete').scrollTop(230).scrollTop($('.selected').offset().top-$('.suggestions-autocomplete').height());
 
                 if (e.which === 13) {
                             $('#go-btn').click();
@@ -633,19 +624,6 @@
                 $('.token-info, .exit-icon').hide();
             })
         })
-
-
-        $('.next').click(function(){
-            $('.scrollrow').animate({
-                scrollLeft: '+=200px'
-            }, 'slow');
-        });
-
-        $('.prev').click(function(){
-            $('.scrollrow').animate({
-                scrollLeft: '-=200px'
-            }, 'slow');
-        });
 
 </script>
 

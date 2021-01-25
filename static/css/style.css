@@ -46,10 +46,20 @@ body{
     text-align: left;
     color: #fff !important;
 }
+.navbar-nav li a:hover {
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    float: right;
+    text-align: left;
+    color: rgb(8, 5, 5) !important;
+}
+
+.navbar-nav li a:hover::after{
+    content: "Khatnaa";
+}
 
 .navbar-toggler{
     outline: none !important;
-    border-color: #fff !important;
 }
 
 /* Search Section */

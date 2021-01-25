@@ -133,6 +133,15 @@ body{
     transform: translateY(3.6px);
 }
 
+.filter-directadd-container{
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.filter-directadd-container h5{
+    margin-left: 400px;
+}
+
 #Table{
     margin-top: 25px;
 }
@@ -147,7 +156,9 @@ body{
 
 .addnew-button{
     border: 1px solid;
-    margin-left: 15px;
+    cursor: pointer;
+    width: 50px;
+    height: 30px;
 }
 
 .addNewbutton:hover{
