@@ -15,7 +15,12 @@ function flag_toggle() {
 if (x === "EN-MN") {
     $('.eng-flag').show();
     $('.mng-flag').hide();
+    $('.english li').show();
+    $('.searched-term-field-info .mongolian').hide();
+    
 } else {
     $('.eng-flag').hide();
     $('.mng-flag').show();
+    $('.english li').hide();
+    $('.searched-term-field-info .mongolian').show();
 }};

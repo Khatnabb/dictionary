@@ -16,38 +16,52 @@
 <body>
    <section id="navbar-section">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/ot-logo.png') }}"></a>
+            <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/ot-logo.png') }}">
+                    </a>
+            <div class="navbar-brand-title">
+                Техникийн үг хэллэгийн 
+                    хураангуй толь
+            
+            </div>
+         
+            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                <a class="nav-link"href="#top">GLOSSARY</a>
+                <a class="nav-link english" href="#top" >Glossary</a>
+                <a class="nav-link mongolian" href="#top" >Хайлт</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#contribute-section">CONTRIBUTE</a>
+                <a class="nav-link english" href="#contribute-section">Contribute</a>
+                <a class="nav-link mongolian" href="#contribute-section">Үг нэмэх</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#about-section">ABOUT</a>
-                </li>
-                <!-- <li class="nav-item">
-                <a class="nav-link" href="#info">LEARNING</a>
-                </li> -->
-                <li class="nav-item">
-                <a class="nav-link" href="#contact-section">CONTACT</a>
+                <a class="nav-link english" href="#about-section">About</a>
+                <a class="nav-link mongolian" href="#about-section">Хөгжүүлэлт</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('proofread') }}">PROOFREAD</a>
+                <a class="nav-link english" href="#contact-section">Contact</a>
+                <a class="nav-link mongolian" href="#contact-section">Холбоо барих</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link english" href="{{ url_for('proofread') }}" >Proofread</a>
+                <a class="nav-link mongolian" href="{{ url_for('proofread') }}" >Хянах</a>
                 </li>
             </ul>
             </div>
-        </nav>
+        </nav> 
+       
+            
+        
    </section>   
    
    <section id="search-section">
         <div class="background">
-            <h1 class="background-title">Техникийн үг хэллэгийн хураангуй толь</h1>
+            <!-- <h1 class="background-title">Техникийн үг хэллэгийн хураангуй толь</h1> -->
         </div>
         <div class="searchbox-container">
             <div class="searchbox">
@@ -97,12 +111,19 @@
                 <div class="col-lg-4">
                     <div class="searched-term-field-info">
                         <p>Энэ хураангуйд багтсан үгсийн орчуулгын хамаарах талбарууд:</p>
-                        <ul>
+                        <ul class="english">
                             <li>Geo - Geology</li>
                             <li>M - Mining</li>
                             <li>C - Construction</li>
                             <li>T - Technical</li>
                             <li>G - General</li>
+                        </ul>
+                        <ul class="mongolian" style="display: none;">
+                            <li>Geo - Геологийн</li>
+                            <li>M - Уурхайн</li>
+                            <li>C - Барилга угсралтын</li>
+                            <li>T - Техникийн</li>
+                            <li>G - Ерөнхий</li>
                         </ul>
                     </div>
                 </div>
@@ -120,9 +141,13 @@
                         нягталж хараарай. Хэрэв таны оруулахыг хүссэн утга байвал өөр тайлбар эсвэл өөр шинэ үг оруулна уу.</p>
                             <div class="term-duplicate-check">
                                 <div class="reminder-box">
-                                    <p class="reminder-text">Тус үгийн дараах утгууд толь бичигт байна. Толь бичигт байхгүй утга эсвэл өөр үг оруулна уу!</p>
-                                </div>
-                                    <p id="existing-definitions"></p>
+                                    <h5>Санамж:</h5>
+                                    <p class="reminder-text">Толь бичигт тухайн үг байгаа тул та өөр үг оруулна уу! 
+                                        Хэрэв энэ санамж гарч ирэхгүй бол та тухайн үгээ илгээж болно. 
+                                    </p>
+                                    </div>
+                                    <p id="existing-term"></p>
+                                    <p id="existing-definition"></p>
                             </div>
                         <img src="{{ url_for('static', filename='svg/ot-token.svg') }}" id="ottoken">
                         <div class="token-info" style="display: none;" >
@@ -387,6 +412,8 @@
 <script src="{{ url_for('static', filename='js/smooth-scroll.js') }}"></script>
 <script type="text/javascript">
 
+
+
 function post_form() {
 
         let new_term = $('#new-term').val()
@@ -453,11 +480,11 @@ function post_form() {
                 if(code == 38 || code == 40 || code == 13 || code == 64 || code == 9) {
                         return;
                     }
-                if (searchInput.value.length === 0){
-                    if(code == 8){
-                        return;
-                    }
-                }
+                // if (searchInput.value.length === 0){
+                //     if(code == 8){
+                //         return;
+                //     }
+                // }
                 
                 let search = $('#search').val();
                 let lang = $(".lang-menu option:selected").text();
@@ -466,7 +493,7 @@ function post_form() {
                 let data = {'input_search': search,
                             'language':lang
                         }
-
+            if(value.length > 0){
                 $.ajax({
                     type: 'GET',
                     url: '{{ config.ABS_PREFIX }}/api/autocomplete',
@@ -510,6 +537,11 @@ function post_form() {
                 complete: function (response) {
                 }
                 });
+            }else {
+                $('.suggestions-autocomplete').slideUp('slow');   
+                $('.intro-text').show();
+                $('.search-result-box').hide();
+            }
         })
 
     function add_not_found_to_db(not_found_word){
@@ -555,30 +587,32 @@ function post_form() {
         }
 
     const searchInputcontribute = document.querySelector('#new-term');
-        searchInputcontribute.addEventListener('keyup',function(){
+        searchInputcontribute.addEventListener('keyup',function(e){
             let search = $('#new-term').val()
+            var code = (e.keyCode || e.which);
+            var query=$.trim($("#new-term").val());
 
+            if(query.length > 0){
                 $.ajax({
 
                     type: 'GET',
-                    url: '/ottoli/check/' + search,
+                    url: '{{ config.ABS_PREFIX }}/check/' + search,
                     
                     dataType: "json",
 
                     success: function (response) {
                     
                         let word = response.words
-                        $('.addnew-info, .token-info, .token-info-btn').hide();
-                        $('.term-duplicate-check').append('<i class="o-exit-1 exit-icon"></i>');
-                        // $('.back-icon').show();
-                    $('.exit-icon').click(function(){
-                        $('.addnew-info, .token-info-btn').show();
-                        $('.term-duplicate-check, .exit-icon').hide();
-                    })
-                        $('.term-duplicate-check').fadeIn(600);
-                    
-                        document.getElementById('existing-definitions').innerHTML = word['Definition'];
-
+                        
+                        if(word['Term'] == 0){
+                            $('.addnew-info, #ottoken, .token-info-btn').show();
+                            $('.term-duplicate-check').hide();
+                        }else{
+                            $('.addnew-info, #ottoken, .token-info-btn').hide();
+                            $('.term-duplicate-check').show();
+                            document.getElementById('existing-term').innerHTML = word['Term'];
+                            document.getElementById('existing-definition').innerHTML = word['Definition'];
+                        }               
                     
                     },
                     error: function (response) {
@@ -590,8 +624,12 @@ function post_form() {
                     },
                     complete: function (response) {
                     },
-        }); 
-            })
+                    }); 
+                }else {
+                    $('.term-duplicate-check').hide();
+                    $('.addnew-info').show();
+                }
+                        })
 
 
     var scroll = new SmoothScroll('a[href*="#"]');

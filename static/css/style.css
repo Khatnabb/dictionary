@@ -29,34 +29,61 @@ body{
     background: #002a51;
     padding: 0 !important;
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+    /* height: calc(4.125rem + 46*(100vw - 68.75rem)/820); */
+    display: flex;
+
+    /* justify-content: center; */
 }
+
+.navbar-brand-title{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    font-size: calc(1.2rem + 3*(100vw - 68.75rem)/820);
+    color: #fff;
+    font-weight: 900;
+}
+
 
 .navbar-brand img{
     height: 40px;
-    padding-left: 20px;
+    margin-left: 20px;
 }
-.navbar-nav li{
-    padding: 0 10px;
+
+.navbar-collapse{
+    margin-right: 20px;
 }
 
 .navbar-nav li a {
-    font-weight: 600;
-    letter-spacing: 1.5px;
+    font-weight: 500;
+    letter-spacing: 1px;
     float: right;
     text-align: left;
+    padding-left: 20px !important;
     color: #fff !important;
+    font-size: calc(.9125rem + 3*(100vw - 68.75rem)/820);
+ 
+    
 }
-.navbar-nav li a:hover {
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    float: right;
-    text-align: left;
-    color: rgb(8, 5, 5) !important;
+ .navbar-nav li .english{
+    display: none;
+    
+} 
+.navbar-nav li:hover .english{
+    display: block;
+    color: #DE5B16 !important;
+    font-weight: 500 !important;
+
 }
 
-.navbar-nav li a:hover::after{
-    content: "Khatnaa";
+.navbar-nav li:hover .mongolian{
+    display: none;
 }
+
+
+
+
+
 
 .navbar-toggler{
     outline: none !important;
@@ -75,11 +102,11 @@ body{
 }
 
 .background-title{
-    font-size: 5vmin;
+    /* font-size: 3vmin; */
     color: #fff;
-    margin-left: 60%;
-    font-weight: 600;
-    text-align: center;
+    /* margin-left: 350px; */
+    /* font-weight: 600; */
+    /* text-align: center; */
 }
 
 .searchbox-container{
@@ -132,6 +159,7 @@ body{
     background: #20476B;
     color: #fff;
     padding: 5px;
+    font-weight: 600;
     border-color: #20476B;
 }
 
@@ -266,12 +294,15 @@ section .contributecntr{
     box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
     margin-bottom: 50px;
     height: 50%;
+    display: flex;
+    justify-content: center;
     
 }
 
 section .contributecntr .addnew-info-container{
     
     height: 480px;
+    position: relative;
     border-top-left-radius:  5px;
     border-bottom-left-radius:  5px;
     background: #2F699E;
@@ -279,6 +310,10 @@ section .contributecntr .addnew-info-container{
 	transition: 1s cubic-bezier(.95,.32,.37,1.31);
 	z-index: 2;
 }
+
+
+
+
 section .contributecntr .addnew-info-container h2{
     color: #fff;
     padding-top: 20px;
@@ -293,21 +328,30 @@ section .contributecntr .addnew-info-container p
 	
 }
 .term-duplicate-check{
-    display: none;
+    display: none;   
+    position: relative; 
 }
 .reminder-text{
     font-weight: 500;
     font-size: 18px;
+   
+}
+
+#existing-term{
+    font-size: 28px;
+    font-weight: 900;
 }
 
 .reminder-box{
     box-shadow: 0 0 0 rgb(193,23,23);
     /* animation: pulse 1.5s infinite; */
     animation-name: shape;
-    background-color: #002a51;
+    background-color: #DE5B16;
     color: #fff;
     padding: 10px;
     margin-top: 30px;
+    border: 1px solid red;
+    
 }
 
 .reminder-box:hover {
@@ -383,6 +427,7 @@ section .contributecntr .addnew-info-container .token-info-btn:hover
 section .contributecntr .addnew-container{
 
     height: 480px;
+    padding: 0 20px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -397,7 +442,7 @@ section .contributecntr .addnew-container h2
 section .contributecntr .addnew-container input
 {
 	margin: 10px 0;
-	width: 344px;
+	width: 85%;
 	height: 30px;
 	color: #002a51;
 
@@ -423,6 +468,7 @@ section .contributecntr .addnew-container textarea{
     justify-content: center;
     border: 1px solid black;
     border-radius: 5px;
+    
 }
 
 section .contributecntr .addnew-container select{
@@ -430,6 +476,7 @@ section .contributecntr .addnew-container select{
     margin-top: 10px;
     font-weight: 600;
     outline: none;
+   
 }
 
 
