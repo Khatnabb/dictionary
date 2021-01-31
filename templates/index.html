@@ -33,15 +33,15 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                 <a class="nav-link english" href="#top" >Glossary</a>
-                <a class="nav-link mongolian" href="#top" >Хайлт</a>
+                <a class="nav-link mongolian" href="#top" >Хайлт хийх</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link english" href="#contribute-section">Contribute</a>
                 <a class="nav-link mongolian" href="#contribute-section">Үг нэмэх</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link english" href="#about-section">About</a>
-                <a class="nav-link mongolian" href="#about-section">Хөгжүүлэлт</a>
+                <a class="nav-link english" href="#subscription-section">Subscribe</a>
+                <a class="nav-link mongolian" href="#subscription-section">И-мэйл бүртгүүлэх</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link english" href="#contact-section">Contact</a>
@@ -49,7 +49,7 @@
                 </li>
                 <li class="nav-item">
                 <a class="nav-link english" href="{{ url_for('proofread') }}" >Proofread</a>
-                <a class="nav-link mongolian" href="{{ url_for('proofread') }}" >Хянах</a>
+                <a class="nav-link mongolian" href="{{ url_for('proofread') }}" >Хянах хэсэг</a>
                 </li>
             </ul>
             </div>
@@ -168,8 +168,8 @@
                     <div class="addnew-container">
                         <form class="addnew-form" role="form">
                             <h2>Шинэ үг нэмэх</h2>
-                            <input id="new-term" name="new-term" class="term" required autocomplete="off" placeholder="Оруулах үг" type="text"><br>
-                            <input id="new-definition" name="new-definition" class="definition" required autocomplete="off" placeholder="Үгийн утга" type="text"><br>
+                            <input id="new-term" name="new-term" class="term" required  placeholder="Оруулах үг" type="text"><br>
+                            <input id="new-definition" name="new-definition" class="definition" required  placeholder="Үгийн утга" type="text"><br>
                             <textarea placeholder="Үгийн урт тайлбар /Хэрэв байгаа бол/" id="new-description" name="new-description" class="description" rows="3" cols="40"></textarea><br>
                             <label for="field-option">Таны оруулсан утгын хамаарах салбар:</label>
                             <select id="field-option" name="field-option">  
@@ -179,7 +179,7 @@
                                 <option value="T">T</option>
                                 <option value="G">G</option>
                             </select><br>
-                            <input type="email" id="submit-email" name="submit-email" placeholder="OT Имэйл хаяг" required><br>
+                            <input type="email" id="submit-email" name="submit-email" placeholder="OT Имэйл хаяг" required ><br>
                             <input type="button" onclick="post_form()" name="submitbtn" value="Илгээх" class="submitbtn">
                         </form>
                     </div>
@@ -187,217 +187,78 @@
            </div>
        </div>
    </section>
-
-   <section id="about-section">
-        <div class="container text-center">
-            <h3 class="aboutus-title">About the resource</h3>
-            <div class="row">
-                <div class="col-md-6 aboutus-container">
-                    <p class="aboutus-text">This project was initiated and designed by Khatantuul Batbold.
-                        She has been working as a translator for Underground project since 2018.
-                        She has worked on the front-end and glossary data building.
-                    </p>
-                    <img src="{{ url_for('static', filename='images/khatantuul.png') }}">
-                    <p class="aboutus-details"><b>Khatantuul Batbold</b><br>Front-end</p>
-                </div>
-                <div class="col-md-6 aboutus-container">
-                    <p class="aboutus-text">This resource would not have been here without the help of Erkhembayar Enkhtaivan.
-                        He has been working as Data Technician for OTUG since 2019
-                        and spent invaluable time developing the back end. 
-                    </p>
-                    <img src="{{ url_for('static', filename='images/erkhembayar.jpg') }}">
-                    <p class="aboutus-details"><b>Erkhembayar Enkhtaivan</b><br>Back-end</p>
-                </div>
-            </div>
-        </div>
-   </section>
-
+   
    <section id="subscription-section">
-    <div class="container email-subscription-container">
-        <div class="row">
-            <div class="col-lg-6 email-subscription">
-                <div class="subscription-text">
-                    <div>
-                        <h2>Үг цээжлэх үү?</h2>
-                    </div>
-                    <div>
-                        <p>
-                            <span>
-                                Өдөр бүр үг цээжлэхэд тань туслая. 
-                                Та OT и-мэйл хаягаа бидэнд үлдээж 
-                                өдөр бүр энэ хураангуйд багтсан үгсээс хүлээн аваарай
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                </div>
-                <div class="col-lg-6 email-subscription">
-                    <div class="subscription-form">
-                        <form>
-                            <input>
-                            <button>Get started</button>
-                        </form>
-                    </div>
-                </div>            
-            </div>  
-        </div>
-    </div>
-   </section>
-
-  <!-- <section id="info">
-       <div class="container">
-        <div class="row no-gutters">
-            <div class="col-lg-7 textcontainer">
-                <div class="infotext">
-                    <h3 class="title">Learning</h3>
-                    <h5>Хэл сурах арга барил</h5>
-                    <p>Хэрэв та хэдэн жилийн өмнөөс л хэл сурах гараагаа эхэлсэн ч төдийлөн ахицгүй, 
-                        нэг л сайжрахгүй байгаа бол хэл сурах арга барилаа өөрчлөөд нэг үзээрэй. 
-                        Энэхүү зурагт аливаа зүйлийг нүдээр харж сонсох мөн түүнийгээ өөрийн үгээр 
-                        ярих нь хамгийн үр дүнтэй суралцах арга барил болохыг харуулсан байна. Хэл 
-                        сурахад заавал унших, бичих, ярих болон сонсох гэж ангилан тусдаа мэт ойлгох 
-                        албагүй. Таны сонсгол сайжрах тусам аялга, үгийн баялаг болон өгүүлбэр зүйн ерөнхий 
-                        бүтцийн ойлголт сайжирч байдаг. Мөн цээж бичиг хийхэд зэрэг таны сонсгол сайжирч, 
-                        зөв бичиж сурах, үгийн баялаг нэмэгдэх давуу талтай. Өөрийн хэл сурах арга барил 
-                        болон суралцаж болох бусадтай хуваалцахаар доорх 
-                    </p>
-                </div>
-            </div>
+    <!-- <section class="subscription-container"> -->
+ 
+     <div class="subscription-email-input">
+         <h1 >Word a day?</h1>
+         <p>Та өдөр бүр имэйлээр энэхүү хураангуйд багтсан үгсээс хүлээн авахыг хүсвэл доорх хэсэгт
+             компанийн имэйл хаягаа үлдээгээрэй. 
+            <!-- It is a long established fact that a reader will be distracted by the readable content of a 
+            page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less 
+            normal distribution of letters, as opposed to using 'Content here, content here', making it 
+            look like readable English. Many desktop publishing packages and web page editors now use Lorem  -->
+            
+         </p>
         
-            <div class="col-lg-5 imgcontainer">
-                <div class="infoimg">
-                    <img src="{{ url_for('static', filename='images/info.png') }}" class="img-fluid">
-                </div>
-            </div> 
-        </div>
-       </div>
+        <input placeholder="Компанийн имэйл хаягаа үлдээнэ үү" type="email" class="subscription-input">
+        <button class="subscription-input-btn">Илгээх</button>
+       
+         
+     </div>
     </section>
-    <section id="cards">
-            <div class=" container scrollcontainer">
-                <div class="navigationbuttons">
-                    <h3>Санал болгох аргууд</h3>
-                    <div class="arrows">
-                        <button class="prev">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="next">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                 </div>
-                 
-               <div class="scrollrow">
-               
-                <div class="card">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/lea.png') }}" class="img-fluid">
-                    </div>
-                    <p>Олон төрлийн сэдвээр энгийн хэлбэрээр бичигдсэн өгүүллэгүүдээр 
-                        удаан эсвэл энгийн хурдыг сонгон цээж бичиг хийж дараа нь өөрийгөө шалган сонсгол, өгүүлбэр зүй, 
-                        үгсийн сангаа сайжруулах болно. 
-                    </p>
-                    <a href="https://www.learnenglish.de/dictationpage.html">View</a>
-                  
-                </div>
-                <div class="card">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/longman.png') }}" class="img-fluid">
-                    </div>
-                
-                    <p>Таны англи хэлний мэдлэг хараахан том сонин нийтлэл гарчиглах болоогүй байгаа бол 
-                        энгийн хэлбэрээр мэдээ, мэдээлэл уншингаа хэлээ сайжруулах боломжтой. Өөрийн түвшингээ сонгож 
-                        сонсонгоо даган унших боломжтой. 
-                    </p>
-                    <a href="https://www.newsinlevels.com/">View</a>
-                </div>
-                <div class="card">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/news.png') }}" class="img-fluid">
-                    </div>
-                    <p>Англиас англи хэлний маш энгийн үгээр тайлбарласан толь бичиг. Үгийн
-                       англи тайлбарыг унших нь зарим тохиолдолд утгыг илүү ойлгох давуу талтай. 
-                       Энгийн үгсээр тайлбарласан тул их ойлгомжтой.  
-                    </p>
-                    <a href="https://www.ldoceonline.com/">View</a>
-                    
-                </div>     
-                <div class="card">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/youtube.png') }}" class="img-fluid">
-                    </div>
-                    <p>Заавал өөрт тань сонирхолгүй, хүнд үг хэллэг ашигласан сонин, ном, мэдээ сонсож байхаар
-                        хөгжилтэй видео үзэж суралцах нь сонсгол, яриа болон үгийн баялаг сайжруулах хамгийн сайн арга. 
-                    </p>
-                    <a href="https://www.youtube.com/channel/UCKgpamMlm872zkGDcBJHYDg">View</a>
-                </div>    
-                <div class="card">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/quizlet.jpg') }}" class="img-fluid">
-                    </div>
-                    <p>Шинэ үгсээ энд тэнд бичиж цээжлэх дуртай хүмүүст 
-                        орчин үед хэрэглэхэд хялбар, суралцахад
-                        хамгийн сайн туслах онлайн флашкард. Үгсээ бичээд хадгалахаас гадна өөрийгөө шалгах, тухайн 
-                        үгсээ тоглоом болгон хувиргаж хөгжилтэй байдлаар суралцах болно. 
-                    </p>
-                    <a href="https://quizlet.com/">View</a>
-                </div>
-               </div>
-            </div>
-    </section>   -->
-  
-   <!-- <section id="team-section">
-    <div class="container text-center footcontainer">
-        <div class="row no-gutters">
-            <div class="col-lg-4 transteamtitle">
-                <h3>OTUP Business Services Translation Team</h3>     
-            </div>
-            <div class="col-lg-8 transteam">
-                <div class="transteamtext">
-                    <h4>Танилцуулга</h4>
-                    <p>
-                        Бизнес үйлчилгээний хэлтсийн Орчуулгын алба нь 15 хүний (Албаны ахлах 1, Орчуулгын хянагч 2, Орчуулагч 12) 
-                        бүрэлдэхүүнтэйгээр ажиллаж байгаагийн 13 албан хаагч Уурхайн талбайд байрлаж ОТ гүний уурхайн хэлтэс нэгжүүдэд 
-                        үлдсэн 2 албан хаагч нь Улаанбаатар хот Шангрила оффист ажиллаж байна. 
-                    </p>            
-                    <p>
-                        Орчуулгын хүсэлт гаргахдаа ErkhbayarB@ot.mn, YadamtsooZ@ot.mn AchiiginB@ot.mn гэсэн цахим 
-                        шуудангийн хаягууд руу явуулах шаардлагатай бөгөөд ингэснээр орчуулгын 
-                        хүсэлт орхигдохгүй байх нөхцөл болж өгөх юм. Тус алба нь ​ОТ Гүний уурхайн 
-                        төслийн бүх баг, хэлтсүүдэд Англи-Монгол, Монгол-Англи аман болон бичгийн орчуулгын үйлчилгээ 
-                        үзүүлэн ажилладаг.   
-                    </p>  
-                    <div class="teamlink">
-                        <a href="http://otportal/Underground/business_service/SitePages/mon_team_translation.aspx">Read more</a>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                 </div>
-            </div>                         
-        </div>
-    </div> 
-</section> -->
+
 
 <section id="contact-section">
-    <div class="container footer-cntr">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="email-icon">
-                    <img src="{{ url_for('static', filename='images/outlook.png') }}" class="img-fluid emailicon">
+    <!-- <div class="email-icon">
+        <h1>Холбоо барих</h1>
+        <img src="{{ url_for('static', filename='images/outlook.png') }}" class="img-fluid emailicon">
+    </div> -->
+    <div class="container text-center biggestcontainer">
+        <!-- <h3 class="aboutus-title">About the resource</h3> -->
+        <div class="row no-gutters bigcontainer">
+            <div class="col-md-7 footer-container">
+                <div class="aboutus-container">
+                    <img src="{{ url_for('static', filename='images/khatantuul.png') }}">
+                    <p class="aboutus-details"><b>Khatantuul.B</b><br>Front-end</p>
+                    <p class="aboutus-text">Хураангуй толь гаргах ажлыг санаачлан, 
+                        front-end хэсгийн хөгжүүлэлт болон дизайн дээр ажилласан.
+                    </p>
+                    
+                
+                   
                 </div>
-                <div class="emails">
-                    <div>
-                        <a href="mailto:erkhbayarb@ot.mn?cc=achiiginb@ot.mn">Үгсийн сантай холбоотой асуудлаар</a>
-                    </div>
-                    <div>
-                        <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn">Ашиглалттай холбоотой асуудлаар</a>
-                    </div>
-                    <div>
-                        <a href="mailto:yadamtsooz@ot.mn">ОТГУ-н Орчуулгийн баг</a>
-                    </div>
+                <div class="aboutus-container">
+                    <img src="{{ url_for('static', filename='images/erkhembayar.jpg') }}">
+                    <p class="aboutus-details"><b>Erkhembayar.E</b><br>Back-end</p>
+                    <p class="aboutus-text">Back-end талын хөгжүүлэлтийг хариуцан ажиллаж, дизайн болон ерөнхий бүтцэд туслан ажилласан. 
+                    </p>
+                   
+                   
                 </div>
             </div>
+           
+   <div class="col-md-5 footer-contact-container">
+    <p><b>Холбогдох линкүүд</b></p> 
+    <div class="footer-contact"> 
+        
+        <div class="emails">
+
+        <a href="mailto:yadamtsooz@ot.mn">ОТГУ-н Орчуулгийн багтай холбогдох</a> 
+   
+        <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn">Аппликэйшн ашиглалт/үгсийн сантай холбоотой асуудлаар</a> 
+  
+
+        </div>
+        </div>
+   </div>
+           
+           
         </div>
     </div>
 </section>
+
 
 </body>
 </html>
@@ -410,8 +271,18 @@
 <script src="{{ url_for('static', filename='js/custom.js') }}" ></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/smooth-scroll.js') }}"></script>
+<script src="{{ url_for('static', filename='js/scroll-out.js') }}"></script>
 <script type="text/javascript">
 
+ScrollOut({
+    targets: 'h1,p,input,button'
+})
+
+
+	
+
+
+ 
 
 
 function post_form() {

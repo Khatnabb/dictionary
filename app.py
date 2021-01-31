@@ -118,7 +118,7 @@ def contribute_add_new():
         
         data = request.form.to_dict()
         # print(data)
-        mandatory_keys = ['new-term', 'new-definition','new-description','field-option', 'email']
+        mandatory_keys = ['new-term', 'new-definition', 'field-option', 'email']
         is_valid = True
         # print(data)
         for key in mandatory_keys:

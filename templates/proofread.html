@@ -13,26 +13,40 @@
 <body>
   <section id="navbar-section">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/ot-logo.png') }}"></a>
+        <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/ot-logo.png') }}">
+                </a>
+        <div class="navbar-brand-title">
+            Техникийн үг хэллэгийн 
+                хураангуй толь
+        
+        </div>
+     
+        
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('home') }}">GLOSSARY</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('home') }}">CONTRIBUTE</a>
-          </li>
+            <li class="nav-item">
+            <a class="nav-link english" href="{{ url_for('home') }}" >Glossary</a>
+            <a class="nav-link mongolian" href="{{ url_for('home') }}" >Хайлт хийх</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link english" href="{{ url_for('proofread') }}" >Proofread</a>
+            <a class="nav-link mongolian" href="{{ url_for('proofread') }}" >Хянах хэсэг</a>
+            </li>
         </ul>
-      </div>
-    </nav>
-  </section>
+        </div>
+    </nav> 
+   
+        
+    
+</section>  
 
   <section>
       <div class="background">
-        <h1 class="background-title">Техникийн үг хэллэгийн хураангуй толь</h1>
+        <!-- <h1 class="background-title">Техникийн үг хэллэгийн хураангуй толь</h1> -->
       </div>
 
       <div class="myTabs">
@@ -44,11 +58,14 @@
                     
 
                   <div class="filter-directadd-container">
-                    <input id="table-filter-input" type="text" placeholder="Search.....">
-                    <h5>Direct add to the main glossary:</h5>
-                    <button class="btn btn-xs addnew-button" data-toggle="modal" data-target="#addmodal">
-                      +
-                    </button>
+                    <div class="filter-directadd">
+                      <input id="table-filter-input" type="text" placeholder="Search.....">
+                      <a class="addnew-button" data-toggle="modal" data-target="#addmodal">
+                        Direct add to the main glossary
+                      </a>
+                    </div>
+        
+                 
                     <div id="addmodal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -162,9 +179,12 @@
       </div>
 
       <input type="radio" id="tabAnalyze" name="mytabs">
-      <label class="tablabel" for="tabAnalyze">Analytics <span class="badge badge-dark">New</span></label>
-       <div class="tab" >
+      <label class="tablabel" for="tabAnalyze">Analytics</label>
+       <div class="tab freqtab" >
           <h3>Glossary searches</h3>
+          <p>Searches that have not been found from the main glossary. Through a click effort from users, they are collected here with the 
+            number of times they have been searched. 
+          </p>
           <hr> 
           <div class="container analyticstable">
             <div class="row">

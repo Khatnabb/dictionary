@@ -118,3 +118,10 @@ def check_for_duplicates(searchinput):
     df = sql_link(q)
 
     return df['count'][0]
+
+def get_sub_emails():
+    q = """SELECT Email 
+           FROM subscribed_emails"""
+    df = sql_link(q)
+
+    return list(df['Email'])

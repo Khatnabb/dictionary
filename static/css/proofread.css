@@ -10,31 +10,61 @@ body{
 }
 
 .navbar{
-    background:#002a51;
+    background: #002a51;
     padding: 0 !important;
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+    display: flex;
 }
+
+.navbar-brand-title{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    font-size: calc(1.2rem + 3*(100vw - 68.75rem)/820);
+    color: #fff;
+    font-weight: 900;
+}
+
 
 .navbar-brand img{
     height: 40px;
-    padding-left: 20px;
+    margin-left: 20px;
 }
-.navbar-nav li{
-    padding: 0 10px;
+
+.navbar-collapse{
+    margin-right: 20px;
 }
 
 .navbar-nav li a {
-    color: #fff !important;
-    font-weight: 600;
+    font-weight: 500;
+    letter-spacing: 1px;
     float: right;
     text-align: left;
+    padding-left: 20px !important;
+    color: #fff !important;
+    font-size: calc(.9125rem + 3*(100vw - 68.75rem)/820);
+ 
+    
 }
-.fa-bars{
-    color: #fff;
-    font-size: 30px !important;
+ .navbar-nav li .english{
+    display: none;
+    
+} 
+.navbar-nav li:hover .english{
+    display: block;
+    color: #DE5B16 !important;
+    font-weight: 500 !important;
+
 }
+
+.navbar-nav li:hover .mongolian{
+    display: none;
+}
+
 .navbar-toggler{
     outline: none !important;
 }
+
 
 .background{
     margin: 0 auto;
@@ -135,7 +165,8 @@ body{
 
 .filter-directadd-container{
     display: flex;
-    margin-bottom: 40px;
+    flex-direction: column;
+    margin-bottom: 30px;
 }
 
 .filter-directadd-container h5{
@@ -152,17 +183,48 @@ body{
     width: 300px;
     border-bottom: 2px solid #ae0015;
 }
-
-
-.addnew-button{
-    border: 1px solid;
-    cursor: pointer;
-    width: 50px;
-    height: 30px;
+.filter-directadd{
+    display: flex;
+    justify-content: space-between;
 }
 
-.addNewbutton:hover{
-    color: #ae0015;
+@media only screen and (max-width: 750px) {
+    .filter-directadd{
+        display: flex;
+        flex-direction: column;
+    }
+  }
+
+
+.filter-directadd-container a{
+    cursor: pointer;
+    /* margin: 20px 0 5px 0; */
+    text-decoration: none;
+    color: #4a4a4a;
+    position: relative;
+    display: inline-block;
+    transition: color ease 0.3s;
+    z-index: 1;
+    padding: 10px;
+}
+.filter-directadd-container a:after{
+    position: absolute;
+    content: '';
+    z-index: -1;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to right, #4776e6, #8e54e9);
+    transition: all ease 0.3s;
+}
+
+
+.filter-directadd-container a:hover{
+    color: #fff;
+}
+.filter-directadd-container a:hover:after{
+    height: 100%;
 }
 
 table th{
@@ -181,15 +243,15 @@ table .buttons{
 }
 
 .edit{
-    background-color: #e8cfa9;
+    background-color: #4776e6;
    
 }
 .save{
-    background-color: #4db538;
+    background-color: #8e54e9;
   
 }
 .delete{
-    background-color: #ae0015;
+    background:linear-gradient(to right, #4776e6, #8e54e9);
 }
 
 .selectPage{
@@ -211,6 +273,17 @@ table .buttons{
     padding: 20px;
 }
 
+.analyticstable table th{
+    background:linear-gradient(to right, #4776e6, #8e54e9);
+}
+
+.freqtab p{
+    display: inline-block;
+    width: 50%;
+}
+.freqtab{
+    text-align: center;
+}
 /* #tabAnalyze h3{
 
 } */
