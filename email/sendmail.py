@@ -1,4 +1,4 @@
-def send_mail(send_to, send_from = "Erkhembayare@riotinto.com", subject = "test for dictionary",
+def send_mail(send_to = 'Khatantuulb@ot.mn', send_from = "Erkhembayare@riotinto.com", subject = "test for dictionary",
               server="mnoytsmtp1.corp.riotinto.org"):
     # assert isinstance(send_to, list)
     
@@ -8,7 +8,7 @@ def send_mail(send_to, send_from = "Erkhembayare@riotinto.com", subject = "test 
     from email.mime.text import MIMEText
     from email.utils import COMMASPACE, formatdate
     from emailtemp import html
-    from query import get_sub_emails
+    # from query import get_sub_emails
     import smtplib
     
     msg = MIMEMultipart()

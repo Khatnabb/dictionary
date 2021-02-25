@@ -44,7 +44,7 @@
     
 </section>  
 
-  <section>
+  <section id="tablesection">
       <div class="background">
         <!-- <h1 class="background-title">Техникийн үг хэллэгийн хураангуй толь</h1> -->
       </div>
@@ -54,7 +54,10 @@
         <label class="tablabel firsttab" for="tabTable">Proofread</label>
             <div class="tab" >
                 <div class="container ediTable active" id="Table" data-tab-content>
-                  <div class="table-responsive-xl">
+                  <div class="row bigtablerow no-gutters">
+
+                  
+                  <div class="table-responsive-xl table-container">
                     
 
                   <div class="filter-directadd-container">
@@ -107,22 +110,22 @@
                       </div>  
                   </div>  
                   
-                    <table class="table table-hover table-bordered" data-pagination="true">
+                    <table class="table table-hover unresponsive" data-pagination="true" >
                       <thead>
                       <tr>
-                          <th>ID</th>
-                          <th>Term</th>
-                          <th>Definition</th>
-                          <th>Description</th>
-                          <th>Field</th>
-                          <th data-sortable="">OT Email</th>
-                          <th>Action</th>  
+                          <th style="display: none;">ID</th>
+                          <th class="th-term">Term</th>
+                          <th class="th-definition">Definition</th>
+                          <th class="th-description" >Description</th>
+                          <th class="th-field">Field</th>
+                          <th data-sortable="" class="th-email">OT Email</th>
+                          <th class="th-action">Action</th>  
                       </tr>
                       </thead>
                       <tbody id="proofread_table" >
                     {% for data in added_terms %} 
                       <tr>
-                          <td>{{data.ID}}</td>
+                          <td style="display: none;">{{data.ID}}</td>
                           <td class="tdterm">{{data.Term_added}}</td>
                           <td class="tddefinition">{{data.Definition_added}}</td>
                           <td class="tddescription">{{data.Description_added}}</td>
@@ -176,6 +179,7 @@
                     <span id="paginator"></span>
                    </div>
           </div>
+        </div>
       </div>
 
       <input type="radio" id="tabAnalyze" name="mytabs">
@@ -188,8 +192,8 @@
           <hr> 
           <div class="container analyticstable">
             <div class="row">
-              <div class="col-md-6">
-                <div class="table-responsive-sm">
+              <div class="col-md-12">
+                <div class="table-responsive-sm freqtable-container">
                   <table class="table table-bordered table-sm freqtable">
                     <thead>
                       <tr>

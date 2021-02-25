@@ -1,3 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar{width:0;height:0;}
+::-webkit-scrollbar-button{width:1px;height:1px;}  
+
+
 body{
     font-family: 'IBM Plex Sans', sans-serif;
     background-color: #fff;
@@ -101,6 +110,7 @@ body{
     display: flex;
     flex-wrap: wrap;
     margin: 30px 35px;
+    
     /* padding: 25px; */
 
 }
@@ -177,11 +187,20 @@ body{
     margin-top: 25px;
 }
 
+
+@media only screen and (max-width: 750px) {
+    .table-container{
+        width: 100%;
+    }
+  }
+
+
+
 #table-filter-input{
     border: none;
     outline: none;
     width: 300px;
-    border-bottom: 2px solid #ae0015;
+    border-bottom: 2px solid #8e54e9;
 }
 .filter-directadd{
     display: flex;
@@ -215,7 +234,8 @@ body{
     height: 2px;
     bottom: 0;
     left: 0;
-    background: linear-gradient(to right, #4776e6, #8e54e9);
+    /* background: linear-gradient(to right, #4776e6, #8e54e9); */
+    background: linear-gradient(to right, #5A84BD, #2E8BA6);
     transition: all ease 0.3s;
 }
 
@@ -227,11 +247,37 @@ body{
     height: 100%;
 }
 
+.unresponsive thead tr .th-term{
+    min-width: 150px;
+}
+
+.unresponsive thead tr .th-definition{
+    min-width: 200px;
+}
+.unresponsive thead tr .th-description{
+    min-width: 300px;
+}
+.unresponsive thead tr .th-field{
+    min-width: 50px;
+}
+.unresponsive thead tr .th-email{
+    min-width: 200px;
+}
+.unresponsive thead tr .th-action{
+    min-width: 150px;
+}
+
 table th{
     text-align: center;
     font-size: 1.2em;
     
 }
+
+#tablesection{
+    padding: 0;
+    margin: 0;
+}
+
 .buttons i{
     color: #fff;
 }
@@ -239,8 +285,23 @@ table th{
 table .buttons{
     display: flex;
     justify-content: space-around;
+    align-items: center;
     padding: 5px;
+    /* border: 0 !important; */
 }
+/* 
+.bigtablerow{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.bigtablerow table{
+    margin: 0 !important;
+} */
+
+/* .ediTable{
+    margin: 0 !important;
+    padding: 0 !important;
+} */
 
 .edit{
     background-color: #4776e6;
@@ -271,10 +332,11 @@ table .buttons{
 
 .analyticstable{
     padding: 20px;
+    
 }
 
 .analyticstable table th{
-    background:linear-gradient(to right, #4776e6, #8e54e9);
+    background: #2E8BA6;
 }
 
 .freqtab p{
@@ -284,6 +346,15 @@ table .buttons{
 .freqtab{
     text-align: center;
 }
+.freqtable-container{
+    display: flex;
+    justify-content: center;
+}
+
+.freqtable-container table{
+    width: 60%;
+}
+
 /* #tabAnalyze h3{
 
 } */

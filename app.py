@@ -109,6 +109,7 @@ def api_autocomplete():
 
 @app.route('/api/add_not_found_word/<word>', methods=['POST','GET'])
 def add_not_found_word(word):
+    from query import capture_not_found
     capture_not_found(word)
 
 @app.route('/contribute/addnew', methods=['POST','GET'])

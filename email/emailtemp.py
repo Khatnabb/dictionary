@@ -1,49 +1,45 @@
+def template_for_email():
 
-html = """<html>
-<body style="width:100% !important; margin:0 !important; padding:0 !important; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; background-color:#DED9D2;">
-    <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" style="height:auto !important; margin:40px 0; padding:0; width:100% !important; background-color:#DED9D2; color:#222222;">
+    html = """<html>
+<body style="width:100%; margin:0; padding:0; background-color:#DED9D2;">
+    <div style="text-align: center;">
+    <table cellpadding="0" cellspacing="0" border="0" style="height:auto; margin:40px 0; padding:0; width:100%; background-color:#DED9D2; color:#222222;" align="center">
         <tr>
             <td>
-             <div id="tablewrap" style="width:100% !important; max-width:600px !important; top: auto !important; position: absolute; right: 50% !important; margin-bottom:0 !important; margin-left: auto !important;">
-                  <table id="contenttable" width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#FFFFFF; margin-top:0 !important; margin-bottom:0 !important; margin-left: 50% !important; border:none; width: 100% !important; max-width:1000px !important;">
+             <div id="tablewrap" style="width:100%; max-width:600px; margin-top:0; margin-right: auto; margin-bottom:0; margin-left: auto;">
+                  <table id="contenttable" width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#FFFFFF; margin-top:0; margin-right: auto; margin-bottom:0; margin-left: auto; border:none; width: 100%; max-width:600px;" align="center">
                     <tr>
                     <td width="100%">
-                        <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="0" width="100%" style="border-bottom: 2px solid rgb(244,121,32);padding: 10px;">
+                        <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="0" width="100%" style="border-bottom: 2px solid rgb(244,121,32);padding: 10px;" align="center">
                             <tr style="text-align: center;" >
-                                <td  bgcolor="#ffffff"><a href="#"><img src="otlogo.png" alt="" style="display:inline-block; width:80px !important; height:auto !important;border-bottom-right-radius:8px;border-bottom-left-radius:8px;" border="0"></a></td>
+                                <td  bgcolor="#ffffff"><a href="#"><img src="otlogo.png" alt="" style="display:inline-block; width:80px; height:auto;border-bottom-right-radius:8px;border-bottom-left-radius:8px;" border="0"></a></td>
                                 <td >
                                    <p style="font-size: 20px;color: #4c4c4c;font-family: sans-serif;"> Техникийн үг хэллэгийн хураангуй толь</p>
                                 </td>
                             </tr>
                        </table>
-                       <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="25" width="100%">
+                       <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="25" width="100%" align="center">
                             <tr>
                                 <td width="100%" bgcolor="#ffffff" style="text-align:center;">
                                     <p style="color:#4c4c4c; font-family: sans-serif; font-size:15px; line-height:19px; margin-top:0; margin-bottom:20px; padding:0; font-weight:normal;">
                                         Another day, another word!          
                                     </p>
                                    
-                                        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="emailwrapto100pc" style="border: 1px solid rgb(0,123,133);" >
+                                        <table border="0" cellspacing="0" cellpadding="25" width="100%" style="border: 1px solid rgb(0,123,133);" >
                                           <tr>
                                             <td class="emailcolsplit" align="left" width="100%" style="background-color: rgb(0,123,133);" >
                                                 <p style="color:#fff; font-family: sans-serif; font-size:20px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
-                                                    Ore reserves
+                                                     {term_en}
                                                 </p>
                                             </td>
-                                            <!-- <td class="emailcolsplit" align="left" valign="top" width="42%" style="padding-left:17px;max-width:231px;">
-                                                <a href="#"><img src="http://placekitten.com/305/255" alt="Supporting image 1" style="display:block; width:100% !important; height:auto !important;border-radius:8px;" border="0"></a>
-                                            </td> -->
                                           </tr>
                                           <tr>
                                             <td class="emailcolsplit" align="left" valign="top" width="100%" style="border-bottom: 1px solid rgb(0,123,133);">
                                                 <p style="color:#4c4c4c; font-family: sans-serif; font-size:18px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
-                                                    Хүдрийн нөөц
+                                                     {}
                                                 </p>
                                             
                                             </td>
-                                            <!-- <td class="emailcolsplit" align="left" valign="top" width="42%" style="padding-left:17px;max-width:231px;">
-                                                <a href="#"><img src="http://placekitten.com/305/245" alt="Supporting image 2" style="display:block; width:100% !important; height:auto !important;border-radius:8px;" border="0"></a>
-                                            </td> -->
                                           </tr>
                                           <tr>
                                             <td class="emailcolsplit" align="left" valign="top" width="100%">
@@ -56,7 +52,6 @@ html = """<html>
                                             </td>
                                           </tr>
                                         </table>
-        
                                 </td>
                             </tr>
                        </table>
@@ -70,9 +65,6 @@ html = """<html>
                                                 Block caving
                                             </p>
                                         </td>
-                                        <!-- <td class="emailcolsplit" align="left" valign="top" width="42%" style="padding-left:17px;max-width:231px;">
-                                            <a href="#"><img src="http://placekitten.com/305/255" alt="Supporting image 1" style="display:block; width:100% !important; height:auto !important;border-radius:8px;" border="0"></a>
-                                        </td> -->
                                       </tr>
                                       <tr>
                                         <td class="emailcolsplit" align="left" valign="top" width="100%" style="border-bottom: 1px solid rgb(0,123,133);">
@@ -81,9 +73,6 @@ html = """<html>
                                             </p>
                                         
                                         </td>
-                                        <!-- <td class="emailcolsplit" align="left" valign="top" width="42%" style="padding-left:17px;max-width:231px;">
-                                            <a href="#"><img src="http://placekitten.com/305/245" alt="Supporting image 2" style="display:block; width:100% !important; height:auto !important;border-radius:8px;" border="0"></a>
-                                        </td> -->
                                       </tr>
                                       <tr>
                                         <td class="emailcolsplit" align="left" valign="top" width="100%">
@@ -95,7 +84,6 @@ html = """<html>
                                         </td>
                                       </tr>
                                     </table>
-    
                             </td>
                         </tr>
                    </table>
@@ -103,7 +91,7 @@ html = """<html>
                             <tr style="text-align: center;">
                               <td width="100%" bgcolor="#ffffff" style="text-align:center;">
                                 <a style="font-weight:bold; text-decoration:none;" href="#">
-                                    <div style="display:inline-block; max-width:40% !important; width:100% !important; height:auto !important;background-color:#f47920;padding-top:15px;padding-right:15px;padding-bottom:15px;padding-left:15px;border-radius:8px;color:#ffffff;font-size:24px;font-family: sans-serif;">More words here!</div>
+                                    <div style="display:inline-block; max-width:40%; width:100%; height:auto;background-color:#f47920;padding-top:15px;padding-right:15px;padding-bottom:15px;padding-left:15px;border-radius:8px;color:#ffffff;font-size:24px;font-family: sans-serif;">More words here!</div>
                                 </a>
                             </td>
                             </tr>
@@ -128,5 +116,6 @@ html = """<html>
          </td>
         </tr>
     </table> 
+</div>
     </body>
 </html>"""

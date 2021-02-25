@@ -225,9 +225,6 @@
                     <p class="aboutus-text">Хураангуй толь гаргах ажлыг санаачлан, 
                         front-end хэсгийн хөгжүүлэлт болон дизайн дээр ажилласан.
                     </p>
-                    
-                
-                   
                 </div>
                 <div class="aboutus-container">
                     <img src="{{ url_for('static', filename='images/erkhembayar.jpg') }}">
@@ -239,20 +236,20 @@
                 </div>
             </div>
            
-   <div class="col-md-5 footer-contact-container">
-    <p><b>Холбогдох линкүүд</b></p> 
-    <div class="footer-contact"> 
-        
-        <div class="emails">
+                <div class="col-md-5 footer-contact-container">
+                    <p>Холбогдох линкүүд</p> 
+                    <div class="footer-contact"> 
+                        
+                        <div class="emails">
 
-        <a href="mailto:yadamtsooz@ot.mn">ОТГУ-н Орчуулгийн багтай холбогдох</a> 
-   
-        <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn">Аппликэйшн ашиглалт/үгсийн сантай холбоотой асуудлаар</a> 
-  
+                        <a href="mailto:yadamtsooz@ot.mn">ОТГУ-н Орчуулгийн багтай холбогдох</a> 
+                
+                        <a href="mailto:khatantuulb@ot.mn?cc=erkhembayare@ot.mn">Аппликэйшн ашиглалт/үгсийн сантай холбоотой асуудлаар</a> 
+                
 
-        </div>
-        </div>
-   </div>
+                        </div>
+                        </div>
+                </div>
            
            
         </div>
@@ -280,10 +277,6 @@ ScrollOut({
 
 
 	
-
-
- 
-
 
 function post_form() {
 
@@ -340,6 +333,7 @@ function post_form() {
         $('.searchbox input').val($(this).text());
         get_words(); 
         $('.suggestions-autocomplete').slideUp('slow');
+
          
     });
     
@@ -380,12 +374,17 @@ function post_form() {
                     
                     $('.suggestions-autocomplete').addClass('open').slideDown('slow');               
                     $('.suggestions-autocomplete li:first').addClass('selected');
+                    
                 
             $('body').click(function(e){
             
-                if(!$(e.target).is('input, a, li, section')){
+                if(!$(e.target).is('input, a, li')){
                     $('.searchbox input').val('');
-                    $('.suggestions-autocomplete').slideUp('slow');           
+                    $('.suggestions-autocomplete').slideUp('slow');
+                    $('.intro-text').show();
+                    $('.search-result-box').hide();
+
+
                 }
 
             });
@@ -395,6 +394,8 @@ function post_form() {
                 $('.search_not_found').click(function(){
                     add_not_found_to_db(search);
                     alert("Хүлээн авлаа", "Бид энэ үгийг удахгүй нэмнэ", "info");
+                    $('.intro-text').show();
+                    $('.search-result-box').hide();
                 })
             }
             },
