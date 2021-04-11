@@ -1,10 +1,7 @@
-def template_for_email(first_term,
-                       first_term_def,
-                       first_term_description,
-                       second_term,
-                       second_term_def,
-                       second_term_description):
-
+def template_for_email():
+    from query import get_random_words
+    
+    first_term, first_term_def,first_term_description,second_term,second_term_def, second_term_description = get_random_words()
     html = f"""<html>
     <body style="width:100%; margin:0; padding:0; background-color:#DED9D2;">
         <div style="text-align: center;">
@@ -33,14 +30,14 @@ def template_for_email(first_term,
                                             <table border="0" cellspacing="0" cellpadding="25" width="100%" style="border: 1px solid rgb(0,123,133);" >
                                             <tr>
                                                 <td class="emailcolsplit" align="left" width="100%" style="background-color: rgb(0,123,133);" >
-                                                    <p style="color:#fff; font-family: sans-serif; font-size:20px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
+                                                    <p style="color:#fff; font-family: sans-serif; font-size:20px; line-height:20px; margin-top:0; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
                                                         {first_term}
                                                     </p>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="emailcolsplit" align="left" valign="top" width="100%" style="border-bottom: 1px solid rgb(0,123,133);">
-                                                    <p style="color:#4c4c4c; font-family: sans-serif; font-size:18px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
+                                                    <p style="color:#4c4c4c; font-family: sans-serif; font-size:18px; line-height:20px; margin-top:0; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
                                                         {first_term_def}
                                                     </p>
                                                 
@@ -48,7 +45,7 @@ def template_for_email(first_term,
                                             </tr>
                                             <tr>
                                                 <td class="emailcolsplit" align="left" valign="top" width="100%">
-                                                    <p style="color:#4c4c4c; font-family: sans-serif; font-size:16px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:normal;font-style: italic;">
+                                                    <p style="color:#4c4c4c; font-family: sans-serif; font-size:16px; line-height:20px; margin-top:0;padding-top:20px; padding-left: 10px; font-weight:normal;font-style: italic;">
                                                         {first_term_description}
                                                     </p>
                                             
@@ -60,18 +57,18 @@ def template_for_email(first_term,
                         </table>
                         <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="25" width="100%">
                             <tr>
-                                <td width="100%" bgcolor="#ffffff" style="text-align:center;">                               
-                                        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="emailwrapto100pc" style="border: 1px solid rgb(0,123,133);" >
+                                <td width="100%" bgcolor="#ffffff">                               
+                                        <table border="0" cellspacing="0" cellpadding="25" width="100%" class="emailwrapto100pc" style="border: 1px solid rgb(0,123,133);" >
                                         <tr>
                                             <td class="emailcolsplit" align="left" width="100%" style="background-color: rgb(0,123,133);" >
-                                                <p style="color:#fff; font-family: sans-serif; font-size:20px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
+                                                <p style="color:#fff; font-family: sans-serif; font-size:20px; line-height:20px; margin-top:0;padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
                                                     {second_term}
                                                 </p>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="emailcolsplit" align="left" valign="top" width="100%" style="border-bottom: 1px solid rgb(0,123,133);">
-                                                <p style="color:#4c4c4c; font-family: sans-serif; font-size:18px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
+                                                <p style="color:#4c4c4c; font-family: sans-serif; font-size:18px; line-height:20px; margin-top:0;padding-top:20px; padding-left: 10px; font-weight:700;font-style: italic;">
                                                     {second_term_def}
                                                 </p>
                                             
@@ -79,7 +76,7 @@ def template_for_email(first_term,
                                         </tr>
                                         <tr>
                                             <td class="emailcolsplit" align="left" valign="top" width="100%">
-                                                <p style="color:#4c4c4c; font-family: sans-serif; font-size:16px; line-height:20px; margin-top:0; margin-bottom:20px; padding-top:20px; padding-left: 10px; font-weight:normal;font-style: italic;">
+                                                <p style="color:#4c4c4c; font-family: sans-serif; font-size:16px; line-height:20px; margin-top:0;padding-top:20px; padding-left: 10px; font-weight:normal;font-style: italic;">
                                                     {second_term_description}
                                                 </p>
                                         
@@ -89,15 +86,17 @@ def template_for_email(first_term,
                                 </td>
                             </tr>
                     </table>
-                        <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="0" width="100%">
-                                <tr style="text-align: center;">
-                                <td width="100%" bgcolor="#ffffff" style="text-align:center;">
-                                    <a style="font-weight:bold; text-decoration:none;" href="#">
-                                        <div style="display:inline-block; max-width:40%; width:100%; height:auto;background-color:#f47920;padding-top:15px;padding-right:15px;padding-bottom:15px;padding-left:15px;border-radius:8px;color:#ffffff;font-size:24px;font-family: sans-serif;">More words here!</div>
-                                    </a>
-                                </td>
+                 <table width="100%" border="0" cellspacing="0" cellpadding="25">
+                        <tr>
+                            <td style="padding-left:220px">
+                            <table border="0" cellspacing="0" cellpadding="25">
+                                <tr>
+                                <td bgcolor="#EB7035" style="padding: 12px 18px 12px 18px; border-radius:3px" align="center"><a href="http://litmus.com" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; display: inline-block;">I am a button &rarr;</a></td>
                                 </tr>
-                        </table>
+                            </table>
+                            </td>
+                        </tr>
+                 </table>
                         <table bgcolor="#FFFFFF" border="0" cellspacing="0" cellpadding="25" width="100%">
                                 <tr>
                                     <td width="100%" bgcolor="#ffffff" style="text-align:left;">

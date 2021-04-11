@@ -125,3 +125,14 @@ def get_sub_emails():
     df = sql_link(q)
 
     return list(df['Email'])
+
+def get_random_words():
+
+    q = """SELECT TOP 2 Term, Term_definition, Term_description FROM [otdict].[dbo].[otdictionary]
+
+    ORDER BY NEWID()"""
+    
+    df = sql_link(q)
+    df = df.to_dict()
+
+    return df["Term"][0],df["Term_definition"][0],df["Term_description"][0],df["Term"][1],df["Term_definition"][1],df["Term_description"][1]

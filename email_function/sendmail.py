@@ -7,8 +7,9 @@ def send_mail(send_to = 'Khatantuulb@ot.mn', send_from = "Erkhembayare@riotinto.
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
     from email.utils import COMMASPACE, formatdate
-    from emailtemp import html
-    # from query import get_sub_emails
+    # from emailtemp import html
+    from query import get_sub_emails, get_random_words
+    from email_function.emailtemp import template_for_email
     import smtplib
     
     msg = MIMEMultipart()
@@ -16,7 +17,7 @@ def send_mail(send_to = 'Khatantuulb@ot.mn', send_from = "Erkhembayare@riotinto.
     msg['To'] = COMMASPACE.join(send_to)
     msg['Date'] = formatdate(localtime=True)
     msg['Subject'] = subject
-    html = html
+    html = template_for_email()
     # html = """\
     # <html>
     #   <head></head>
