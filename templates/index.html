@@ -8,23 +8,18 @@
     <link href="{{ url_for('static', filename='css/main-font.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/sweetalert.min.css') }}" rel="stylesheet" type="text/css" >   
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" > 
     <link href="{{ url_for('static', filename='css/orionicons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" > 
     <!-- <link rel="shortcut icon" href="static/favicon.png"> -->
 </head>
 
 <body>
    <section id="navbar-section">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/ot-logo.png') }}">
-                    </a>
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/ot-logo.png') }}"></a>
             <div class="navbar-brand-title">
-                Техникийн үг хэллэгийн 
-                    хураангуй толь
-            
-            </div>
-         
-            
+                Техникийн үг хэллэгийн хураангуй толь
+            </div>            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,8 +50,6 @@
             </div>
         </nav> 
        
-            
-        
    </section>   
    
    <section id="search-section">
@@ -78,18 +71,18 @@
                     </select>
                 </div>
             </div>
-                <div class="suggestions-autocomplete" style="overflow: scroll;" ></div>    
+            <div class="suggestions-autocomplete" style="overflow: scroll;" ></div>    
         </div>   
-        <div class="container">
-            <div class="row no-gutters">
-                <div class="col-lg-8">
+        <div class="container-fluid">
+            <div class="row no-gutters" style="justify-content: center;">        
+                <div class="col-lg-5 ">
                     <div class="search-result-container">
                         <div class="intro-text">
                             <p>
                                 Энэхүү Оюу Толгойн Техникийн үг хэллэгийн товч хураангуйг ашиглаж буй танд баярлалаа!
                                 Тус толь бичигт гүний уурхай, барилга угсралт болон машин техниктэй холбогдолтой үг хэллэгийг багтаасан ба Оюу Толгойн бүх ажилчдад зориулав.
                             </p>
-                            <p>Далайд дусал нэмэр.</p>
+                            <!-- <p>Далайд дусал нэмэр.</p> -->
                             <hr>
                             <p>
                                 Хэрэв та бидний ажилд туслан тус хураангуйд багтаагүй техникийн үг хэллэгийг нэмж ТОКЕН авахыг хүсвэл "Contribute" хэсэгт оруулна уу.
@@ -100,33 +93,60 @@
                                   <div class="search-result-show">
                                     <p id="searched-term"></p>
                                     <p id="searched-term-field"></p>
-                                  </div>            
+                                             
                                     <hr>
-                                   <p id="searched-term-definition"></p>
+                                <div class="searched-term-definition-box">
+                                    <p id="searched-term-definition"></p>
+                                   <div class="plus"></div>
+                                </div>
                                    <p id="searched-term-description"></p>
+                                </div> 
                             </div> 
                         </div> 
                     </div>
+                
                 </div>
                 <div class="col-lg-4">
                     <div class="searched-term-field-info">
-                        <p>Энэ хураангуйд багтсан үгсийн орчуулгын хамаарах талбарууд:</p>
-                        <ul class="english">
-                            <li>Geo - Geology</li>
-                            <li>M - Mining</li>
-                            <li>C - Construction</li>
-                            <li>T - Technical</li>
-                            <li>G - General</li>
-                        </ul>
-                        <ul class="mongolian" style="display: none;">
-                            <li>Geo - Геологийн</li>
-                            <li>M - Уурхайн</li>
-                            <li>C - Барилга угсралтын</li>
-                            <li>T - Техникийн</li>
-                            <li>G - Ерөнхий</li>
-                        </ul>
+                     <div class="info-onstart" >
+                        <p class="info-onstart-header">Далайд дусал нэмэр</p>
+                        <hr>
+                        <!-- <p>
+                            Хэрэв та бидний ажилд туслан тус хураангуйд багтаагүй техникийн үг хэллэгийг нэмж ТОКЕН авахыг хүсвэл "Contribute" хэсэгт оруулна уу.
+                        </p> -->
+                        <p>Мөн төслийн хэмжээнд техник, уул уурхайн салбарын үг хэллэгийн хэрэглээг жигдлэх зорилготой тул орчуулгын санал оруулах, хэлэлцэх бүрэн боломжтой.
+                            Та аливаа үг хэллэгт орчуулга нэмэхийг хүсвэл үгээ хайж олоод нэмэх тэмдгийг дарна уу. 
+                        </p>
+                     </div>
+                        
+                     <div class="edit-container" style="display: none;">
+                        <form class="edit-form" role="form">
+                            <p>Тус үгэнд орчуулга нэмэх</p>
+                            <input id="new-term1" name="new-term1" class="term" required  placeholder="Оруулах үг" type="text"><br>
+                            <input id="new-definition1" name="new-definition1" class="definition" required  placeholder="Үгийн утга" type="text"><br>
+                            <textarea placeholder="Үгийн урт тайлбар /Хэрэв байгаа бол/" id="new-description1" name="new-description1" class="description" rows="3" cols="40"></textarea><br>
+                            <!-- <label for="field-option1">Таны оруулсан утгын хамаарах салбар:</label> -->
+                           <div class="edit-form-others">
+                            <select id="field-option1" name="field-option1">  
+                                <option value="Geo">Geo</option>
+                                <option value="M">M</option>
+                                <option value="C">C</option>
+                                <option value="T">T</option>
+                                <option value="G">G</option>
+                            </select>
+                            <input type="button" onclick="post_form()" name="submitbtn1" value="Илгээх" class="submitbtn">
+                           </div>
+                           
+                            <!-- <input type="email" id="submit-email1" name="submit-email1" placeholder="OT Имэйл хаяг" required ><br> -->
+                           
+                        </form>
                     </div>
-                </div>
+                     <!-- <div class="translation-add-button">
+                        <button>ADD TRANSLATION</button>
+                     </div> -->
+                 </div>
+                 
+             </div>        
             </div>
         </div>
    </section>
@@ -376,18 +396,18 @@ function post_form() {
                     $('.suggestions-autocomplete li:first').addClass('selected');
                     
                 
-            $('body').click(function(e){
+            // $('body').click(function(e){
             
-                if(!$(e.target).is('input, a, li')){
-                    $('.searchbox input').val('');
-                    $('.suggestions-autocomplete').slideUp('slow');
-                    $('.intro-text').show();
-                    $('.search-result-box').hide();
+            //     if(!$(e.target).is('input, a, li')){
+            //         $('.searchbox input').val('');
+            //         $('.suggestions-autocomplete').slideUp('slow');
+            //         $('.intro-text').show();
+            //         $('.search-result-box').hide();
 
 
-                }
+            //     }
 
-            });
+            // });
 
             if ($('.suggestions-autocomplete').html() == ''){
                 $('.suggestions-autocomplete').append('<a class="search_not_found">Энэ үг олдсонгүй. Хайсан үгээ бүтнээр бичин энд дарж бидэнд мэдэгдэнэ үү</a>')
@@ -421,6 +441,12 @@ function post_form() {
     }
 
 
+    $('.plus').click(function(){
+            $('.info-onstart').hide();
+            $('.searched-term-field-info').css("background", "none");
+            $('.edit-container').show();
+        })
+
     function get_words() {
         let search = $('#search').val()
         let lang = $(".lang-menu option:selected").text();
@@ -440,9 +466,12 @@ function post_form() {
                         $('.search-result-box').fadeIn(600);
                     
                         document.getElementById('searched-term').innerHTML = word['Term'];
+                        document.getElementById('new-term1').value = word['Term'];
                         document.getElementById('searched-term-definition').innerHTML = word['Definition'];
+                        document.getElementById('new-definition1').value = word['Definition'];
                         document.getElementById('searched-term-description').innerHTML = word['Description'];
                         document.getElementById('searched-term-field').innerHTML = word['Field'];
+                        
                         // $('.suggestions-autocomplete').slideUp('slow');
             
                     },
@@ -536,5 +565,3 @@ function post_form() {
         })
 
 </script>
-
-
