@@ -1,4 +1,5 @@
-FROM ubuntu:kerberos
+FROM ubuntu:18.04
+
 WORKDIR /app
 ADD requirements.txt /app
 
